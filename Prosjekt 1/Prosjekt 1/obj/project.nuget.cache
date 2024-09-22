@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+uCNVTD5GDs=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Prosjekt 1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mikae\\.nuget\\packages\\bootstrap\\5.3.3\\bootstrap.5.3.3.nupkg.sha512",
+    "C:\\Users\\mikae\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.21.0\\microsoft.visualstudio.azure.containers.tools.targets.1.21.0.nupkg.sha512"
+  ],
+  "logs": []
+}
