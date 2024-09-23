@@ -1,0 +1,172 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\views\\home\\submittedmaperrors.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\home\\submittedmaperrors.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\views\\home\\registrationform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\home\\registrationform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\views\\home\\mapcorrection.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\home\\mapcorrection.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\models\\userdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\models\\userdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\views\\home\\overview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\home\\overview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\nina_\\source\\repos\\webapplication2\\webapplication2\\wwwroot\\css\\mycsstheme.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\wwwroot\\css\\mycsstheme.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserData.cs",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Models\\UserData.cs",
+              "RelativeDocumentMoniker": "WebApplication2\\Models\\UserData.cs",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Models\\UserData.cs",
+              "RelativeToolTip": "WebApplication2\\Models\\UserData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T14:17:47.069Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SubmittedMapErrors.cshtml",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\SubmittedMapErrors.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Home\\SubmittedMapErrors.cshtml",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\SubmittedMapErrors.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Home\\SubmittedMapErrors.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T20:08:10.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "WebApplication2\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "WebApplication2\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T14:16:20.323Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegistrationForm.cshtml",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\RegistrationForm.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Home\\RegistrationForm.cshtml",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\RegistrationForm.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Home\\RegistrationForm.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T14:13:01.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MapCorrection.cshtml",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\MapCorrection.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Home\\MapCorrection.cshtml",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\MapCorrection.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Home\\MapCorrection.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T16:45:19.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T13:48:29.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Overview.cshtml",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\Overview.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Home\\Overview.cshtml",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Home\\Overview.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Home\\Overview.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T14:21:09.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAiwBoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T14:34:29.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MycssTheme.css",
+              "DocumentMoniker": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\wwwroot\\css\\MycssTheme.css",
+              "RelativeDocumentMoniker": "WebApplication2\\wwwroot\\css\\MycssTheme.css",
+              "ToolTip": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\wwwroot\\css\\MycssTheme.css",
+              "RelativeToolTip": "WebApplication2\\wwwroot\\css\\MycssTheme.css",
+              "ViewState": "AgIAAJo1AAAAAAAAAAAiwPw1AAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-09-22T17:46:44.617Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

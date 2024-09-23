@@ -1,0 +1,61 @@
+﻿@model WebApplication2.Models.UserData
+@{
+    ViewData["Title"] = "Map Correction";
+    Layout = "_Layout";
+}
+
+<h1 class="text-center">Rapporter feil i kartet</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="map" style="height: 500px; border: 3px solid #ccc;"></div>
+        </div>
+        <div class="col-md-6">
+            <form asp-action="MapCorrection" method="post">
+                <div class="form-group">
+                    <label for="description">Beskriv feilen i kartet:</label>
+                    <textarea id="description" name="ErrorDescription" class="form-control" rows="10" placeholder="Beskriv feilen i kartet her..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize the map
+            var map = L.map('map').setView([58.164048, 8.004007], 13);
+
+            // Add a tile layer to the map
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Add controls to the map
+            map.pm.addControls({
+                position: 'topleft',
+            });
+        });
+    </script>
+}
+
+<style>
+    .map-container {
+        position: relative;
+        margin: 20px auto;
+        width: 50%; /* Adjust as needed */
+        height: 500px; /* Adjust as needed */
+        border: 3px solid #ccc; /* Add a border */
+    }
+
+    #map {
+        height: 100%;
+        width: 100%;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>

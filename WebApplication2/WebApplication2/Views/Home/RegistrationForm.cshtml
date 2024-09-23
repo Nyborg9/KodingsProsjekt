@@ -1,0 +1,32 @@
+﻿@model WebApplication2.Models.UserData
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Map Correction";
+    Layout = "_Layout";
+}
+
+
+        <h1>Registration Form</h1>
+
+        <form asp-action="RegistrationForm" method="post">
+            <div>
+                <label asp-for="Name"> Your name:</label>
+                <input asp-for="Name" />
+            </div>
+            <div>
+                <label asp-for="Email"> Your email:</label>
+                <input asp-for="Email" />
+            </div>
+            <div>
+                <label asp-for="Phone"> Your phone:</label>
+                <input asp-for="Phone" />
+            </div>
+            <div>
+                <label asp-for="Address"> Your address:</label>
+                <input asp-for="Address" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Data</button>
+        </form>
+    
