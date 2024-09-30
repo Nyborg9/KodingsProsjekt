@@ -1,18 +1,26 @@
-﻿@model WebApplication2.Models.UserData
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<WebApplication2.Models.AreaChange>
 @{
-    Layout = null;
-    
+    ViewData["Title"] = "Overview";
 }
-<html>
-<head>
-    <h1>Thank your for registering yourself!</h1>
-    <h2>Submitted Data</h2>
-</head>
-<body>
-    <p><strong>Name:</strong> @Model.Name</p>
-    <p><strong>Email:</strong> @Model.Email</p>
-</body>
-</html>
+
+<h2>Overview of Registered Changes</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>GeoJSON</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var change in Model)
+        {
+            <tr>
+                <td>@change.Id</td>
+                <td>@change.GeoJson</td>
+                <td>@change.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
