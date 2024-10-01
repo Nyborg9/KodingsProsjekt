@@ -8,14 +8,21 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
+
             <div id="map" style="height: 500px; border: 3px solid #ccc;"></div>
         </div>
         <div class="col-md-6">
-            <form asp-action="MapCorrection" method="post">
+
+            <!-- Form for submitting a map correction -->
+            <form asp-action="SubmitMapCorrection" method="post">
+
+                <!-- Hidden field for GeoJSON data -->
+                <input type="hidden" id="geoJsonInput" name="geoJson" /> 
                 <div class="form-group">
                     <label for="description">Beskriv feilen i kartet:</label>
-                    <textarea id="description" name="ErrorDescription" class="form-control" rows="10" placeholder="Beskriv feilen i kartet her..."></textarea>
+                    <textarea id="description" name="Description" class="form-control" rows="10" placeholder="Beskriv feilen i kartet her..."></textarea>
                 </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -57,7 +64,7 @@
                     polygon: true,
                     polyline: true,
                     marker: true,
-                    circle: true, 
+                    circle: false, 
                     rectangle: true
                 },
                 edit: {
@@ -85,6 +92,8 @@
 }
 
 <style>
+
+    /* Styles for the map container */
     .map-container {
         position: relative;
         margin: 20px auto;

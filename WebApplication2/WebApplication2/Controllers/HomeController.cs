@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Channels;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -8,7 +9,7 @@ namespace WebApplication2.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private static List<AreaChange> AreaChanges = new List<AreaChange>();
+        private static List<AreaChange> changes = new List<AreaChange>();
 
 
         public HomeController(ILogger<HomeController> logger)
@@ -21,7 +22,7 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-            /*
+            
               // action metode som håndterer GET forespørsel og viser RegistrationForm.cshtml view
               [HttpGet]
               public ViewResult RegistrationForm()
@@ -35,7 +36,7 @@ namespace WebApplication2.Controllers
               {
                   return View("Overview", userData);
               }
-            */
+            
 
         public IActionResult Privacy()
         {
@@ -48,10 +49,8 @@ namespace WebApplication2.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult MapCorrection()
-        {
-            return View();
-        }
+
+       
         [HttpPost]
         public ViewResult MapCorrection(AreaChange areaChange)
         {
@@ -63,16 +62,16 @@ namespace WebApplication2.Controllers
             
         }
 
-        //handle form submission to register a new change
+        //Handle GET request to display the MapCorrection view
         [HttpGet]
-        public IActionResult RegisterAreaChange()
+        public IActionResult MapCorrection()
         {
             return View();
         }
 
         //handle form submission to register a new change
         [HttpPost]
-        public IActionResult RegisterAreaChange(string geoJson, string description)
+        public IActionResult SubmitMapCorrection(string geoJson, string description)
         {
             var newChange = new AreaChange
             {
@@ -82,17 +81,17 @@ namespace WebApplication2.Controllers
             };
 
             // Save the change in the static in-memory list
-            AreaChanges.Add(newChange);
+            changes.Add(newChange);
 
             // Redirect to the overview of changes
-            return RedirectToAction("AreaChangeOverview");
+            return RedirectToAction("Overview");
         }
 
-        // Display the overview of changes
+        // Display the overview of changes - named Overview because of the view file name
         [HttpGet]
-        public IActionResult AreaChangeOverview()
+        public IActionResult Overview()
         {
-            return View(AreaChanges);
+            return View(changes);
         }
     }
 
