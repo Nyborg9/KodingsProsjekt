@@ -1,0 +1,139 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|c:\\users\\mikae\\source\\repos\\prosjekt 1\\prosjekt 1\\views\\home\\overview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|solutionrelative:prosjekt 1\\views\\home\\overview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|c:\\users\\mikae\\source\\repos\\prosjekt 1\\prosjekt 1\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|solutionrelative:prosjekt 1\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|c:\\users\\mikae\\source\\repos\\prosjekt 1\\prosjekt 1\\models\\userdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|solutionrelative:prosjekt 1\\models\\userdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|c:\\users\\mikae\\source\\repos\\prosjekt 1\\prosjekt 1\\wwwroot\\css\\test1.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|solutionrelative:prosjekt 1\\wwwroot\\css\\test1.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|c:\\users\\mikae\\source\\repos\\prosjekt 1\\prosjekt 1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|solutionrelative:prosjekt 1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|c:\\users\\mikae\\source\\repos\\prosjekt 1\\prosjekt 1\\views\\home\\registrationform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|solutionrelative:prosjekt 1\\views\\home\\registrationform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|c:\\users\\mikae\\source\\repos\\prosjekt 1\\prosjekt 1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5741504C-DCD5-4CF4-9FDC-D51D0BFD24D7}|Prosjekt 1\\Prosjekt 1.csproj|solutionrelative:prosjekt 1\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Prosjekt 1\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Prosjekt 1\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADEAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T12:46:30.229Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Test1.css",
+              "DocumentMoniker": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\wwwroot\\css\\Test1.css",
+              "RelativeDocumentMoniker": "Prosjekt 1\\wwwroot\\css\\Test1.css",
+              "ToolTip": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\wwwroot\\css\\Test1.css",
+              "RelativeToolTip": "Prosjekt 1\\wwwroot\\css\\Test1.css",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAD01AAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-09-22T12:45:01.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Overview.cshtml",
+              "DocumentMoniker": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Home\\Overview.cshtml",
+              "RelativeDocumentMoniker": "Prosjekt 1\\Views\\Home\\Overview.cshtml",
+              "ToolTip": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Home\\Overview.cshtml",
+              "RelativeToolTip": "Prosjekt 1\\Views\\Home\\Overview.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T12:30:46.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserData.cs",
+              "DocumentMoniker": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Models\\UserData.cs",
+              "RelativeDocumentMoniker": "Prosjekt 1\\Models\\UserData.cs",
+              "ToolTip": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Models\\UserData.cs",
+              "RelativeToolTip": "Prosjekt 1\\Models\\UserData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T11:28:38.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RegistrationForm.cshtml",
+              "DocumentMoniker": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Home\\RegistrationForm.cshtml",
+              "RelativeDocumentMoniker": "Prosjekt 1\\Views\\Home\\RegistrationForm.cshtml",
+              "ToolTip": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Home\\RegistrationForm.cshtml",
+              "RelativeToolTip": "Prosjekt 1\\Views\\Home\\RegistrationForm.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-22T09:15:54.695Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Prosjekt 1\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Prosjekt 1\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T10:25:56.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Prosjekt 1\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\mikae\\source\\repos\\Prosjekt 1\\Prosjekt 1\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Prosjekt 1\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAA6wCMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-06T08:52:32.476Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

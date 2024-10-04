@@ -1,0 +1,39 @@
+﻿@model Prosjekt_1.Models.ReportData
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1> Vennligst fyll ut detaljene</h1>
+</div>
+<form asp-action="Reports" method="post">
+    <div>
+        <div>
+            <label asp-for="Kommune">Kommunen</label>
+        </div>
+        <div>
+            <input asp-for="Kommune" required />
+            <span asp-validation-for="Kommune" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <div>
+        <div>
+            <label asp-for="FreeText">Hva er feilen? </label>
+        </div>
+        <div>
+            <textarea asp-for="FreeText" required rows="5" cols="50"></textarea>
+            <span asp-validation-for="FreeText" class="text-danger"></span>
+        </div>
+    </div>
+    <div>
+    </div>
+    <button class="btn btn-primary">Send inn</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

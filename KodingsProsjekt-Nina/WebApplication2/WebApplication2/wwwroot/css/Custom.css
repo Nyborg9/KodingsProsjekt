@@ -1,0 +1,17 @@
+﻿.formstyle {
+    display: table;
+}
+
+.row {
+    display: table-row;
+}
+
+.cell1 {
+    display: table-cell;
+    padding-right: 5px;
+    text-align: center;
+}
+.cell2 {
+    display: table-cell;
+    text-align: center;
+}
