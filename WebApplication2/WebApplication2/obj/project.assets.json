@@ -425,19 +425,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nina_\\.nuget\\packages\\": {}
+    "C:\\Users\\mikae\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+      "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
       "projectName": "WebApplication2",
-      "projectPath": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
-      "packagesPath": "C:\\Users\\nina_\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nina_\\source\\repos\\WebApplication2\\WebApplication2\\obj\\",
+      "projectPath": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+      "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\nina_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

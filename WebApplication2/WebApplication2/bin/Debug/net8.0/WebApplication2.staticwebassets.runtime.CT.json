@@ -263,6 +263,14 @@
             },
             "Patterns": null
           },
+          "Custom.css": {
+            "Children": null,
+            "Asset": {
+              "ContentRootIndex": 0,
+              "SubPath": "css/Custom.css"
+            },
+            "Patterns": null
+          },
           "MycssTheme.css": {
             "Children": null,
             "Asset": {
@@ -399,6 +407,20 @@
           "ContentRootIndex": 0,
           "SubPath": "favicon.ico"
         },
+        "Patterns": null
+      },
+      "images": {
+        "Children": {
+          "kartverket-logo-large.svg": {
+            "Children": null,
+            "Asset": {
+              "ContentRootIndex": 0,
+              "SubPath": "images/kartverket-logo-large.svg"
+            },
+            "Patterns": null
+          }
+        },
+        "Asset": null,
         "Patterns": null
       },
       "lib": {
