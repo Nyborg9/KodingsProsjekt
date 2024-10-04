@@ -7,24 +7,23 @@
 
 
 <!-- User Data Section -->
-<div>
-                @foreach (var user in Model.UserDatas)
-                {
-                
-                    <h3>@user.Name</h3>
-                    <p>@user.Email</p>
-                }
-</div>
-
 <h2 class="text-center">Oversikt over innsendte meldinger</h2>
+
+<div>
+    @foreach (var user in Model.UserDatas)
+    {
+
+        <h4>@user.Name</h4>
+    }
+</div>
 
 <div class="container mt-5">
     <div class="row">
         <!-- Left Side: Map -->
         <div class="col-md-6">
             <!-- Container for the map, with specified height and border -->
-            <div id="map" style="height: 400px; width: 400px; border: 3px solid #ccc;"></div>
-        </div>
+            <div id="map" style="height: 500px; width: 100%; border: 3px solid #ccc;"></div>
+        </div>  
 
         <!-- Right Side: Details Table -->
         <div class="col-md-6">

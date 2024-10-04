@@ -1,11 +1,8 @@
 ﻿@model WebApplication2.Models.UserData
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     Layout = "_Layout";
 }
-        <h1>Registration Form</h1>
+        <h1 style="text-align: center">Registrer ny bruker</h1>
 
         <form asp-action="RegistrationForm" method="post" class="formstyle">
             <div class="rad">
@@ -17,9 +14,9 @@
         <input asp-for="Email" placeholder="eksempel@mail.no" class="cell2" />
             </div>
     <div class="rad">
-        <label asp-for="Phone" class="cell1"> Telefonnummeret ditt: </label>
+        <label asp-for="Phone" class="cell1"> Telefonnummer: </label>
         <input asp-for="Phone" placeholder="Nummeret ditt" class="cell2" />
             </div>
-            <button type="submit" class="btn btn-primary">Submit Data</button>
+            <button type="submit" class="btn btn-primary">Registrer</button>
         </form>
     

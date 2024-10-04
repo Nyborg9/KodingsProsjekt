@@ -9,7 +9,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <div id="map" style="height: 500px; border: 3px solid #ccc;"></div>
+            <div id="map"></div>
         </div>
         <div class="col-md-6">
             <!-- Form for submitting a map correction -->
@@ -18,7 +18,7 @@
                 <input type="hidden" id="geoJsonInput" name="geoJson" />
                 <div class="form-group">
                     <label for="description">Beskriv feilen i kartet:</label>
-                    <textarea id="description" name="Description" class="form-control" rows="10" placeholder="Beskriv feilen i kartet her..."></textarea>
+                    <textarea id="description" name="Description" class="form-control" rows="5" placeholder="..." width="200px"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -60,7 +60,7 @@
                 polyline: true,
                 marker: true,
                 circle: false,
-                rectangle: true
+                rectangle: false
             },
             edit: {
                 featureGroup: drawnItems
@@ -87,19 +87,14 @@
 <style>
 
     /* Styles for the map container */
-    .map-container {
+    #map {
         position: relative;
         margin: 20px auto;
-        width: 50%; /* Adjust as needed */
+        width: 100%; /* Adjust as needed */
         height: 500px; /* Adjust as needed */
         border: 3px solid #ccc; /* Add a border */
     }
-
-    #map {
-        height: 500px;
-        width: 500px;
-    }
-
+    
     .text-center {
         text-align: center;
     }

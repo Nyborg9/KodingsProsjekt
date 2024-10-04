@@ -409,6 +409,20 @@
         },
         "Patterns": null
       },
+      "images": {
+        "Children": {
+          "kartverket-logo-large.svg": {
+            "Children": null,
+            "Asset": {
+              "ContentRootIndex": 0,
+              "SubPath": "images/kartverket-logo-large.svg"
+            },
+            "Patterns": null
+          }
+        },
+        "Asset": null,
+        "Patterns": null
+      },
       "lib": {
         "Children": {
           "bootstrap": {

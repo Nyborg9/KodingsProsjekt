@@ -35,11 +35,10 @@ namespace WebApplication2.Controllers
             if (ModelState.IsValid)
             {
                 users.Add(userData);
-                return RedirectToAction("Overview");
+                return RedirectToAction("MapCorrection");
             }
             return View(userData);
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
