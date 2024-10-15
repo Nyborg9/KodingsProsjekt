@@ -7,11 +7,25 @@
 
 <h1 class="text-center">Rapporter feil i kartet</h1>
 <div class="container mt-5">
+
+    <!-- Dropdown for map variants -->
+    <label for="mapVariant">Velg kart type her:</label>
+    <select id="mapVariant">
+        <option value="osm">OpenStreetMap</option>
+        <option value="fargekart">Fargekart</option>
+        <option value="gråtonekart">Gråtonekart</option>
+        <option value="turkart">Turkart</option>
+        <option value="sjokart">Sjøkart</option>
+    </select>
     <div class="row">
         <div class="col-md-6">
             <div id="map"></div>
         </div>
+       
         <div class="col-md-6">
+
+           
+
             <!-- Form for submitting a map correction -->
             <form asp-action="SubmitMapCorrection" method="post">
                 <!-- Hidden field for GeoJSON data -->
@@ -44,9 +58,44 @@
         var map = L.map('map').setView([58.164048, 8.004007], 13);
 
         // Add a tile layer to the map
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        var layers = {
+        osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        }),
+        fargekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+         }),
+        gråtonekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+        }),
+        turkart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+        }),
+        sjokart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+         })
+         };
+
+        // Add the default layer (OpenStreetMap)
+        layers.osm.addTo(map);
+
+        // Function to change map layer
+        function changeMapLayer(selectedLayer) {
+            // Remove all layers
+            for (var key in layers) {
+                map.removeLayer(layers[key]);
+            }
+            // Add the selected layer
+            layers[selectedLayer].addTo(map).on('tileerror', function (error) {
+                console.error('Tile loading error:', error);
+                alert('Error loading map tiles. Please check your network connection or try a different map variant.');
+            });
+        }
+
+        // Event listener for dropdown change
+        document.getElementById('mapVariant').addEventListener('change', function () {
+            changeMapLayer(this.value);
+        });
 
         // Initialize the feature group that will hold the drawn shapes
         var drawnItems = new L.FeatureGroup();
