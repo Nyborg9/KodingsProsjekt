@@ -1,6 +1,7 @@
-﻿@model WebApplication2.Models.UserData
+﻿@model WebApplication2.Models.AreaChange
 @{
     ViewData["Title"] = "Map Correction";
+
     Layout = "_Layout";
 }
 
@@ -8,13 +9,16 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <div id="map" style="height: 500px; border: 3px solid #ccc;"></div>
+            <div id="map"></div>
         </div>
         <div class="col-md-6">
-            <form asp-action="MapCorrection" method="post">
+            <!-- Form for submitting a map correction -->
+            <form asp-action="SubmitMapCorrection" method="post">
+                <!-- Hidden field for GeoJSON data -->
+                <input type="hidden" id="geoJsonInput" name="geoJson" />
                 <div class="form-group">
                     <label for="description">Beskriv feilen i kartet:</label>
-                    <textarea id="description" name="ErrorDescription" class="form-control" rows="10" placeholder="Beskriv feilen i kartet her..."></textarea>
+                    <textarea id="description" name="Description" class="form-control" rows="5" placeholder="..." width="200px"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -23,38 +27,74 @@
 </div>
 
 @section Scripts {
+    <!-- 1. Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- 2. Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <!-- 3. Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- 4. Leaflet Draw JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Initialize the map
-            var map = L.map('map').setView([58.164048, 8.004007], 13);
+        // Initialize the map
+        var map = L.map('map').setView([58.164048, 8.004007], 13);
 
-            // Add a tile layer to the map
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+        // Add a tile layer to the map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-            // Add controls to the map
-            map.pm.addControls({
-                position: 'topleft',
-            });
+        // Initialize the feature group that will hold the drawn shapes
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        // Creates the drawing control on the left hand side
+        // The drawing control enables drawing of markers, polygons, and polylines
+        var drawControl = new L.Control.Draw({
+            draw: {
+                polygon: true,
+                polyline: true,
+                marker: true,
+                circle: false,
+                rectangle: false
+            },
+            edit: {
+                featureGroup: drawnItems
+            }
+        });
+        map.addControl(drawControl);
+
+        // Event handling when a layer is drawn on the map
+        map.on(L.Draw.Event.CREATED, function (e) {
+            var type = e.layerType,
+                layer = e.layer;
+
+            drawnItems.addLayer(layer);
+
+            // Get the GeoJSON representation of the drawn layer
+            var geoJsonData = layer.toGeoJSON();
+            var geoJsonString = JSON.stringify(geoJsonData);
+
+            // Set the GeoJSON string into the hidden input field in the form
+            document.getElementById('geoJsonInput').value = geoJsonString;
         });
     </script>
 }
-
 <style>
-    .map-container {
+
+    /* Styles for the map container */
+    #map {
         position: relative;
         margin: 20px auto;
-        width: 50%; /* Adjust as needed */
+        width: 100%; /* Adjust as needed */
         height: 500px; /* Adjust as needed */
         border: 3px solid #ccc; /* Add a border */
     }
-
-    #map {
-        height: 100%;
-        width: 100%;
-    }
-
+    
     .text-center {
         text-align: center;
     }

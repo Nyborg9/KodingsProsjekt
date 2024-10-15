@@ -1,6 +1,7 @@
-﻿@model WebApplication2.Models.UserData
+﻿@model WebApplication2.Models.AreaChange
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 *@
 @{
     Layout = null;
@@ -33,9 +34,10 @@
     <div class="container">
         <h1>Takk for din innsending!</h1>
         <h2>Din innsending</h2>
-        <p><strong>Name:</strong> @Model.Name</p>
-        <p><strong>Email:</strong> @Model.Email</p>
-        <p><strong>Error Description:</strong> @Model.ErrorDescription</p>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>GeoJson:</strong> @Model.GeoJson</p>
+        <p><strong>Description:</strong> @Model.Description</p>
     </div>
 </body>
 </html>
+
