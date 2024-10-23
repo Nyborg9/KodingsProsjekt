@@ -95,5 +95,31 @@ namespace WebApplication2.Controllers
 
             return View(viewModel);
         }
+
+
+        // New action method to display caseworker-specific reports
+        [HttpGet]
+        public IActionResult CaseworkerOverview()
+        {
+            return View(changes);
+        }
+
+
+        // Action method to update the status of an report based on its ID
+        [HttpPost]
+        public IActionResult UpdateStatus(string id, Status status)
+        {
+            // Finds the first 'areaChange' in 'changes' that matches the given 'id'.
+            var areaChange = changes.FirstOrDefault(ac => ac.Id == id);
+
+            // If a change with the specified ID is found, update its status.
+            if (areaChange != null)
+            {
+                areaChange.Status = status;
+            }
+            return RedirectToAction("CaseworkerOverview");
+        }
+
     }
+
 }
