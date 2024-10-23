@@ -3,6 +3,9 @@
     ViewData["Title"] = "Overview";
 
     Layout = "_Layout"; // Use your layout file if needed
+
+    // Get the selected map variant from the model
+    var selectedMapVariant = Model.SelectedMapVariant;
 }
 
 
@@ -12,7 +15,6 @@
 <div>
     @foreach (var user in Model.UserDatas)
     {
-
         <h4>@user.Name</h4>
     }
 </div>
@@ -23,7 +25,7 @@
         <div class="col-md-6">
             <!-- Container for the map, with specified height and border -->
             <div id="map" style="height: 500px; width: 100%; border: 3px solid #ccc;"></div>
-        </div>  
+        </div>
 
         <!-- Right Side: Details Table -->
         <div class="col-md-6">
@@ -34,24 +36,26 @@
                         <th>ID</th>
                         <th>GeoJSON</th>
                         <th>Beskrivelse</th>
+                        <th>Kart type</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var change in Model.AreaChanges)
-
                     {
                         <tr>
                             <td>@change.Id</td>
                             <td>@change.GeoJson</td>
                             <td>@change.Description</td>
+                            <td>@change.MapVariant</td>
+                         
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
-
-
+</div>
 
 @section Scripts {
     <!-- Important to include Leaflet CSS and JS -->
@@ -62,15 +66,32 @@
         // Initialize the map and set its initial view
         var map = L.map('map').setView([58.164048, 8.004007], 13);  // Adjust the coordinates and zoom level as needed
 
-        // Add a tile layer (using OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
-        }).addTo(map);
+        // Define the available layers
+        var layers = {
+            osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }),
+            fargekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            }),
+            gråtonekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            }),
+            turkart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            }),
+            sjøkart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            })
+        };
 
         // Iterate over the registered changes and add them to the map
         var changes = @Json.Serialize(Model.AreaChanges);
 
         changes.forEach(function (change) {
+            // Add the selected layer based on the map variant
+            layers[change.mapVariant].addTo(map);
+
             // Parse the GeoJSON data and add it to the map
             var geoJsonData = JSON.parse(change.geoJson);
             L.geoJSON(geoJsonData).addTo(map);

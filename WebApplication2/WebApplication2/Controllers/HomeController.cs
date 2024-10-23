@@ -39,6 +39,7 @@ namespace WebApplication2.Controllers
             }
             return View(userData);
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -64,30 +65,32 @@ namespace WebApplication2.Controllers
 
         // Handle form submission to register a new change
         [HttpPost]
-        public IActionResult SubmitMapCorrection(string geoJson, string description)
+        public IActionResult SubmitMapCorrection(string geoJson, string description, string mapVariant)
         {
             var newChange = new AreaChange
             {
                 Id = Guid.NewGuid().ToString(),
                 GeoJson = geoJson,
-                Description = description
+                Description = description,
+                MapVariant = mapVariant // save the map variant
             };
 
             // Save the change in the static in-memory list
             changes.Add(newChange);
 
-            // Redirect to the overview of changes
-            return RedirectToAction("Overview");
+            // Redirect to the overview of changes, passing the map variant as a query parameter
+            return RedirectToAction("Overview", new { mapVariant });
         }
 
         // Display the overview of changes
         [HttpGet]
-        public IActionResult Overview()
+        public IActionResult Overview(string mapVariant)
         {
             var viewModel = new OverviewModel
             {
                 AreaChanges = changes,
-                UserDatas = users
+                UserDatas = users,
+                SelectedMapVariant = mapVariant
             };
 
             return View(viewModel);

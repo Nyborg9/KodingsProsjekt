@@ -15,7 +15,7 @@
         <option value="fargekart">Fargekart</option>
         <option value="gråtonekart">Gråtonekart</option>
         <option value="turkart">Turkart</option>
-        <option value="sjokart">Sjøkart</option>
+        <option value="sjøkart">Sjøkart</option>
     </select>
     <div class="row">
         <div class="col-md-6">
@@ -30,6 +30,9 @@
             <form asp-action="SubmitMapCorrection" method="post">
                 <!-- Hidden field for GeoJSON data -->
                 <input type="hidden" id="geoJsonInput" name="geoJson" />
+                <!-- hidden fiels for selected map variant -->
+                <input type="hidden" id="mapVariantInput" name="mapVariant" />
+
                 <div class="form-group">
                     <label for="description">Beskriv feilen i kartet:</label>
                     <textarea id="description" name="Description" class="form-control" rows="5" placeholder="..." width="200px"></textarea>
@@ -71,7 +74,7 @@
         turkart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png', {
             attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
         }),
-        sjokart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png', {
+        sjøkart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png', {
             attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
          })
          };
@@ -94,8 +97,12 @@
 
         // Event listener for dropdown change
         document.getElementById('mapVariant').addEventListener('change', function () {
-            changeMapLayer(this.value);
+            var selectedVariant = this.value;
+            changeMapLayer(selectedVariant);
+            // Update the hidden input field with the selected map variant
+            document.getElementById('mapVariantInput').value = selectedVariant;
         });
+
 
         // Initialize the feature group that will hold the drawn shapes
         var drawnItems = new L.FeatureGroup();
