@@ -1,0 +1,64 @@
+﻿
+@*
+<h2>Caseworker Oversikt</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>GeoJson</th>
+            <th>Beskrivelse</th>
+          
+            <th>Rediger</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model)
+        {
+            <tr class="report-row" onclick="toggleDetails('details-@report.Id')">
+                <td>@report.Id</td>
+                <td>@report.GeoJson</td>
+                <td>@report.Description</td>
+       
+                <td>
+                    <form asp-action="UpdateStatus" method="post">
+                        <input type="hidden" name="id" value="@report.Id" />
+                        <select name="status">
+                            @foreach (var status in Enum.GetValues(typeof(WebApplication2.Models.Status)))
+                            {
+                                <option value="@status" selected="@(report.Status == (WebApplication2.Models.Status)status ? "selected" : null)">@status</option>
+                            }
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            <tr id="details-@report.Id" class="report-details" style="display: none;">
+                <td colspan="4">
+                    <!-- Detailed content like a map or additional information goes here -->
+                    <div>
+                        <h4>Mer Informasjon</h4>
+                       <!--  inkludere kart osv.. -->
+                        <div id="map-@report.Id" class="map-container" style="height: 200px;">
+                            <!-- kartet her kanskje? -->
+                            <p>Map showing: @report.GeoJson</p>
+                        </div>
+                      
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function toggleDetails(detailsId) {
+        var detailsRow = document.getElementById(detailsId);
+        if (detailsRow.style.display === "none") {
+            detailsRow.style.display = "table-row";
+        } else {
+            detailsRow.style.display = "none";
+        }
+    }
+</script>
+*@
