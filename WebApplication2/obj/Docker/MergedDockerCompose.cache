@@ -1,4 +1,4 @@
-name: dockercompose7461377272957909760
+name: dockercompose17219159882411795578
 services:
   mariadb:
     container_name: mariadb
@@ -22,7 +22,7 @@ services:
         volume: {}
   webapplication2:
     build:
-      context: C:\Users\Mikael\Desktop\Git\KodingsProsjekt\WebApplication2
+      context: C:\Users\mikae\Desktop\Somling\WebApplication2
       dockerfile: WebApplication2/Dockerfile
     depends_on:
       mariadb:
@@ -49,20 +49,20 @@ services:
         protocol: tcp
     volumes:
       - type: bind
-        source: C:\Users\Mikael\AppData\Roaming/Microsoft/UserSecrets
+        source: C:\Users\mikae\AppData\Roaming/Microsoft/UserSecrets
         target: /home/app/.microsoft/usersecrets
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Mikael\AppData\Roaming/ASP.NET/Https
+        source: C:\Users\mikae\AppData\Roaming/ASP.NET/Https
         target: /home/app/.aspnet/https
         read_only: true
         bind:
           create_host_path: true
 networks:
   backend:
-    name: dockercompose7461377272957909760_backend
+    name: dockercompose17219159882411795578_backend
 volumes:
   db_data:
-    name: dockercompose7461377272957909760_db_data
+    name: dockercompose17219159882411795578_db_data

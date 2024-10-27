@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mikael\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {}
+    "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mikael\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
+    "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mikael\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
         "projectName": "WebApplication2",
-        "projectPath": "C:\\Users\\Mikael\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
-        "packagesPath": "C:\\Users\\Mikael\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mikael\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\obj\\",
+        "projectPath": "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Mikael\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

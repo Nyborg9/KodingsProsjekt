@@ -1,6 +1,6 @@
 services:
   webapplication2:
-    container_name: "WebApplication2"
+    container_name: "WebApplication2_1"
     build:
       args:
         LAUNCHING_FROM_VS: true
@@ -9,11 +9,11 @@ services:
         com.microsoft.created-by: "visual-studio"
         com.microsoft.visual-studio.project-name: "WebApplication2"
     volumes:
-      - C:\Users\Mikael\vsdbg\vs2017u5:/remote_debugger:rw
-      - C:\Users\Mikael\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
-      - C:\Users\Mikael\AppData\Roaming\ASP.NET\Https:/home/app/.aspnet/https:ro
-      - C:\Users\Mikael\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
-      - C:\Users\Mikael\AppData\Roaming\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - C:\Users\mikae\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\mikae\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+      - C:\Users\mikae\AppData\Roaming\ASP.NET\Https:/home/app/.aspnet/https:ro
+      - C:\Users\mikae\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+      - C:\Users\mikae\AppData\Roaming\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
       - C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\linux-x64\net8.0:/VSTools:ro
       - C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload:/HotReloadAgent:ro
 

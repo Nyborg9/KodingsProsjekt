@@ -31,7 +31,7 @@ services:
         com.microsoft.created-by: visual-studio
         com.microsoft.visual-studio.project-name: WebApplication2
       target: base
-    container_name: WebApplication2
+    container_name: WebApplication2_1
     depends_on:
       mariadb:
         condition: service_started
