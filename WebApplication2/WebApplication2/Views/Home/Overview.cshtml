@@ -1,21 +1,22 @@
-﻿@model WebApplication2.Models.OverviewModel
+﻿@*@model WebApplication2.Models.OverviewModel*@
+@model List<WebApplication2.Data.GeoChange>
 @{
     ViewData["Title"] = "Overview";
 
-    Layout = "_Layout"; // Use your layout file if needed
+    Layout = "_Layout";
 }
 
 
 <!-- User Data Section -->
 <h2 class="text-center">Oversikt over innsendte meldinger</h2>
 
-<div>
+@*<div>
     @foreach (var user in Model.UserDatas)
     {
 
         <h4>@user.Name</h4>
     }
-</div>
+</div>*@
 
 <div class="container mt-5">
     <div class="row">
@@ -37,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var change in Model.AreaChanges)
+                    @foreach (var change in Model)
 
                     {
                         <tr>
@@ -68,7 +69,7 @@
         }).addTo(map);
 
         // Iterate over the registered changes and add them to the map
-        var changes = @Json.Serialize(Model.AreaChanges);
+        var changes = @Json.Serialize(Model);
 
         changes.forEach(function (change) {
             // Parse the GeoJSON data and add it to the map
