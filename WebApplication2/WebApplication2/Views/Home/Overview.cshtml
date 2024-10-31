@@ -1,4 +1,5 @@
-﻿@model WebApplication2.Models.OverviewModel
+﻿@*@model WebApplication2.Models.OverviewModel*@
+@model List<WebApplication2.Data.GeoChange>
 @{
     ViewData["Title"] = "Overview";
 
@@ -12,12 +13,12 @@
 <!-- User Data Section -->
 <h2 class="text-center">Oversikt over innsendte meldinger</h2>
 
-<div>
+@*<div>
     @foreach (var user in Model.UserDatas)
     {
         <h4>@user.Name</h4>
     }
-</div>
+</div>*@
 
 <div class="container mt-5">
     <div class="row">
@@ -41,7 +42,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var change in Model.AreaChanges)
+                    @foreach (var change in Model)
+
                     {
                         <tr>
                             <td>@change.Id</td>
@@ -86,7 +88,7 @@
         };
 
         // Iterate over the registered changes and add them to the map
-        var changes = @Json.Serialize(Model.AreaChanges);
+        var changes = @Json.Serialize(Model);
 
         changes.forEach(function (change) {
             // Add the selected layer based on the map variant

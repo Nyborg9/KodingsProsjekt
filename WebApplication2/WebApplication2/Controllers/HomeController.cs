@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplication2.Models;
+using WebApplication2.Data;
 
 namespace WebApplication2.Controllers
 {
@@ -8,12 +9,15 @@ namespace WebApplication2.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        private readonly ApplicationDbContext _context;
+
         private static List<AreaChange> changes = new List<AreaChange>();
         private static List<UserData> users = new List<UserData>();
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -47,13 +51,13 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public ViewResult MapCorrection(AreaChange areaChange)
+        public ViewResult MapCorrection(GeoChange geoChange)
         {
             if (ModelState.IsValid)
             {
-                return View("SubmittedMapErrors", areaChange);
+                return View("SubmittedMapErrors", geoChange);
             }
-            return View(areaChange);
+            return View(geoChange);
         }
 
         // Handle GET request to display the MapCorrection view
@@ -67,59 +71,40 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public IActionResult SubmitMapCorrection(string geoJson, string description, string mapVariant)
         {
-            var newChange = new AreaChange
+            try
             {
-                Id = Guid.NewGuid().ToString(),
-                GeoJson = geoJson,
-                Description = description,
-                MapVariant = mapVariant // save the map variant
-            };
+                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
+                {
+                    return BadRequest("GeoJson and description must be provided");
+                }
 
-            // Save the change in the static in-memory list
-            changes.Add(newChange);
+                var newChange = new GeoChange
+                {
+                    GeoJson = geoJson,
+                    Description = description
+                };
 
-            // Redirect to the overview of changes, passing the map variant as a query parameter
-            return RedirectToAction("Overview", new { mapVariant });
+                _context.GeoChanges.Add(newChange);
+                _context.SaveChanges();
+
+                // Redirect to the overview of changes
+                return RedirectToAction("Overview");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}, Inner Exeption; {ex.InnerException?.Message}");
+                throw;
+            }
         }
+
 
         // Display the overview of changes
         [HttpGet]
         public IActionResult Overview(string mapVariant)
         {
-            var viewModel = new OverviewModel
-            {
-                AreaChanges = changes,
-                UserDatas = users,
-                SelectedMapVariant = mapVariant
-            };
-
-            return View(viewModel);
+            var changes_db = _context.GeoChanges.ToList();
+            return View(changes_db);
         }
-
-
-        // New action method to display caseworker-specific reports
-        [HttpGet]
-        public IActionResult CaseworkerOverview()
-        {
-            return View(changes);
-        }
-
-
-        // Action method to update the status of an report based on its ID
-        [HttpPost]
-        public IActionResult UpdateStatus(string id, Status status)
-        {
-            // Finds the first 'areaChange' in 'changes' that matches the given 'id'.
-            var areaChange = changes.FirstOrDefault(ac => ac.Id == id);
-
-            // If a change with the specified ID is found, update its status.
-            if (areaChange != null)
-            {
-                areaChange.Status = status;
-            }
-            return RedirectToAction("CaseworkerOverview");
-        }
-
     }
-
 }
+
