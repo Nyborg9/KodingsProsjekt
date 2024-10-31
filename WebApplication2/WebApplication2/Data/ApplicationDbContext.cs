@@ -11,6 +11,6 @@ namespace WebApplication2.Data
         }
 
         // DbSet for GeoChange
-        public DbSet<GeoChange> GeoChanges { get; set; }
+        public DbSet<Models.GeoChange> GeoChanges { get; set; }
     }
 }

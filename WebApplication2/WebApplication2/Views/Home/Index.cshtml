@@ -1,22 +1,59 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Home Page";
 }
 
 <div class="container text-center mt-5">
     <h1 class="display-4 font-weight-bold">Kartverket</h1>
     <h5 class="display-6 mb-4">Hjelp oss med å holde kartene oppdatert</h5>
 
-    @* <p class="lead">To enjoy our services and products please register yourself</p> *@
-
     <div class="d-flex justify-content-center mt-4">
         <a asp-action="RegistrationForm" class="btn btn-primary btn-lg mx-2">Registrer bruker</a>
     </div>
+
+    <hr class="my-5">
+
+    <h3 class="display-6 mb-4">GeoChange Report Oversikt</h3>
+
+    @if (Model.GeoChanges != null && Model.GeoChanges.Any())
+    {
+    <table class="table table-striped mt-4">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Beskrivelse</th>
+            <th scope="col">Koordinater</th>
+            <th scope="col">Status</th>
+            <th scope="col">Handlinger</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var report in Model.GeoChanges)
+        {
+        <tr>
+            <td>@report.Id</td>
+            <td>@report.Description</td>
+            <td>@report.Coordinates</td>
+            <td>@report.Status</td>
+            <td>
+                <a asp-action="ViewReport" asp-route-id="@report.Id" class="btn btn-info btn-sm">Vis</a>
+                <a asp-action="EditReport" asp-route-id="@report.Id" class="btn btn-warning btn-sm">Rediger</a>
+                <a asp-action="DeleteReport" asp-route-id="@report.Id" class="btn btn-danger btn-sm" onclick="return confirm('Er du sikker på at du vil slette denne rapporten?');">Slett</a>
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+    }
+    else
+    {
+    <p class="lead mt-4">Ingen rapporter funnet.</p>
+    }
 </div>
 
 <style>
     .container {
         max-width: 800px;
-        height: 500px;
+        height: auto;
     }
 
     .display-4 {
@@ -29,5 +66,9 @@
 
     .lead {
         font-size: 1.25rem;
+    }
+
+    .table {
+        margin-top: 20px;
     }
 </style>

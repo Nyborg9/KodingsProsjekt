@@ -1,5 +1,5 @@
 ﻿@*@model WebApplication2.Models.OverviewModel*@
-@model List<WebApplication2.Data.GeoChange>
+@model List<GeoChange>
 @{
     ViewData["Title"] = "Overview";
 
@@ -31,27 +31,27 @@
             <!-- Start of the Bootstrap table for displaying changes -->
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>GeoJSON</th>
-                        <th>Beskrivelse</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>GeoJSON</th>
+                    <th>Beskrivelse</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var change in Model)
+                @foreach (var change in Model)
 
-                    {
-                        <tr>
-                            <td>@change.Id</td>
-                            <td>@change.GeoJson</td>
-                            <td>@change.Description</td>
-                        </tr>
-                    }
+                {
+                    <tr>
+                        <td>@change.Id</td>
+                        <td>@change.GeoJson</td>
+                        <td>@change.Description</td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
     </div>
-
+</div>
 
 
 @section Scripts {

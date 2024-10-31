@@ -2,13 +2,16 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplication2.Models;
 using WebApplication2.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using GeoChange = WebApplication2.Models.GeoChange;
 
 namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         private readonly ApplicationDbContext _context;
 
         private static List<AreaChange> changes = new List<AreaChange>();
@@ -43,6 +46,7 @@ namespace WebApplication2.Controllers
             }
             return View(userData);
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -91,11 +95,10 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}, Inner Exeption; {ex.InnerException?.Message}");
+                Console.WriteLine($"Error: {ex.Message}, Inner Exception: {ex.InnerException?.Message}");
                 throw;
             }
         }
-
 
         // Display the overview of changes
         [HttpGet]
@@ -106,4 +109,3 @@ namespace WebApplication2.Controllers
         }
     }
 }
-
