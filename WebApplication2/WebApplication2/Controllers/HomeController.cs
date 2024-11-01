@@ -3,6 +3,7 @@ using System.Diagnostics;
 using WebApplication2.Models;
 using WebApplication2.Data;
 
+
 namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
@@ -12,6 +13,7 @@ namespace WebApplication2.Controllers
         private readonly ApplicationDbContext _context;
 
         private static List<AreaChange> changes = new List<AreaChange>();
+
         private static List<UserData> users = new List<UserData>();
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
@@ -100,11 +102,19 @@ namespace WebApplication2.Controllers
 
         // Display the overview of changes
         [HttpGet]
-        public IActionResult Overview(string mapVariant)
+        public IActionResult Overview()
+        {
+            var changes_db = _context.GeoChanges.ToList();
+            return View(changes_db);
+        }
+
+
+        // New action method to display caseworker-specific reports
+        [HttpGet]
+        public IActionResult CaseworkerOverview()
         {
             var changes_db = _context.GeoChanges.ToList();
             return View(changes_db);
         }
     }
 }
-
