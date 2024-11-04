@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {}
+    "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
+    "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "projectUniqueName": "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
         "projectName": "WebApplication2",
-        "projectPath": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
-        "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt-Nina\\WebApplication2\\WebApplication2\\obj\\",
+        "projectPath": "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "packagesPath": "C:\\Users\\nina_\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nina_\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,9 +46,37 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.21.0, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[9.1.0, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             },
             "bootstrap": {
               "target": "Package",
@@ -74,7 +102,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

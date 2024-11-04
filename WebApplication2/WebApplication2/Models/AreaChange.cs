@@ -7,6 +7,6 @@
         //GeoJSON format - markører, linjer, polygoner
         public string GeoJson { get; set; }  
         public string Description { get; set; }
-
     }
 }
+
