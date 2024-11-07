@@ -30,6 +30,7 @@
             <form asp-action="SubmitMapCorrection" method="post">
                 <!-- Hidden field for GeoJSON data -->
                 <input type="hidden" id="geoJsonInput" name="geoJson" />
+                <input type="hidden" id="email" name="Email" />
                 <div class="form-group">
                     <label for="description">Beskriv feilen i kartet:</label>
                     <textarea id="description" name="Description" class="form-control" rows="5" placeholder="..." width="200px"></textarea>

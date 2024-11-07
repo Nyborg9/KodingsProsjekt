@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using WebApplication2.Models;
+using System.Diagnostics;
 using WebApplication2.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace WebApplication2.Controllers
 {
@@ -11,10 +15,8 @@ namespace WebApplication2.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        private static List<AreaChange> changes = new List<AreaChange>();
-        private static List<UserData> users = new List<UserData>();
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
         {
             _logger = logger;
             _context = context;
@@ -25,30 +27,16 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        // Action method to handle GET request and show RegistrationForm.cshtml view
+
+        // Display the overview of changes
         [HttpGet]
-        public ViewResult RegistrationForm()
+        public IActionResult Overview()
         {
-            return View();
+            var changes_db = _context.GeoChanges.ToList();
+            return View(changes_db);
         }
 
-        // Action method to handle POST request and receive data
-        [HttpPost]
-        public IActionResult RegistrationForm(UserData userData)
-        {
-            if (ModelState.IsValid)
-            {
-                users.Add(userData);
-                return RedirectToAction("MapCorrection");
-            }
-            return View(userData);
-        }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
+        [Authorize]
         [HttpPost]
         public ViewResult MapCorrection(GeoChange geoChange)
         {
@@ -95,15 +83,5 @@ namespace WebApplication2.Controllers
                 throw;
             }
         }
-
-
-        // Display the overview of changes
-        [HttpGet]
-        public IActionResult Overview()
-        {
-            var changes_db = _context.GeoChanges.ToList();
-            return View(changes_db);
-        }
     }
 }
-

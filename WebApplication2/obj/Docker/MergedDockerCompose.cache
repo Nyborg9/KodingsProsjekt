@@ -1,4 +1,4 @@
-name: dockercompose17219159882411795578
+name: dockercompose11649575476544679845
 services:
   mariadb:
     container_name: mariadb
@@ -22,7 +22,7 @@ services:
         volume: {}
   webapplication2:
     build:
-      context: C:\Users\mikae\Desktop\Somling\WebApplication2
+      context: C:\Users\mikae\Desktop\WebApplication2
       dockerfile: WebApplication2/Dockerfile
     depends_on:
       mariadb:
@@ -62,7 +62,7 @@ services:
           create_host_path: true
 networks:
   backend:
-    name: dockercompose17219159882411795578_backend
+    name: dockercompose11649575476544679845_backend
 volumes:
   db_data:
-    name: dockercompose17219159882411795578_db_data
+    name: dockercompose11649575476544679845_db_data
