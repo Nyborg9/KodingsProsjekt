@@ -1,0 +1,68 @@
+name: dockercompose11649575476544679845
+services:
+  mariadb:
+    container_name: mariadb
+    environment:
+      MYSQL_DATABASE: geochangesdb
+      MYSQL_PASSWORD: "123"
+      MYSQL_ROOT_PASSWORD: "123"
+      MYSQL_USER: root
+    image: mariadb:latest
+    networks:
+      backend: null
+    ports:
+      - mode: ingress
+        target: 3306
+        published: "3306"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: db_data
+        target: /var/lib/mysql
+        volume: {}
+  webapplication2:
+    build:
+      context: C:\Users\mikae\Desktop\WebApplication2
+      dockerfile: WebApplication2/Dockerfile
+    depends_on:
+      mariadb:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_HTTPS_PORTS: "8081"
+      ConnectionStrings__DefaultConnection: Server=mariadb;Database=geochangesdb;User=root;Password=123
+    image: webapplication2
+    networks:
+      backend: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "5000"
+        protocol: tcp
+      - mode: ingress
+        target: 8080
+        protocol: tcp
+      - mode: ingress
+        target: 8081
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\mikae\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mikae\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  backend:
+    name: dockercompose11649575476544679845_backend
+volumes:
+  db_data:
+    name: dockercompose11649575476544679845_db_data

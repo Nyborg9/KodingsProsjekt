@@ -1,0 +1,43 @@
+﻿@model WebApplication2.Data.GeoChange
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Submission Confirmation</title>
+    <style>
+        h1, h2 {
+            text-align: center;
+        }
+
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Takk for din innsending!</h1>
+        <h2>Din innsending</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>GeoJson:</strong> @Model.GeoJson</p>
+        <p><strong>Description:</strong> @Model.Description</p>
+    </div>
+</body>
+</html>
+

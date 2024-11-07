@@ -1,0 +1,25 @@
+﻿@model WebApplication2.Models.RegisterViewModel
+@{
+    Layout = "_Layout";
+}
+        <h1 style="text-align: center">Registrer ny bruker</h1>
+
+        <form asp-action="RegistrationForm" method="post" class="formstyle">
+    <div class="rad">
+        <label asp-for="Email" class="cell1"> Emailen din:</label>
+        <input asp-for="Email" placeholder="eksempel@mail.no" class="cell2" />
+    </div>
+    <div class="rad">
+    </div><div class="rad">
+        <label asp-for="Password" class="cell1"> Passordet:</label>
+        <input asp-for="Password" placeholder="Passordet ditt" class="cell2" />
+    </div></div><div class="rad">
+        <label asp-for="ConfirmPassword" class="cell1">Gjenta Passordet:</label>
+        <input asp-for="ConfirmPassword" placeholder="Gjenta Passordet ditt" class="cell2" />
+    </div>
+    
+    <div class="rad">
+            </div>
+            <button type="submit" class="btn btn-primary">Registrer</button>
+        </form>
+    
