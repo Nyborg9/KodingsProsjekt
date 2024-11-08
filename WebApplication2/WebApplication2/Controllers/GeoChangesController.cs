@@ -8,20 +8,22 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
-using WebApplication2.Models; // Ensure you have the correct namespace for ApplicationUser 
+using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    [Authorize] // Optional: Apply authorization to the entire controller
+    [Authorize] //Applyies authorization to the entire controller
     public class GeoChangesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager; // Add UserManager
+        private readonly UserManager<ApplicationUser> _userManager; 
+        // Adds UserManager and ApplicationDbContext
 
         public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _userManager = userManager; // Initialize UserManager
+            _userManager = userManager; 
+            // Initializes UserManager and Context
         }
 
         public async Task<IActionResult> Index()
@@ -30,25 +32,7 @@ namespace WebApplication2.Controllers
             return View(geoChanges); // Return the Index view with the list of GeoChange objects
         }
 
-        // GET: GeoChanges/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var geoChange = await _context.GeoChanges
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (geoChange == null)
-            {
-                return NotFound();
-            }
-
-            return View(geoChange);
-        }
-
-        // GET: GeoChanges/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
