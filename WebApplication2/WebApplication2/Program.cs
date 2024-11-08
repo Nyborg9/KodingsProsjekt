@@ -18,9 +18,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     mySqlOptions => mySqlOptions.EnableRetryOnFailure()));
 
 // Register EmailSender
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IEmailSender, AuthMessageSender>();
 
+// Setup Authentication
 SetupAuthentication(builder);
+
 var app = builder.Build();
 
 // Apply migrations at startup
@@ -31,7 +33,7 @@ using (var scope = app.Services.CreateScope())
 
     if (!await databaseCreator.HasTablesAsync())
     {
-        dbContext.Database.Migrate();
+        await dbContext.Database.MigrateAsync();
     }
 }
 
@@ -58,42 +60,40 @@ app.Run();
 
 void SetupAuthentication(WebApplicationBuilder builder)
 {
-//Setup for Authentication
-builder.Services.Configure<IdentityOptions>(options =>
-{
-// Default Lockout settings.
-options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-options.Lockout.MaxFailedAccessAttempts = 5;
-options.Lockout.AllowedForNewUsers = false;
-options.SignIn.RequireConfirmedPhoneNumber = false;
-options.SignIn.RequireConfirmedEmail = false;
-options.SignIn.RequireConfirmedAccount = false;
-options.User.RequireUniqueEmail = true;
-});
+    // Setup for Authentication
+    builder.Services.Configure<IdentityOptions>(options =>
+    {
+    // Default Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.User.RequireUniqueEmail = true;      // Password settings
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 0;
+    });
 
-builder.Services
-    .AddIdentityCore<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddSignInManager()
-    .AddDefaultTokenProviders();
-
-builder.Services.AddAuthentication(o =>
-{
-o.DefaultScheme = IdentityConstants.ApplicationScheme;
-o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-
-}).AddIdentityCookies(o => { });
-
-builder.Services.AddTransient<IEmailSender, AuthMessageSender>();
+    // Use ApplicationUser  instead of IdentityUser 
+    builder.Services
+        .AddIdentity<ApplicationUser, IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 }
+
 public class AuthMessageSender : IEmailSender
 {
     public Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        Console.WriteLine(email);
-        Console.WriteLine(subject);
-        Console.WriteLine(htmlMessage);
+        // Placeholder for email sending logic
+        Console.WriteLine($"Email to: {email}");
+        Console.WriteLine($"Subject: {subject}");
+        Console.WriteLine($"Message: {htmlMessage}");
         return Task.CompletedTask;
     }
 }

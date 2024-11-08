@@ -1,116 +1,118 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.DataProtection;
-using WebApplication2.Data;
-using WebApplication2.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using WebApplication2.Models; // Ensure this namespace includes ApplicationUser  and your ViewModels
 
 namespace WebApplication2.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<UserController> _logger;
-        public UserController( UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<UserController> logger)
+        private readonly UserManager<ApplicationUser> _userManager; // Use ApplicationUser 
+        private readonly SignInManager<ApplicationUser> _signInManager; // Use ApplicationUser 
+
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
         }
 
-        // Action method to handle GET request and show RegistrationForm.cshtml view
         [HttpGet]
-        [AllowAnonymous]
-        public IActionResult RegistrationForm(string returnUrl = null)
+        public IActionResult Register()
         {
-            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrationForm(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, LockoutEnabled = false, LockoutEnd = null };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; // Use ApplicationUser 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //userRepository.Add(new UserEntity
-                    //{
-                    //    Email = model.Email
-                    //});
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-
-
-                    _logger.LogInformation(3, "User created a new account with password.");
-
-
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("UserPage");
                 }
-                AddErrors(result);
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public IActionResult UserLogin(string returnUrl = null)
+        public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> UserLogin(LoginViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, "User logged in.");
                     return RedirectToAction("UserPage");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View("UserLogin");
-                }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
-            return View("UserLogin");
-        }
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+            return View(model);
         }
 
-        private Task<IdentityUser> GetCurrentUserAsync()
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> UserPage()
         {
-            return _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserPage(ApplicationUser model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return NotFound(); // Or redirect to an appropriate page
+                }
+
+                // Update user properties
+                user.Email = model.Email; // Update other properties as needed
+                user.UserName = model.UserName; // Update username if needed
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    // Optionally, you can sign in the user again to refresh the claims
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("User Page"); // Redirect to the same page or another page
+                }
+
+                // Add errors to the model state if the update failed
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            // If we got this far, something failed; redisplay the form with the current user data
+            return View(model);
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
@@ -119,10 +121,7 @@ namespace WebApplication2.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

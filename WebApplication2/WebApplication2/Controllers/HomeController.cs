@@ -6,27 +6,27 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Security.Claims;
 
 namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager; // Add UserManager
 
-
-        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager; // Initialize UserManager
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
 
         // Display the overview of changes
         [HttpGet]
@@ -79,9 +79,24 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}, Inner Exeption; {ex.InnerException?.Message}");
+                Console.WriteLine($"Error: {ex.Message}, Inner Exception: {ex.InnerException?.Message}");
                 throw;
             }
+        }
+
+        // Example of a method that uses UserManager
+        [Authorize]
+        public async Task<IActionResult> UserProfile()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
+            var user = await _userManager.FindByIdAsync(userId); // Find the user by ID
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user); // Return the user to a view
         }
     }
 }

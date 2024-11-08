@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.Models; // Ensure you have the correct namespace for ApplicationUser 
 
 namespace WebApplication2.Controllers
 {
+    [Authorize] // Optional: Apply authorization to the entire controller
     public class GeoChangesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager; // Add UserManager
 
-        public GeoChangesController(ApplicationDbContext context)
+        public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager; // Initialize UserManager
         }
 
-        // GET: GeoChanges
         public async Task<IActionResult> Index()
         {
-            return View(await _context.GeoChanges.ToListAsync());
+            var geoChanges = await _context.GeoChanges.ToListAsync(); // Fetch the list of GeoChange objects
+            return View(geoChanges); // Return the Index view with the list of GeoChange objects
         }
 
         // GET: GeoChanges/Details/5
@@ -49,19 +55,39 @@ namespace WebApplication2.Controllers
         }
 
         // POST: GeoChanges/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,GeoJson")] GeoChange geoChange)
+        public async Task<IActionResult> Create([Bind("Description,GeoJson")] GeoChange geoChange)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(geoChange);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Get the current user's ID
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId != null)
+                {
+                    geoChange.UserId = userId; // Set the UserId property
+                    _context.Add(geoChange);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index)); // Redirect to the Index action after successful creation
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User  is not authenticated.");
+                }
             }
-            return View(geoChange);
+            else
+            {
+                // Log the errors for debugging
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+            }
+
+            // If we got this far, something failed; redisplay the form
+            var geoChanges = await _context.GeoChanges.ToListAsync(); // Fetch the list of GeoChange objects
+            return View("Index", geoChanges); // Return the Index view with the list of GeoChange objects
         }
 
         // GET: GeoChanges/Edit/5
@@ -81,8 +107,6 @@ namespace WebApplication2.Controllers
         }
 
         // POST: GeoChanges/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson")] GeoChange geoChange)

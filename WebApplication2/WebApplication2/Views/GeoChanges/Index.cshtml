@@ -4,38 +4,41 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>Geo Changes</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table>
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GeoJson)
-            </th>
-            <th></th>
+            <th>Description</th>
+            <th>GeoJson</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GeoJson)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var geoChange in Model)
+        {
+            <tr>
+                <td>@geoChange.Description</td>
+                <td>@geoChange.GeoJson</td>
+            </tr>
+        }
     </tbody>
+</table>
+
+<!-- Add your map integration here -->
+<div id="map"></div>
+
+<script>
+    // Assuming you are using a mapping library like Leaflet or Google Maps
+    var geoChanges = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+    // Initialize your map here
+    var map = L.map('map').setView([latitude, longitude], zoomLevel);
+
+    // Loop through geoChanges and add them to the map
+    geoChanges.forEach(function (geoChange) {
+        // Parse geoChange.GeoJson and add it to the map
+        // Example for Leaflet:
+        var geoJsonLayer = L.geoJSON(geoChange.GeoJson).addTo(map);
+    });
+</script>
 </table>

@@ -1,17 +1,21 @@
-﻿using System.Security.Cryptography.Xml;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication2.Data
 {
     public class GeoChange
     {
-        // Use int for auto-incrementing primary key
         public int Id { get; set; }
-        public string? Description { get; set; }
-        public string? GeoJson { get; set; }
-        public GeoChange()
-        {
-            
-        }
 
+        [Required]
+        public string? Description { get; set; }
+
+        [Required]
+        public string? GeoJson { get; set; }
+
+        [Required]
+        public string UserId { get; set; } // Foreign key to associate with a user
+
+        // Navigation property (optional)
+        public virtual ApplicationUser User { get; set; }
     }
 }
