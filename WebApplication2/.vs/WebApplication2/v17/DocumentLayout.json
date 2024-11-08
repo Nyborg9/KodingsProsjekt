@@ -7,6 +7,18 @@
       "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\geochanges\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\data\\geochange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\data\\geochange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\views\\geochanges\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\geochanges\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\views\\user\\viewreports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\user\\viewreports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -23,20 +35,12 @@
       "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\user\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\views\\geochanges\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\geochanges\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\views\\home\\overview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\views\\home\\overview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\controllers\\geochangescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\controllers\\geochangescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\data\\geochange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\data\\geochange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\views\\geochanges\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -57,10 +61,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|solutionrelative:webapplication2\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{32DB4854-9C36-4495-B636-999E4F2FCF13}|WebApplication2\\WebApplication2.csproj|c:\\users\\mikae\\desktop\\somling\\kodingsprosjekt\\webapplication2\\webapplication2\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -161,35 +161,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "WebApplication2\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "WebApplication2\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T22:31:47.327Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "WebApplication2\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "WebApplication2\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAQwCIAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T14:16:20.323Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Overview.cshtml",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\Home\\Overview.cshtml",
               "RelativeDocumentMoniker": "WebApplication2\\Views\\Home\\Overview.cshtml",
@@ -202,20 +178,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\GeoChanges\\Edit.cshtml",
               "RelativeDocumentMoniker": "WebApplication2\\Views\\GeoChanges\\Edit.cshtml",
               "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\GeoChanges\\Edit.cshtml",
               "RelativeToolTip": "WebApplication2\\Views\\GeoChanges\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABgAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-07T22:36:07.025Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "ViewReports.cshtml",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\ViewReports.cshtml",
               "RelativeDocumentMoniker": "WebApplication2\\Views\\User\\ViewReports.cshtml",
@@ -234,53 +210,14 @@
               "RelativeDocumentMoniker": "WebApplication2\\Views\\GeoChanges\\Index.cshtml",
               "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\GeoChanges\\Index.cshtml",
               "RelativeToolTip": "WebApplication2\\Views\\GeoChanges\\Index.cshtml",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-08T00:08:21.088Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Login.cshtml",
-              "RelativeDocumentMoniker": "WebApplication2\\Views\\User\\Login.cshtml",
-              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Login.cshtml",
-              "RelativeToolTip": "WebApplication2\\Views\\User\\Login.cshtml",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-07T22:24:10.429Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Register.cshtml",
-              "RelativeDocumentMoniker": "WebApplication2\\Views\\User\\Register.cshtml",
-              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Register.cshtml",
-              "RelativeToolTip": "WebApplication2\\Views\\User\\Register.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-07T22:23:09.051Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "UserPage.cshtml",
-              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\UserPage.cshtml",
-              "RelativeDocumentMoniker": "WebApplication2\\Views\\User\\UserPage.cshtml",
-              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\UserPage.cshtml",
-              "RelativeToolTip": "WebApplication2\\Views\\User\\UserPage.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-07T22:31:33.768Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "GeoChange.cs",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Data\\GeoChange.cs",
               "RelativeDocumentMoniker": "WebApplication2\\Data\\GeoChange.cs",
@@ -293,7 +230,71 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "WebApplication2\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "WebApplication2\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwBYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T22:31:47.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "WebApplication2\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "WebApplication2\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAQwCIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T14:16:20.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Login.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\User\\Login.cshtml",
+              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Login.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\User\\Login.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-07T22:24:10.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Register.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\User\\Register.cshtml",
+              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\Register.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\User\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-07T22:23:09.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserPage.cshtml",
+              "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\UserPage.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\User\\UserPage.cshtml",
+              "ToolTip": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\User\\UserPage.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\User\\UserPage.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-07T22:31:33.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "GeoChangesController.cs",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Controllers\\GeoChangesController.cs",
               "RelativeDocumentMoniker": "WebApplication2\\Controllers\\GeoChangesController.cs",
@@ -306,7 +307,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Views\\GeoChanges\\Create.cshtml",
               "RelativeDocumentMoniker": "WebApplication2\\Views\\GeoChanges\\Create.cshtml",
@@ -319,7 +320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\Program.cs",
               "RelativeDocumentMoniker": "WebApplication2\\Program.cs",
@@ -332,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "docker-compose.yml",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\docker-compose.yml",
               "RelativeDocumentMoniker": "docker-compose.yml",
@@ -344,7 +345,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\mikae\\Desktop\\Somling\\KodingsProsjekt\\WebApplication2\\WebApplication2\\appsettings.json",
               "RelativeDocumentMoniker": "WebApplication2\\appsettings.json",

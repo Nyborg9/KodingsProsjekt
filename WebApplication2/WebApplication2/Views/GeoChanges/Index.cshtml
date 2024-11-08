@@ -1,15 +1,30 @@
 ﻿@model List<WebApplication2.Data.GeoChange>
 @using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> UserManager
+@inject UserManager<ApplicationUser > UserManager
 @{
     ViewData["Title"] = "Overview";
-
     Layout = "_Layout";
     var user = await UserManager.GetUserAsync(User);
+
+    // Create a dictionary to map UserId to Email
+    var userEmails = new Dictionary<string, string>();
+
+    // Fetch emails for each userId in the model
+    foreach (var change in Model)
+    {
+        if (!userEmails.ContainsKey(change.UserId))
+        {
+            var applicationUser = await UserManager.FindByIdAsync(change.UserId);
+            if (applicationUser != null)
+            {
+                userEmails[change.UserId] = applicationUser.Email; // Store the email in the dictionary
+            }
+        }
+    }
 }
 
 <div class="container mt-5">
-    <h5 class="text-left">User: @user.UserName</h5>
+    <h5 class="text-left">User:  @user.UserName</h5>
 </div>
 
 <!-- User Data Section -->
@@ -19,30 +34,28 @@
     <div class="row">
         <!-- Left Side: Map -->
         <div class="col-md-6">
-            <!-- Container for the map, with specified height and border -->
             <div id="map" style="height: 500px; width: 100%; border: 3px solid #ccc;"></div>
         </div>
 
         <!-- Right Side: Details Table -->
         <div class="col-md-6">
-            <!-- Start of the Bootstrap table for displaying changes -->
             <table class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>GeoJSON</th>
                         <th>Beskrivelse</th>
+                        <th>Email</th> <!-- Add Email column -->
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var change in Model)
-
                     {
                         <tr>
                             <td>@change.Id</td>
                             <td>@change.GeoJson</td>
                             <td>@change.Description</td>
-                            <td>@change.UserId</td>
+                            <td>@userEmails[change.UserId]</td> <!-- Display Email -->
                         </tr>
                     }
                 </tbody>
@@ -50,16 +63,13 @@
         </div>
     </div>
 
-
-
     @section Scripts {
-        <!-- Important to include Leaflet CSS and JS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
         <script>
             // Initialize the map and set its initial view
-            var map = L.map('map').setView([58.164048, 8.004007], 13);  // Adjust the coordinates and zoom level as needed
+            var map = L.map('map').setView([58.164048, 8.004007], 13);
 
             // Add a tile layer (using OpenStreetMap)
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -70,13 +80,12 @@
             var changes = @Json.Serialize(Model);
 
             changes.forEach(function (change) {
-                // Parse the GeoJSON data and add it to the map
                 var geoJsonData = JSON.parse(change.geoJson);
                 L.geoJSON(geoJsonData).addTo(map);
 
-                // Optionally, bind a popup with the change description
                 var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
                 layer.addTo(map);
             });
         </script>
+    }
     }
