@@ -57,37 +57,41 @@ namespace WebApplication2.Controllers
         // POST: GeoChanges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,GeoJson")] GeoChange geoChange)
+        public IActionResult Create(string geoJson, string description, string mapVariant)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // Get the current user's ID
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (userId != null)
+                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
                 {
-                    geoChange.UserId = userId; // Set the UserId property
-                    _context.Add(geoChange);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index)); // Redirect to the Index action after successful creation
+                    return BadRequest("GeoJson and description must be provided");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "User  is not authenticated.");
-                }
-            }
-            else
-            {
-                // Log the errors for debugging
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (var error in errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-            }
 
-            // If we got this far, something failed; redisplay the form
-            var geoChanges = await _context.GeoChanges.ToListAsync(); // Fetch the list of GeoChange objects
-            return View("Index", geoChanges); // Return the Index view with the list of GeoChange objects
+                // Retrieve the UserId from the claims
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Using ClaimTypes.NameIdentifier to get the UserId
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("User  not found");
+                }
+
+                var newChange = new GeoChange
+                {
+                    GeoJson = geoJson,
+                    Description = description,
+                    UserId = userId // Set the UserId
+                };
+
+                _context.GeoChanges.Add(newChange);
+                _context.SaveChanges();
+
+                // Redirect to the overview of changes
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}, Inner Exception: {ex.InnerException?.Message}");
+                throw;
+            }
         }
 
         // GET: GeoChanges/Edit/5
