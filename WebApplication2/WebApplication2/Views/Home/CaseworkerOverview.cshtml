@@ -9,29 +9,29 @@
             <th>GeoJson</th>
             <th>Beskrivelse</th>
             <th>Status</th>
-            <th>Prioritering</th>
-            <th>Saksbehandler</th> <!-- saksbehandler eller noe annet?-->
+            
+          
         </tr>
     </thead>
 
     <tbody>
         <!-- foreach loop som looper gjennom alle rapportene i modellen og lager en tabellrad for hver -->
-        @foreach (var report in Model) 
+        @foreach (var report in Model)
         {
             <tr class="report-row" onclick="toggleDetails('details-@report.Id')">
                 <td>@report.Id</td>
                 <td>@report.GeoJson</td>
                 <td>@report.Description</td>
                 <td></td> <!-- Placeholder for status -->
-                <td></td> <!-- Placeholder for priority -->
-                <td></td> <!-- Placeholder for caseworker allocated eller noe annet -->
-            </tr>
-
+               
+             </tr>
+          
             <!-- utvidbar seksjon med mer informasjon for hver rapport, basert på ID -->
             <tr id="details-@report.Id" class="report-details" style="display: none;">
-                <td colspan="6"> <!-- 1 celle over 6 rader-->
+                <td colspan="4">
+                    <!-- 1 celle over 4 rader-->
                     <div class="details-container">
-                       
+
                         <!-- Map Section -->
                         <div class="map-section">
                             <h4>Kart</h4>
@@ -44,9 +44,9 @@
                         <div class="user-info-section">
                             <h4>Mer informasjon:</h4>
                             <p><strong>Beskrivelse:</strong> @report.Description</p>
-                            <p><strong>Innsender:</strong></p>
+                            <p><strong>Innsender:</strong></p> <!-- innsender her-->
                             <p><strong>Kart type:</strong></p>
-                            <p><strong>Sikkert noe annet her og:</strong></p>
+
                         </div>
 
                         <!-- Caseworker Actions Section -->
@@ -55,23 +55,26 @@
                             <!-- Form to update report details -->
                             <form method="post" action="/UpdateReport">
                                 <input type="hidden" name="reportId" value="@report.Id" />
-                                
+
+                                <!-- buttons for editing-->
+                          
                                 <label for="status-@report.Id">Status:</label>
                                 <select name="status" id="status-@report.Id">
-                                    <!-- Dropdown options for status - må lages -->
-                                   
+                                    <!-- Dropdown options for status - må lages  og kobles til database fungerer dårlig foreløpig.-->
+                                    <option value="not_started">Ikke påbegynt</option>
+                                    <option value="in_progress">Under behandling</option>
+                                    <option value="approved">Godkjent</option>
+                                    <option value="not_followed">Ikke tatt til følge</option>
                                 </select>
-                                
-                                <label for="priority-@report.Id">Prioritering:</label>
-                                <select name="priority" id="priority-@report.Id">
-                                    <!-- dropdown options for priority - må lages -->
-                                </select>
-                                
-                                <label for="caseworker-@report.Id">Saksbehandler:</label>
-                                <select name="Saksbehandler" id="caseworker-@report.Id"></select>
-                                    <!-- dropdown -->
-                                
-                                <button type="submit">Oppdater</button>
+
+                                <button type="submit">Oppdater Status</button>
+
+                                <!-- Move the Edit and Delete links here, below the update button -->
+                                <div class="edit-delete-links">
+                                    <a asp-controller="ReportActions" asp-action="Edit" asp-route-id="@report.Id" asp-route-returnUrl="@Url.Action("CaseworkerOverview", "Home")">Edit</a> |
+                                    <a asp-controller="ReportActions" asp-action="Delete" asp-route-id="@report.Id" asp-route-returnUrl="@Url.Action("CaseworkerOverview", "Home")">Delete</a>
+                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -105,10 +108,10 @@
         width: 33%;
     }
 
-    /* Styling for caseworker form actions - slik at dropdown menyene stackes oppå hverandre */
-    .caseworker-actions-section form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+        /* Styling for caseworker form actions - slik at dropdown menyene stackes oppå hverandre */
+        .caseworker-actions-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 </style>
