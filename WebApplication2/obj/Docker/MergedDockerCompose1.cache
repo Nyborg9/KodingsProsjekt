@@ -1,4 +1,4 @@
-name: dockercompose448166539628413075
+name: dockercompose17219159882411795578
 services:
   mariadb:
     container_name: mariadb
@@ -22,7 +22,7 @@ services:
         volume: {}
   webapplication2:
     build:
-      context: C:\Users\Mikael\Desktop\Git\WebApplication2
+      context: C:\Users\mikae\Desktop\Somling\WebApplication2
       dockerfile: WebApplication2/Dockerfile
       args:
         BUILD_CONFIGURATION: Debug
@@ -72,47 +72,14 @@ services:
     tty: true
     volumes:
       - type: bind
-        source: C:\Users\Mikael\AppData\Roaming\Microsoft\UserSecrets
-        target: /home/app/.microsoft/usersecrets
-        read_only: true
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Mikael\AppData\Roaming\ASP.NET\Https
-        target: /home/app/.aspnet/https
-        read_only: true
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Mikael\Desktop\Git\WebApplication2\WebApplication2
-        target: /app
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Mikael\Desktop\Git\WebApplication2
-        target: /src
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Mikael\vsdbg\vs2017u5
-        target: /remote_debugger
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Mikael\.nuget\packages
+        source: C:\Users\mikae\.nuget\packages
         target: /.nuget/packages
         read_only: true
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\Mikael\AppData\Roaming\ASP.NET\Https
-        target: /root/.aspnet/https
-        read_only: true
-        bind:
-          create_host_path: true
-      - type: bind
-        source: C:\Users\Mikael\AppData\Roaming\Microsoft\UserSecrets
-        target: /root/.microsoft/usersecrets
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload
+        target: /HotReloadAgent
         read_only: true
         bind:
           create_host_path: true
@@ -123,14 +90,47 @@ services:
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload
-        target: /HotReloadAgent
+        source: C:\Users\mikae\Desktop\Somling\WebApplication2\WebApplication2
+        target: /app
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mikae\AppData\Roaming\ASP.NET\Https
+        target: /home/app/.aspnet/https
         read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mikae\AppData\Roaming\Microsoft\UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mikae\vsdbg\vs2017u5
+        target: /remote_debugger
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mikae\AppData\Roaming\ASP.NET\Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mikae\AppData\Roaming\Microsoft\UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mikae\Desktop\Somling\WebApplication2
+        target: /src
         bind:
           create_host_path: true
 networks:
   backend:
-    name: dockercompose448166539628413075_backend
+    name: dockercompose17219159882411795578_backend
 volumes:
   db_data:
-    name: dockercompose448166539628413075_db_data
+    name: dockercompose17219159882411795578_db_data

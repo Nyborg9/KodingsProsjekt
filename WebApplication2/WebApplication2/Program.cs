@@ -29,11 +29,24 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var databaseCreator = (RelationalDatabaseCreator)dbContext.Database.GetService<IDatabaseCreator>();
 
-    if (!await databaseCreator.HasTablesAsync())
+    try
     {
-        await dbContext.Database.MigrateAsync();
+        // Ensure the database is created
+        await dbContext.Database.EnsureCreatedAsync();
+
+        // Get pending migrations
+        var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+
+        // Apply any pending migrations
+        if (pendingMigrations.Any())
+        {
+            await dbContext.Database.MigrateAsync();
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred during migration: {ex.Message}");
     }
 }
 

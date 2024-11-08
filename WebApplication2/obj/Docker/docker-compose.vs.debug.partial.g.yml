@@ -15,14 +15,14 @@ services:
       - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
       - NUGET_FALLBACK_PACKAGES=
     volumes:
-      - C:\Users\Mikael\Desktop\Git\WebApplication2\WebApplication2:/app:rw
-      - C:\Users\Mikael\Desktop\Git\WebApplication2:/src:rw
-      - C:\Users\Mikael\vsdbg\vs2017u5:/remote_debugger:rw
-      - C:\Users\Mikael\.nuget\packages:/.nuget/packages:ro
-      - C:\Users\Mikael\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
-      - C:\Users\Mikael\AppData\Roaming\ASP.NET\Https:/home/app/.aspnet/https:ro
-      - C:\Users\Mikael\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
-      - C:\Users\Mikael\AppData\Roaming\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - C:\Users\mikae\Desktop\Somling\WebApplication2\WebApplication2:/app:rw
+      - C:\Users\mikae\Desktop\Somling\WebApplication2:/src:rw
+      - C:\Users\mikae\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\mikae\.nuget\packages:/.nuget/packages:ro
+      - C:\Users\mikae\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+      - C:\Users\mikae\AppData\Roaming\ASP.NET\Https:/home/app/.aspnet/https:ro
+      - C:\Users\mikae\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+      - C:\Users\mikae\AppData\Roaming\Microsoft\UserSecrets:/home/app/.microsoft/usersecrets:ro
       - C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\linux-x64\net8.0:/VSTools:ro
       - C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload:/HotReloadAgent:ro
 
