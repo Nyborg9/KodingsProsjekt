@@ -17,6 +17,15 @@ namespace WebApplication2.Controllers
             _signInManager = signInManager;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize] // Ensure only authenticated users can access this action
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync(); // Sign the user out
+            return RedirectToAction("Index", "Home"); // Redirect to the Home/Index action
+        }
+
         [HttpGet]
         public IActionResult Register()
         {

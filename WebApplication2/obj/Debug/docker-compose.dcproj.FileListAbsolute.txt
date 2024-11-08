@@ -174,7 +174,6 @@ C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Microsoft.AspNetCore.Id
 C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Microsoft.Extensions.Identity.Core.dll
 C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
-C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Newtonsoft.Json.dll
 C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Microsoft.TestPlatform.PlatformAbstractions.dll
 C:\Users\mikae\Desktop\Somling\WebApplication2\bin\Debug\Microsoft.TestPlatform.CoreUtilities.dll

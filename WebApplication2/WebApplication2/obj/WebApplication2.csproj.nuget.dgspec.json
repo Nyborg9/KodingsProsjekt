@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nina_\\OneDrive\\Skrivebord\\kode\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {}
+    "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nina_\\OneDrive\\Skrivebord\\kode\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
+    "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nina_\\OneDrive\\Skrivebord\\kode\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
         "projectName": "WebApplication2",
-        "projectPath": "C:\\Users\\nina_\\OneDrive\\Skrivebord\\kode\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
-        "packagesPath": "C:\\Users\\nina_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nina_\\OneDrive\\Skrivebord\\kode\\KodingsProsjekt\\WebApplication2\\WebApplication2\\obj\\",
+        "projectPath": "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mikae\\Desktop\\Somling\\WebApplication2\\WebApplication2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nina_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -142,7 +142,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -9,7 +9,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    // Add your DbSets here
     public DbSet<GeoChange> GeoChanges { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
