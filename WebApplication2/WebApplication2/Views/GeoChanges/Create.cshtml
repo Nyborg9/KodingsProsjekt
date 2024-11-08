@@ -1,0 +1,152 @@
+﻿@model List<WebApplication2.Data.GeoChange>
+@{
+    ViewData["Title"] = "Create Report";
+
+    Layout = "_Layout";
+}
+
+<h1 class="text-center">Rapporter feil i kartet</h1>
+<div class="container mt-5">
+
+    <!-- Dropdown for map variants -->
+    <label for="mapVariant">Velg kart type her:</label>
+    <select id="mapVariant">
+        <option value="osm">OpenStreetMap</option>
+        <option value="fargekart">Fargekart</option>
+        <option value="gråtonekart">Gråtonekart</option>
+        <option value="turkart">Turkart</option>
+        <option value="sjokart">Sjøkart</option>
+    </select>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div id="map"></div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Form for submitting a map correction -->
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <!-- Hidden field for GeoJSON data -->
+                <input type="hidden" id="geoJsonInput" name="GeoJson" />
+                <input type="hidden" id="email" name="Email" />
+                
+                <div class="form-group">
+                    <label for="description">Beskriv feilen i kartet:</label>
+                    <textarea id="description" name="Description" class="form-control" rows="5" placeholder="..." width="200px"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- 1. Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- 2. Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+
+    <!-- 3. Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- 4. Leaflet Draw JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([58.164048, 8.004007], 13);
+
+        // Add a tile layer to the map
+        var layers = {
+        osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }),
+        fargekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+         }),
+        gråtonekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+        }),
+        turkart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+        }),
+        sjokart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+         })
+         };
+
+        // Add the default layer (OpenStreetMap)
+        layers.osm.addTo(map);
+
+        // Function to change map layer
+        function changeMapLayer(selectedLayer) {
+            // Remove all layers
+            for (var key in layers) {
+                map.removeLayer(layers[key]);
+            }
+            // Add the selected layer
+            layers[selectedLayer].addTo(map).on('tileerror', function (error) {
+                console.error('Tile loading error:', error);
+                alert('Error loading map tiles. Please check your network connection or try a different map variant.');
+            });
+        }
+
+        // Event listener for dropdown change
+        document.getElementById('mapVariant').addEventListener('change', function () {
+            changeMapLayer(this.value);
+        });
+
+        // Initialize the feature group that will hold the drawn shapes
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        // Creates the drawing control on the left hand side
+        // The drawing control enables drawing of markers, polygons, and polylines
+        var drawControl = new L.Control.Draw({
+            draw: {
+                polygon: true,
+                polyline: true,
+                marker: true,
+                circle: false,
+                rectangle: false
+            },
+            edit: {
+                featureGroup: drawnItems
+            }
+        });
+        map.addControl(drawControl);
+
+        // Event handling when a layer is drawn on the map
+        map.on(L.Draw.Event.CREATED, function (e) {
+            var type = e.layerType,
+                layer = e.layer;
+
+            drawnItems.addLayer(layer);
+
+            // Get the GeoJSON representation of the drawn layer
+            var geoJsonData = layer.toGeoJSON();
+            var geoJsonString = JSON.stringify(geoJsonData);
+
+            // Set the GeoJSON string into the hidden input field in the form
+            document.getElementById('geoJsonInput').value = geoJsonString;
+        });
+    </script>
+}
+<style>
+
+    /* Styles for the map container */
+    #map {
+        position: relative;
+        margin: 20px auto;
+        width: 100%; /* Adjust as needed */
+        height: 500px; /* Adjust as needed */
+        border: 3px solid #ccc; /* Add a border */
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>

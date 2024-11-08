@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4 font-weight-bold">Kartverket</h1>
+    <h2 class="display-6 mb-4">Hjelp oss med å holde kartene oppdatert</h2>
+
+    @* <p class="lead">To enjoy our services and products please register yourself</p> *@
+
+    <div class="d-flex justify-content-center mt-4">
+        <a asp-action="MapCorrection" class="btn btn-primary btn-lg mx-2">Rapporter feil i kart her</a>
+        <a asp-action="RegistrationForm" class="btn btn-secondary btn-lg mx-2">Register now</a>
+        
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+    }
+
+    .display-4 {
+        font-weight: 700;
+    }
+
+    .display-6 {
+        font-weight: 500;
+    }
+
+    .lead {
+        font-size: 1.25rem;
+    }
+</style>

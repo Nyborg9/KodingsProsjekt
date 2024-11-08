@@ -6,10 +6,9 @@
     <h1 class="display-4 font-weight-bold">Kartverket</h1>
     <h5 class="display-6 mb-4">Hjelp oss med å holde kartene oppdatert</h5>
 
-    @* <p class="lead">To enjoy our services and products please register yourself</p> *@
-
     <div class="d-flex justify-content-center mt-4">
-        <a asp-action="RegistrationForm" class="btn btn-primary btn-lg mx-2">Registrer bruker</a>
+        <a asp-action="Register" asp-controller="User" class=" btn btn-primary btn-lg mx-2">Registrer bruker</a>
+        <a asp-action="Login" asp-controller="User" class="btn btn-primary btn-lg mx-2">Logg inn</a>
     </div>
 </div>
 

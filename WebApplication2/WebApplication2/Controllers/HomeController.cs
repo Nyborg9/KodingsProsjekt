@@ -1,23 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using WebApplication2.Models;
+using System.Diagnostics;
 using WebApplication2.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Security.Claims;
 
 namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager; // Add UserManager
 
-        private static List<AreaChange> changes = new List<AreaChange>();
-        private static List<UserData> users = new List<UserData>();
-
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager; // Initialize UserManager
         }
 
         public IActionResult Index()
@@ -25,30 +28,15 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        // Action method to handle GET request and show RegistrationForm.cshtml view
+        // Display the overview of changes
         [HttpGet]
-        public ViewResult RegistrationForm()
+        public IActionResult Overview()
         {
-            return View();
+            var changes_db = _context.GeoChanges.ToList();
+            return View(changes_db);
         }
 
-        // Action method to handle POST request and receive data
-        [HttpPost]
-        public IActionResult RegistrationForm(UserData userData)
-        {
-            if (ModelState.IsValid)
-            {
-                users.Add(userData);
-                return RedirectToAction("MapCorrection");
-            }
-            return View(userData);
-        }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
+        [Authorize]
         [HttpPost]
         public ViewResult MapCorrection(GeoChange geoChange)
         {
@@ -91,19 +79,24 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}, Inner Exeption; {ex.InnerException?.Message}");
+                Console.WriteLine($"Error: {ex.Message}, Inner Exception: {ex.InnerException?.Message}");
                 throw;
             }
         }
 
-
-        // Display the overview of changes
-        [HttpGet]
-        public IActionResult Overview()
+        // Example of a method that uses UserManager
+        [Authorize]
+        public async Task<IActionResult> UserProfile()
         {
-            var changes_db = _context.GeoChanges.ToList();
-            return View(changes_db);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
+            var user = await _userManager.FindByIdAsync(userId); // Find the user by ID
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user); // Return the user to a view
         }
     }
 }
-
