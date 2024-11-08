@@ -94,57 +94,40 @@ namespace WebApplication2.Controllers
             }
         }
 
-        // GET: GeoChanges/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var geoChange = await _context.GeoChanges.FindAsync(id);
+        // Get the Edit form
+        [HttpGet]
+        public IActionResult Edit(int id, string returnUrl = null)
+        {
+            var geoChange = _context.GeoChanges.Find(id);
             if (geoChange == null)
             {
                 return NotFound();
             }
+            ViewBag.ReturnUrl = returnUrl;
             return View(geoChange);
         }
 
-        // POST: GeoChanges/Edit/5
+        // Edit Action (POST) to update a GeoChange
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson")] GeoChange geoChange)
+        public IActionResult Edit(GeoChange geoChange, string returnUrl = null)
         {
-            if (id != geoChange.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                _context.GeoChanges.Update(geoChange); // Update the entity
+                _context.SaveChanges(); // Save changes to the database
+                if (!string.IsNullOrEmpty(returnUrl))
                 {
-                    _context.Update(geoChange);
-                    await _context.SaveChangesAsync();
+                    return Redirect(returnUrl);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GeoChangeExists(geoChange.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            return View(geoChange);
-        }
 
-        // GET: GeoChanges/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+            return View(geoChange); // Return the view with the current geoChange if model state is invalid
+        }
+  
+    // GET: GeoChanges/Delete/5
+    public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -158,7 +141,7 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            return View(geoChange);
+            return View("Delete", geoChange);
         }
 
         // POST: GeoChanges/Delete/5
