@@ -16,13 +16,13 @@ namespace WebApplication2.Controllers
     public class GeoChangesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager; 
+        private readonly UserManager<ApplicationUser> _userManager;
         // Adds UserManager and ApplicationDbContext
 
         public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _userManager = userManager; 
+            _userManager = userManager;
             // Initializes UserManager and Context
         }
 
@@ -78,21 +78,26 @@ namespace WebApplication2.Controllers
             }
         }
 
-
-        // Get the Edit form
-        [HttpGet]
-        public IActionResult Edit(int id, string returnUrl = null)
+       
+        // Henter og viser redigeringsskjemaet
+        // GET: GeoChanges/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            var geoChange = _context.GeoChanges.Find(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var geoChange = await _context.GeoChanges.FindAsync(id);
             if (geoChange == null)
             {
                 return NotFound();
             }
-            ViewBag.ReturnUrl = returnUrl;
-            return View(geoChange);
+
+            return View(geoChange); // Ensure you return the model for editing
         }
 
-        // Edit Action (POST) to update a GeoChange
+        // Edit Action (POST) to update a GeoChange currently not working
         [HttpPost]
         public IActionResult Edit(GeoChange geoChange, string returnUrl = null)
         {
@@ -104,14 +109,16 @@ namespace WebApplication2.Controllers
                 {
                     return Redirect(returnUrl);
                 }
-                return RedirectToAction("Index");
+              
+            // After successfully updating, return to the page specified by returnUrl
+            return Redirect(returnUrl ?? "/Home/Index"); // Default to /Home/Index if no returnUrl is provided
             }
 
-            return View(geoChange); // Return the view with the current geoChange if model state is invalid
+            return View(geoChange);  // Return to the edit view if validation fails
         }
-  
-    // GET: GeoChanges/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+
+   // GET: GeoChanges/Delete/5
+        public async Task<IActionResult> Delete(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -125,27 +132,52 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            return View("Delete", geoChange);
+            ViewBag.ReturnUrl = returnUrl;
+
+            return View(geoChange);
         }
+
 
         // POST: GeoChanges/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
             var geoChange = await _context.GeoChanges.FindAsync(id);
             if (geoChange != null)
             {
                 _context.GeoChanges.Remove(geoChange);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
+            return Redirect(returnUrl ?? Url.Action("Index"));
         }
 
         private bool GeoChangeExists(int id)
         {
             return _context.GeoChanges.Any(e => e.Id == id);
+        }
+
+        // action metode for å vise en oversikt alle innsendte kartredigeringsforespørsler
+        [HttpGet]
+        public IActionResult CaseworkerOverview()
+        {
+            var changes_db = _context.GeoChanges.ToList();
+            if (changes_db == null || !changes_db.Any())
+            {
+                return View("~/Views/Caseworker/CaseworkerOverview.cshtml", new List<GeoChange>()); // Specify the view name
+            }
+            return View("~/Views/Caseworker/CaseworkerOverview.cshtml", changes_db); // Specify the view name
+        }
+        public IActionResult Details(int id)
+        {
+            var report = _context.GeoChanges.Find(id); // Fetch the specific report by ID
+            if (report == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Caseworker/ReportDetails.cshtml", report);
         }
     }
 }

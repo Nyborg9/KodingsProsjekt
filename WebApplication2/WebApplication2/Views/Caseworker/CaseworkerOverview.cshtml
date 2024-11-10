@@ -1,0 +1,74 @@
+﻿@model List<WebApplication2.Data.GeoChange>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Overview";
+   
+
+    // Retrieve the currently logged-in user (for user-related display)
+    var user = await UserManager.GetUserAsync(User);
+
+    // Create a dictionary to map UserId to Email
+    var userEmails = new Dictionary<string, string>();
+
+    // Fetch emails for each UserId in the model
+    foreach (var change in Model)
+    {
+        if (!userEmails.ContainsKey(change.UserId))
+        {
+            var applicationUser = await UserManager.FindByIdAsync(change.UserId);
+            if (applicationUser != null)
+            {
+                userEmails[change.UserId] = applicationUser.Email; // Store the email in the dictionary
+            }
+        }
+    }
+}
+
+<h2 class="text-center">Oversikt over innsendte meldinger</h2>
+
+<div class="container mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>GeoJSON</th>
+                <th>Beskrivelse</th>
+                <th>Epost</th> 
+                <th>Status</th>
+                <th>Detaljer</th>
+                <th>Rediger</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var change in Model)
+                {
+                    <tr>
+                        <td>@change.Id</td>
+                        <td>@change.GeoJson</td>
+                        <td>@change.Description</td>
+                        <td>@(userEmails.ContainsKey(change.UserId) ? userEmails[change.UserId] : "N/A")</td> <!-- Display Email -->
+                        <td></td> <!-- PlaceHolder for status -->
+                        <td>
+                            <a asp-controller="GeoChanges" asp-action="Details" asp-route-id="@change.Id">Vis Detaljer</a>
+                        </td>
+                        <td>
+                            <div class="edit-delete-links">
+                                <a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@change.Id">Rediger</a> |
+                                <a asp-controller="GeoChanges" asp-action="Delete" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("CaseWorkerOverview", "GeoChanges")">Slett</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">Ingen meldinger funnet.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

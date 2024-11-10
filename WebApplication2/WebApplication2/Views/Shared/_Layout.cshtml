@@ -43,6 +43,16 @@
                             </li>
                         }
                     </ul>
+
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated) 
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-link text-dark nav-button" href="@Url.Action("CaseworkerOverview", "GeoChanges")">Administrer Innsendinger</a>
+                            </li>
+                        }
+                    </ul>
+
                 </div>
             </div>
         </nav>
