@@ -43,7 +43,7 @@ Når en bruker utfører en handling, som å registrere seg eller sende inn et fo
 Databasen, her **MariaDB** blir brukt for å lagrer data for applikasjonen. Dette gjelder informasjon om brukere og innsendte kartendringsforslag.
 
 ### 5. **Repository**
-Bruker github repository som lagringsted for applikasjonens kildekode og for å organisere arbeidet. det vil inneholde all koden, konfigurasjoner og dokumentasjon som er nødvendig for å bygge og kjøre applikasjonen.
+Bruker github repository som lagringsted for applikasjonens kildekode og for å organisere arbeidet. det vil inneholde all koden, konfigurasjoner og dokumentasjon som er nødvendig for å bygge og kjøre applikasjonen. 
 
 ### 6. **Klasser**
 klasser organiserer applikasjonen i objektorienterte enheter som kan håndtere data og logikk, i tillegg til at det gir en struktur for hvordan applikasjonen fungerer i praksis.
