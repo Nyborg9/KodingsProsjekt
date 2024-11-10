@@ -102,7 +102,7 @@ namespace WebApplication2.Controllers
         // POST: GeoChanges/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson")] GeoChange geoChange)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson")] GeoChange geoChange, string returnUrl)
         {
             if (id != geoChange.Id)
             {
@@ -127,13 +127,16 @@ namespace WebApplication2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index)); // Redirect after a successful edit
+
+                // After successfully updating, return to the page specified by returnUrl
+                return Redirect(returnUrl ?? "/Home/Index"); // Default to /Home/Index if no returnUrl is provided
             }
+
             return View(geoChange);  // Return to the edit view if validation fails
         }
 
-        // GET: GeoChanges/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+   // GET: GeoChanges/Delete/5
+        public async Task<IActionResult> Delete(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -147,23 +150,28 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            return View("Delete", geoChange);
+            ViewBag.ReturnUrl = returnUrl;
+
+            return View(geoChange);
         }
+
 
         // POST: GeoChanges/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
             var geoChange = await _context.GeoChanges.FindAsync(id);
             if (geoChange != null)
             {
                 _context.GeoChanges.Remove(geoChange);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
+            return Redirect(returnUrl ?? Url.Action("Index"));
         }
+
 
         private bool GeoChangeExists(int id)
         {

@@ -59,9 +59,9 @@
                             <td>@userEmails[change.UserId]</td> <!-- Display Email -->
                             <td>
                                 <div class="edit-delete-links">
-                                    <a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@change.Id">Rediger</a> |
-                                    <a asp-controller="GeoChanges" asp-action="Delete" asp-route-id="@change.Id">Slett</a>
-
+                                    <a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("Index", "GeoChanges")">Rediger</a> |
+                                    <!-- Delete link with returnUrl to Index -->
+                                    <a asp-controller="GeoChanges" asp-action="Delete" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("Index", "GeoChanges")">Slett</a>  
                                 </div>
                             </td>
                         </tr>
