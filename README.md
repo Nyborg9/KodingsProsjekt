@@ -1,8 +1,9 @@
-##KodingsProsjekt Kartverket
+KodingsProsjekt Kartverket
 
-##Applikasjonens Arkitektur
+Applikasjonens Arkitektur
 
-##Hvordan Applikasjonen kjøres
+Hvordan Applikasjonen kjøres
 
-##Komponenter av applikasjonen
+Komponenter av applikasjonen
 
+Funksjonaliteter i applikasjonen
