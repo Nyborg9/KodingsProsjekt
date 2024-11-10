@@ -34,7 +34,7 @@
                 <th>ID</th>
                 <th>GeoJSON</th>
                 <th>Beskrivelse</th>
-                <th>Epost</th> <!-- Add Email column -->
+                <th>Epost</th> 
                 <th>Status</th>
                 <th>Detaljer</th>
                 <th>Rediger</th>
@@ -50,7 +50,7 @@
                         <td>@change.GeoJson</td>
                         <td>@change.Description</td>
                         <td>@(userEmails.ContainsKey(change.UserId) ? userEmails[change.UserId] : "N/A")</td> <!-- Display Email -->
-                        <td></td> <!-- Assuming Status is a property in GeoChange -->
+                        <td></td> <!-- PlaceHolder for status -->
                         <td>
                             <a asp-controller="GeoChanges" asp-action="Details" asp-route-id="@change.Id">Vis Detaljer</a>
                         </td>

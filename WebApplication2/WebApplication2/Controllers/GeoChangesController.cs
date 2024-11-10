@@ -78,10 +78,8 @@ namespace WebApplication2.Controllers
             }
         }
 
-        // Get the Edit form
+       
         // Henter og viser redigeringsskjemaet
-
-
         // GET: GeoChanges/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -96,10 +94,11 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            return View(geoChange); // This is important: Ensure you return the model for editing
+            return View(geoChange); // Ensure you return the model for editing
         }
 
         // POST: GeoChanges/Edit/5
+        // Saves the changes in the database, but does not function correctly as something goes wrong with the modelstate
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson")] GeoChange geoChange, string returnUrl)
@@ -172,14 +171,12 @@ namespace WebApplication2.Controllers
             return Redirect(returnUrl ?? Url.Action("Index"));
         }
 
-
         private bool GeoChangeExists(int id)
         {
             return _context.GeoChanges.Any(e => e.Id == id);
         }
 
-        // New action method to display caseworker-specific reports
-        //  [Authorize(Roles = "CaseWorker, Admin")]
+        // action metode for å vise en oversikt alle innsendte kartredigeringsforespørsler
         [HttpGet]
         public IActionResult CaseworkerOverview()
         {
