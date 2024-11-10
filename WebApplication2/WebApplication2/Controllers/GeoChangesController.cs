@@ -16,13 +16,13 @@ namespace WebApplication2.Controllers
     public class GeoChangesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager; 
+        private readonly UserManager<ApplicationUser> _userManager;
         // Adds UserManager and ApplicationDbContext
 
         public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
-            _userManager = userManager; 
+            _userManager = userManager;
             // Initializes UserManager and Context
         }
 
@@ -78,40 +78,62 @@ namespace WebApplication2.Controllers
             }
         }
 
-
         // Get the Edit form
-        [HttpGet]
-        public IActionResult Edit(int id, string returnUrl = null)
+        // Henter og viser redigeringsskjemaet
+
+
+        // GET: GeoChanges/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            var geoChange = _context.GeoChanges.Find(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var geoChange = await _context.GeoChanges.FindAsync(id);
             if (geoChange == null)
             {
                 return NotFound();
             }
-            ViewBag.ReturnUrl = returnUrl;
-            return View(geoChange);
+
+            return View(geoChange); // This is important: Ensure you return the model for editing
         }
 
-        // Edit Action (POST) to update a GeoChange
+        // POST: GeoChanges/Edit/5
         [HttpPost]
-        public IActionResult Edit(GeoChange geoChange, string returnUrl = null)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson")] GeoChange geoChange)
         {
-            if (ModelState.IsValid)
+            if (id != geoChange.Id)
             {
-                _context.GeoChanges.Update(geoChange); // Update the entity
-                _context.SaveChanges(); // Save changes to the database
-                if (!string.IsNullOrEmpty(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-                return RedirectToAction("Index");
+                return NotFound();
             }
 
-            return View(geoChange); // Return the view with the current geoChange if model state is invalid
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(geoChange);  // Marks the entity as modified
+                    await _context.SaveChangesAsync();  // Save the changes to the database
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.GeoChanges.Any(e => e.Id == geoChange.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index)); // Redirect after a successful edit
+            }
+            return View(geoChange);  // Return to the edit view if validation fails
         }
-  
-    // GET: GeoChanges/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+
+        // GET: GeoChanges/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -146,6 +168,28 @@ namespace WebApplication2.Controllers
         private bool GeoChangeExists(int id)
         {
             return _context.GeoChanges.Any(e => e.Id == id);
+        }
+
+        // New action method to display caseworker-specific reports
+        //  [Authorize(Roles = "CaseWorker, Admin")]
+        [HttpGet]
+        public IActionResult CaseworkerOverview()
+        {
+            var changes_db = _context.GeoChanges.ToList();
+            if (changes_db == null || !changes_db.Any())
+            {
+                return View("~/Views/Caseworker/CaseworkerOverview.cshtml", new List<GeoChange>()); // Specify the view name
+            }
+            return View("~/Views/Caseworker/CaseworkerOverview.cshtml", changes_db); // Specify the view name
+        }
+        public IActionResult Details(int id)
+        {
+            var report = _context.GeoChanges.Find(id); // Fetch the specific report by ID
+            if (report == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Caseworker/ReportDetails.cshtml", report);
         }
     }
 }

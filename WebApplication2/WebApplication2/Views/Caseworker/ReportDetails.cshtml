@@ -1,0 +1,53 @@
+﻿@model WebApplication2.Data.GeoChange
+@{
+    ViewData["Title"] = "Detaljer for Rapport";
+    Layout = "_Layout"; // Use your layout file if needed
+}
+
+<h2>Detaljer for Rapport @Model.Id</h2>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Beskrivelse:</h4>
+            <p>@Model.Description</p>
+            <h4>GeoJSON:</h4>
+            <pre>@Model.GeoJson</pre>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map" style="height: 500px; width: 100%; border: 3px solid #ccc;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([58.164048, 8.004007], 13); // Adjust the coordinates and zoom level as needed
+
+        // Add a tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Parse the GeoJSON data and add it to the map
+        var geoJsonData = @Html.Raw(Model.GeoJson); // Directly use the GeoJSON string
+
+        // Check if geoJsonData is valid before adding to the map
+        if (geoJsonData) {
+            L.geoJSON(geoJsonData).addTo(map);
+
+            // Optionally, fit the map to the GeoJSON bounds
+            var geoJsonLayer = L.geoJSON(geoJsonData);
+            map.fitBounds(geoJsonLayer.getBounds());
+        } else {
+            console.error("Invalid GeoJSON data.");
+        }
+    </script>
+}
