@@ -97,38 +97,21 @@ namespace WebApplication2.Controllers
             return View(geoChange); // Ensure you return the model for editing
         }
 
-        // POST: GeoChanges/Edit/5
-        // Saves the changes in the database, but does not function correctly as something goes wrong with the modelstate
+        // Edit Action (POST) to update a GeoChange currently not working
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson")] GeoChange geoChange, string returnUrl)
+        public IActionResult Edit(GeoChange geoChange, string returnUrl = null)
         {
-            if (id != geoChange.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                _context.GeoChanges.Update(geoChange); // Update the entity
+                _context.SaveChanges(); // Save changes to the database
+                if (!string.IsNullOrEmpty(returnUrl))
                 {
-                    _context.Update(geoChange);  // Marks the entity as modified
-                    await _context.SaveChangesAsync();  // Save the changes to the database
+                    return Redirect(returnUrl);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!_context.GeoChanges.Any(e => e.Id == geoChange.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                // After successfully updating, return to the page specified by returnUrl
-                return Redirect(returnUrl ?? "/Home/Index"); // Default to /Home/Index if no returnUrl is provided
+              
+            // After successfully updating, return to the page specified by returnUrl
+            return Redirect(returnUrl ?? "/Home/Index"); // Default to /Home/Index if no returnUrl is provided
             }
 
             return View(geoChange);  // Return to the edit view if validation fails

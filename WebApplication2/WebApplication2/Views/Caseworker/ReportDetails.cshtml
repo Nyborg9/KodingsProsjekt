@@ -8,7 +8,7 @@
     // Fetch the user associated with this GeoChange
     var applicationUser = await UserManager.FindByIdAsync(Model.UserId);
     var userEmail = applicationUser?.Email ?? "N/A"; // Use "N/A" if email is not found
-}
+} 
 
 <h4 class="text-center">Detaljer for Rapport @Model.Id</h4>
 
@@ -18,7 +18,7 @@
         <div class="col-md-6">
             <div id="map" style="height: 500px; width: 100%; border: 3px solid #ccc;"></div>
         </div>
-
+        
         <!-- Right Side: Details Section -->
         <div class="col-md-6">
             <h6>Beskrivelse:</h6>
