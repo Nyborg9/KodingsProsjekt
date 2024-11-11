@@ -1,29 +1,30 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using WebApplication2.Models; // Ensure this namespace includes ApplicationUser  and your ViewModels
+using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager; // Use ApplicationUser 
-        private readonly SignInManager<ApplicationUser> _signInManager; // Use ApplicationUser 
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
+            // Initialize UserManager and SignInManager
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize] // Ensure only authenticated users can access this action
+        [Authorize]
+        // Logouts out the user and redirects to the home page
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync(); // Sign the user out
-            return RedirectToAction("Index", "Home"); // Redirect to the Home/Index action
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -34,17 +35,20 @@ namespace WebApplication2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            // Check if the model is valid, and tries to register the user
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; // Use ApplicationUser 
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("UserPage");
                 }
+                // If the registration fails, add the errors to the model state
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -64,6 +68,7 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            // Check if the model is valid, and tries to login the user
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -71,6 +76,7 @@ namespace WebApplication2.Controllers
                 {
                     return RedirectToAction("UserPage");
                 }
+                // If the login fails, add an error to the model state
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
             return View(model);
@@ -78,6 +84,7 @@ namespace WebApplication2.Controllers
 
         [Authorize]
         [HttpGet]
+        // Shows the user page
         public async Task<IActionResult> UserPage()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -86,42 +93,6 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
             return View(user);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserPage(ApplicationUser model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    return NotFound(); // Or redirect to an appropriate page
-                }
-
-                // Update user properties
-                user.Email = model.Email; // Update other properties as needed
-                user.UserName = model.UserName; // Update username if needed
-
-                var result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    // Optionally, you can sign in the user again to refresh the claims
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("User Page"); // Redirect to the same page or another page
-                }
-
-                // Add errors to the model state if the update failed
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
-
-            // If we got this far, something failed; redisplay the form with the current user data
-            return View(model);
         }
 
         private IActionResult RedirectToLocal(string returnUrl)

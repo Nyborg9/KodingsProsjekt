@@ -11,12 +11,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<GeoChange> GeoChanges { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+    {
+        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<GeoChange>()
             .HasOne(g => g.User)
-            .WithMany() // Assuming a user can have many GeoChanges
+            .WithMany()
             .HasForeignKey(g => g.UserId);
-        }
+    }
 }

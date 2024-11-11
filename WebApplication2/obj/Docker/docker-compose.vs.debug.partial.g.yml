@@ -1,7 +1,7 @@
 services:
   webapplication2:
     image: webapplication2:dev
-    container_name: "WebApplication2_1"
+    container_name: "WebApplication2_1_1"
     build:
       args:
         LAUNCHING_FROM_VS: true
@@ -15,8 +15,8 @@ services:
       - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
       - NUGET_FALLBACK_PACKAGES=
     volumes:
-      - C:\Users\mikae\Desktop\Somling\WebApplication2\WebApplication2:/app:rw
-      - C:\Users\mikae\Desktop\Somling\WebApplication2:/src:rw
+      - C:\Users\mikae\Desktop\Git\KodingsProsjekt\WebApplication2\WebApplication2:/app:rw
+      - C:\Users\mikae\Desktop\Git\KodingsProsjekt\WebApplication2:/src:rw
       - C:\Users\mikae\vsdbg\vs2017u5:/remote_debugger:rw
       - C:\Users\mikae\.nuget\packages:/.nuget/packages:ro
       - C:\Users\mikae\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
