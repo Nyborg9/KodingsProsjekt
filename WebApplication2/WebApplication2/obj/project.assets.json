@@ -5282,27 +5282,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nina_\\.nuget\\packages\\": {}
+    "/Users/shayanbanan/.nuget/NuGet/Install-Package bootstrap": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+      "projectUniqueName": "/Users/shayanbanan/RiderProjects/Kartverket/WebApplication2/WebApplication2/WebApplication2.csproj",
       "projectName": "WebApplication2",
-      "projectPath": "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
-      "packagesPath": "C:\\Users\\nina_\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nina_\\OneDrive\\Documents\\GitHub\\KodingsProsjekt\\WebApplication2\\WebApplication2\\obj\\",
+      "projectPath": "/Users/shayanbanan/RiderProjects/Kartverket/WebApplication2/WebApplication2/WebApplication2.csproj",
+      "packagesPath": "/Users/shayanbanan/.nuget/NuGet/Install-Package bootstrap",
+      "outputPath": "/Users/shayanbanan/RiderProjects/Kartverket/WebApplication2/WebApplication2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\nina_\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/shayanbanan/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5382,7 +5379,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
