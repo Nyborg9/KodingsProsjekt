@@ -40,13 +40,13 @@ Views er ansvarlige for hvordan data presenteres til brukeren. Dette inkluderer 
 Når en bruker utfører en handling, som å registrere seg eller sende inn et forslag, mottar controlleren denne inputen og håndterer den på riktig måte. Controlleren kan oppdatere modellen, for eksempel lagre et forslag i databasen.
 
 ### 4. **Database**
-Databasen, her **MariaDB** blir brukt for å lagrer data for applikasjonen. Dette gjelder informasjon om brukere og innsendte kartendringsforslag.
+Databasen i **MariaDB** blir brukt for å lagrer data for applikasjonen. Dette gjelder informasjon om brukere og innsendte kartendringsforslag.
 
 ### 5. **Repository**
-Bruker github repository som lagringsted for applikasjonens kildekode og for å organisere arbeidet. det vil inneholde all koden, konfigurasjoner og dokumentasjon som er nødvendig for å bygge og kjøre applikasjonen. 
+Bruker github repository som lagringsted for applikasjonens kildekode og for å organisere arbeidet. Det vil inneholde all koden, konfigurasjoner og dokumentasjon som er nødvendig for å bygge og kjøre applikasjonen. 
 
 ### 6. **Klasser**
-klasser organiserer applikasjonen i objektorienterte enheter som kan håndtere data og logikk, i tillegg til at det gir en struktur for hvordan applikasjonen fungerer i praksis.
+Klasser organiserer applikasjonen i objektorienterte enheter som kan håndtere data og logikk, i tillegg til at det gir en struktur for hvordan applikasjonen fungerer i praksis.
 
 ## Funksjonaliteter i applikasjonen
 Liste over funksjonaliteter i applikasjonen:
