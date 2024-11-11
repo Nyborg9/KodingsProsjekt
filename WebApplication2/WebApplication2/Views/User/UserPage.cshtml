@@ -3,25 +3,19 @@
 
 @{
     var user = await UserManager.GetUserAsync(User);
+    ViewData["Title"] = "Create Report";
+
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Page</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-</head>
 <body>
     <div class="container mt-5">
-        <h1>User Page</h1>
         <h2 class="text-left">@user.UserName!</h2>
 
         <div class="mt-4">
-            <a asp-controller="GeoChanges" asp-action="Create" class="btn btn-primary">Create</a>
-            <a asp-controller="GeoChanges" asp-action="Delete" class="btn btn-danger">Delete</a>
-            <a asp-controller="GeoChanges" asp-action="Index" class="btn btn-secondary">View Reports</a>
+            <a asp-controller="GeoChanges" asp-action="Create" class="btn btn-primary">Lag en ny rapport</a>
+            @*<a asp-controller="GeoChanges" asp-action="Delete" class="btn btn-danger">Slett brukeren</a>
+            *@<a asp-controller="GeoChanges" asp-action="Index" class="btn btn-secondary">Se rapportene</a>
         </div>
     </div>
 

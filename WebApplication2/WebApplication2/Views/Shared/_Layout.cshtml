@@ -20,17 +20,26 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Userpage">
                     <img src="~/images/kartverket-logo-large.svg" alt="Kartverket Logo" />
                 </a>
+                        }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/kartverket-logo-large.svg" alt="Kartverket Logo" />
+                    </a>
+                }
 
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <form asp-controller="User" asp-action="Logout" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark nav-button">Logout</button>
+                                <form asp-controller="User" asp-action="logout" method="post" class="form-inline">
+                                    <button type="submit" class="nav-link btn btn-link text-dark nav-button">Logg ut</button>
                                 </form>
                             </li>
                         }
@@ -38,7 +47,7 @@
                         {
                             <li class="nav-item">
                                 <form asp-controller="User" asp-action="Login" method="get" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark nav-button">Login</button>
+                                    <button type="submit" class="nav-link btn btn-link text-dark nav-button">Logg inn</button>
                                 </form>
                             </li>
                         }

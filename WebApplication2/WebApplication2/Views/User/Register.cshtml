@@ -12,13 +12,13 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Password"></label>
+        <label asp-for="Password">Passord</label>
         <input asp-for="Password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="ConfirmPassword"></label>
+        <label asp-for="ConfirmPassword">Gjenta passord</label>
         <input asp-for="ConfirmPassword" class="form-control" />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
@@ -26,7 +26,7 @@
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
 
-<a asp-action="Login">Already have an account? Login</a>
+<a asp-action="Login">Har du allerede en bruker kan du logge deg inn her</a>
 
 @section Scripts {
     @{
