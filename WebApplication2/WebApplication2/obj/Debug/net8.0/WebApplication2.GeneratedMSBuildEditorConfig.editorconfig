@@ -17,63 +17,71 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebApplication2
 build_property.RootNamespace = WebApplication2
-build_property.ProjectDir = C:\Users\mikae\Desktop\Somling\WebApplication2\WebApplication2\
+build_property.ProjectDir = C:\Users\mikae\Desktop\Git\KodingsProsjekt\WebApplication2\WebApplication2\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\mikae\Desktop\Somling\WebApplication2\WebApplication2
+build_property.MSBuildProjectDirectory = C:\Users\mikae\Desktop\Git\KodingsProsjekt\WebApplication2\WebApplication2
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/GeoChanges/Create.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/Caseworker/CaseworkerOverview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZXdvcmtlclxDYXNld29ya2VyT3ZlcnZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/Caseworker/ReportDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FzZXdvcmtlclxSZXBvcnREZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/GeoChanges/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VvQ2hhbmdlc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/GeoChanges/Delete.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/GeoChanges/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VvQ2hhbmdlc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/GeoChanges/Edit.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/GeoChanges/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VvQ2hhbmdlc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/GeoChanges/Index.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/GeoChanges/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VvQ2hhbmdlc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/Home/Index.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/Shared/Error.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/User/Login.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/User/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/User/Register.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/User/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/User/UserPage.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/User/UserPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxVc2VyUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/_ViewImports.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/_ViewStart.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mikae/Desktop/Somling/WebApplication2/WebApplication2/Views/Shared/_Layout.cshtml]
+[C:/Users/mikae/Desktop/Git/KodingsProsjekt/WebApplication2/WebApplication2/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-amt9qciysm

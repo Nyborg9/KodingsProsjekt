@@ -15,21 +15,32 @@ namespace WebApplication2.Controllers
     [Authorize] //Applyies authorization to the entire controller
     public class GeoChangesController : Controller
     {
+        // Adds UserManager and ApplicationDbContext
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        // Adds UserManager and ApplicationDbContext
 
         public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+            // Initializes UserManager and Context
             _context = context;
             _userManager = userManager;
-            // Initializes UserManager and Context
         }
 
+        //Shows all of the users reports
         public async Task<IActionResult> Index()
         {
-            var geoChanges = await _context.GeoChanges.ToListAsync(); // Fetch the list of GeoChange objects
-            return View(geoChanges); // Return the Index view with the list of GeoChange objects
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Fetch only the GeoChange records for the logged-in user
+            var userChanges = await _context.GeoChanges
+                .Where(change => change.UserId == user.Id)
+                .ToListAsync();
+
+            return View(userChanges);
         }
 
         [HttpGet]
@@ -43,6 +54,7 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(string geoJson, string description, string mapVariant)
         {
+            //Checks if valid input is given
             try
             {
                 if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
@@ -51,18 +63,19 @@ namespace WebApplication2.Controllers
                 }
 
                 // Retrieve the UserId from the claims
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Using ClaimTypes.NameIdentifier to get the UserId
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized("User  not found");
                 }
 
+                //Defines a new GeoChange and adds it to the database
                 var newChange = new GeoChange
                 {
                     GeoJson = geoJson,
                     Description = description,
-                    UserId = userId // Set the UserId
+                    UserId = userId 
                 };
 
                 _context.GeoChanges.Add(newChange);
@@ -94,7 +107,7 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            return View(geoChange); // Ensure you return the model for editing
+            return View(geoChange);
         }
 
         // Edit Action (POST) to update a GeoChange currently not working
@@ -117,7 +130,7 @@ namespace WebApplication2.Controllers
             return View(geoChange);  // Return to the edit view if validation fails
         }
 
-   // GET: GeoChanges/Delete/5
+   // GET: GeoChanges/Delete/
         public async Task<IActionResult> Delete(int? id, string returnUrl)
         {
             if (id == null)
@@ -170,6 +183,7 @@ namespace WebApplication2.Controllers
             }
             return View("~/Views/Caseworker/CaseworkerOverview.cshtml", changes_db); // Specify the view name
         }
+
         public IActionResult Details(int id)
         {
             var report = _context.GeoChanges.Find(id); // Fetch the specific report by ID
