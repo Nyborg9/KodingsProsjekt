@@ -4,11 +4,10 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Slett rapport</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Er du sikker på at du ønsker å slette rapporten?</h3>
 <div>
-    <h4>GeoChange</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -25,14 +24,14 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete" method="post">
+    <form asp-action="delete" method="post">
         <input type="hidden" asp-for="Id" />
 
         <!-- Add hidden field for returnUrl -->
         <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" /> <!-- Include returnUrl here -->
 
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Cancel</a> <!-- Use returnUrl for the cancel link -->
+        <button type="submit" class="btn btn-danger">Slett</button>
+        <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Avbryt</a> <!-- Use returnUrl for the cancel link -->
     </form>
 
 </div>
