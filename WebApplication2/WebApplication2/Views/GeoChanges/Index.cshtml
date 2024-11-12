@@ -80,8 +80,8 @@
             var map = L.map('map').setView([58.164048, 8.004007], 13);
 
             // Add a tile layer (using OpenStreetMap)
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
+            L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
             }).addTo(map);
 
             // Iterate over the registered changes and add them to the map
