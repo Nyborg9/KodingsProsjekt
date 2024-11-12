@@ -56,8 +56,8 @@
         var map = L.map('map').setView([58.164048, 8.004007], 13); // Adjust the coordinates and zoom level as needed
 
         // Add a tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
         }).addTo(map);
 
         // Parse the GeoJSON data and add it to the map
