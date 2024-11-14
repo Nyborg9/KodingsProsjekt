@@ -43,6 +43,7 @@ namespace WebApplication2.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
+                await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
