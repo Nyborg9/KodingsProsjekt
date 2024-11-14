@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    ViewData["Title"] = "Admin page";
+
+    Layout = "_Layout";
+}
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-left">@user.UserName!</h2>
+        <div class="mt-4">
+            <a asp-controller="GeoChanges" asp-action="Create" class="btn btn-primary">Lag en ny rapport</a>
+            @*<a asp-controller="GeoChanges" asp-action="Delete" class="btn btn-danger">Slett brukeren</a>
+            *@<a asp-controller="Caseworker" asp-action="CaseworkerOverview" class="btn btn-secondary">Se alle rapportene</a>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

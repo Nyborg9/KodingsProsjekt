@@ -69,15 +69,23 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
-            // Check if the model is valid, and tries to login the user
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("UserPage");
+                    var user = await _userManager.FindByEmailAsync(model.Email); // Add this line to get the user
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("AdminPage"); // Redirect to Admin page
+                    }
+                    else if (roles.Contains("User"))
+                    {
+                        return RedirectToAction("UserPage");
+                    }
                 }
-                // If the login fails, add an error to the model state
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
             return View(model);
@@ -94,6 +102,41 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
             return View(user);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        // Shows the user page
+        public async Task<IActionResult> AdminPage()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> CheckRole()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Contains("Admin"))
+            {
+                return RedirectToAction("AdminPage"); // Redirect to Admin page
+            }
+            else if (roles.Contains("User"))
+            {
+                return RedirectToAction("UserPage"); // Redirect to User page
+            }
+
+            return RedirectToAction("Index", "Home"); // Default redirect if no roles are found
         }
 
         private IActionResult RedirectToLocal(string returnUrl)
