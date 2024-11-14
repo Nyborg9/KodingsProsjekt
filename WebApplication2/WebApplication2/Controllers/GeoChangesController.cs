@@ -171,27 +171,5 @@ namespace WebApplication2.Controllers
         {
             return _context.GeoChanges.Any(e => e.Id == id);
         }
-
-        // action metode for å vise en oversikt alle innsendte kartredigeringsforespørsler
-        [HttpGet]
-        public IActionResult CaseworkerOverview()
-        {
-            var changes_db = _context.GeoChanges.ToList();
-            if (changes_db == null || !changes_db.Any())
-            {
-                return View("~/Views/Caseworker/CaseworkerOverview.cshtml", new List<GeoChange>()); // Specify the view name
-            }
-            return View("~/Views/Caseworker/CaseworkerOverview.cshtml", changes_db); // Specify the view name
-        }
-
-        public IActionResult Details(int id)
-        {
-            var report = _context.GeoChanges.Find(id); // Fetch the specific report by ID
-            if (report == null)
-            {
-                return NotFound();
-            }
-            return View("~/Views/Caseworker/ReportDetails.cshtml", report);
-        }
     }
 }

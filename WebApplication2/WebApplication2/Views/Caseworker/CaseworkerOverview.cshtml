@@ -52,7 +52,7 @@
                         <td>@(userEmails.ContainsKey(change.UserId) ? userEmails[change.UserId] : "N/A")</td> <!-- Display Email -->
                         <td></td> <!-- PlaceHolder for status -->
                         <td>
-                            <a asp-controller="GeoChanges" asp-action="Details" asp-route-id="@change.Id">Vis Detaljer</a>
+                            <a asp-controller="Caseworker" asp-action="ReportDetails" asp-route-id="@change.Id">Vis Detaljer</a>
                         </td>
                         <td>
                             <div class="edit-delete-links">

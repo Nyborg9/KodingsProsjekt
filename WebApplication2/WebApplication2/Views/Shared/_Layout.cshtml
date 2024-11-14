@@ -22,13 +22,13 @@
             <div class="container-fluid">
                         @if (User.Identity.IsAuthenticated)
                         {
-                <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Userpage">
+                <a class="navbar-brand" asp-controller="User" asp-action="CheckRole">
                     <img src="~/images/kartverket-logo-large.svg" alt="Kartverket Logo" />
                 </a>
                         }
                 else
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                         <img src="~/images/kartverket-logo-large.svg" alt="Kartverket Logo" />
                     </a>
                 }
@@ -49,15 +49,6 @@
                                 <form asp-controller="User" asp-action="Login" method="get" class="form-inline">
                                     <button type="submit" class="nav-link btn btn-link text-dark nav-button">Logg inn</button>
                                 </form>
-                            </li>
-                        }
-                    </ul>
-
-                    <ul class="navbar-nav ms-auto">
-                        @if (User.Identity.IsAuthenticated) 
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-link text-dark nav-button" href="@Url.Action("CaseworkerOverview", "GeoChanges")">Administrer Innsendinger</a>
                             </li>
                         }
                     </ul>
