@@ -16,6 +16,6 @@ namespace WebApplication2.Data
         public string UserId { get; set; } // Foreign key to associate with a user
 
         // Navigation property
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
     }
 }
