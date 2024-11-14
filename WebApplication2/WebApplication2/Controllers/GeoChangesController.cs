@@ -91,40 +91,47 @@ namespace WebApplication2.Controllers
             }
         }
 
-       
+
         // Henter og viser redigeringsskjemaet
         // GET: GeoChanges/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
             {
+                // Return NotFound if no ID is provided
                 return NotFound();
             }
 
+            // Fetch the GeoChange entity from the database
             var geoChange = await _context.GeoChanges
-                .Include(g => g.User)  // Include the User if you need it
+                .Include(g => g.User)  // Include the User related to the GeoChange
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (geoChange == null)
             {
+                // Return NotFound if the GeoChange is not found
                 return NotFound();
             }
 
+            // Store the returnUrl in ViewBag for redirection after the form is submitte
+            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index"); //default to index
             return View(geoChange);
         }
 
-        // Edit Action (POST) to update a GeoChange currently not working
-        // POST: Edit
-        [HttpPost]
+            // Edit Action (POST) to update a GeoChange
+            // POST: Edit
+            [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange, string returnUrl)
         {
             if (id != geoChange.Id)
             {
                 return NotFound();
             }
 
+            //remove User and GeoJson from ModelState as only description should be updated
             ModelState.Remove("User");
+            ModelState.Remove("GeoJson");
 
             if (ModelState.IsValid)
             {
@@ -139,15 +146,16 @@ namespace WebApplication2.Controllers
                         return NotFound();
                     }
 
-                    // Update only the properties that should be updated
+                    // the properties that should be updated, here description
                     existingGeoChange.Description = geoChange.Description;
-                    existingGeoChange.GeoJson = geoChange.GeoJson;
-                    // Don't update UserId as it shouldn't change
+
 
                     _context.Update(existingGeoChange);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction(nameof(Index));
+                    // Use returnUrl if provided, otherwise fall back to Index
+                    return Redirect(returnUrl ?? Url.Action("Index"));
+                
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -162,18 +170,13 @@ namespace WebApplication2.Controllers
                 }
             }
 
-            foreach (var modelState in ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
-                }
+                // Repopulate returnUrl in case of validation failure
+                ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
+                return View(geoChange);
             }
-            return View(geoChange);
-        }
 
-    // GET: GeoChanges/Delete/
-    public async Task<IActionResult> Delete(int? id, string returnUrl)
+            // GET: GeoChanges/Delete/
+            public async Task<IActionResult> Delete(int? id, string returnUrl)
         {
             if (id == null)
             {
