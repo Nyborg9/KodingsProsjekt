@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using WebApplication2.Data;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -29,7 +30,16 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Admin", "User" };
 
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
     try
     {
         // Ensure the database is created
@@ -47,6 +57,35 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine($"An error occurred during migration: {ex.Message}");
+    }
+}
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Admin", "User" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    string email = "admin@admin.com";
+    string password = "Admin123";
+
+    if(await userManager.FindByEmailAsync(email) == null)
+    {
+        var user = new ApplicationUser { UserName = email, Email = email };
+        await userManager.CreateAsync(user, password);
+        
+        await userManager.AddToRoleAsync(user, "Admin");
+       
     }
 }
 
@@ -83,7 +122,8 @@ void SetupAuthentication(WebApplicationBuilder builder)
     options.SignIn.RequireConfirmedPhoneNumber = false;
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedAccount = false;
-    options.User.RequireUniqueEmail = true;      // Password settings
+    options.User.RequireUniqueEmail = true;      
+    // Password settings
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = false;
@@ -92,9 +132,10 @@ void SetupAuthentication(WebApplicationBuilder builder)
     options.Password.RequiredUniqueChars = 0;
     });
 
-    // Use ApplicationUser  instead of IdentityUser 
+    // Use ApplicationUser instead of IdentityUser 
     builder.Services
         .AddIdentity<ApplicationUser, IdentityRole>()
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 }
