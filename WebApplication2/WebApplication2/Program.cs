@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using WebApplication2.Data;
+using WebApplication2.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,9 +19,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     new MySqlServerVersion(new Version(10, 5, 9)),
     mySqlOptions => mySqlOptions.EnableRetryOnFailure()));
 
-// Register EmailSender
-builder.Services.AddTransient<IEmailSender, AuthMessageSender>();
-
 // Setup Authentication
 SetupAuthentication(builder);
 
@@ -30,14 +28,14 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
     var roles = new[] { "Admin", "User" };
 
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
         {
-            await roleManager.CreateAsync(new IdentityRole(role));
+            await roleManager.CreateAsync(new ApplicationRole(role));
         }
     }
     try
@@ -61,14 +59,14 @@ using (var scope = app.Services.CreateScope())
 }
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
     var roles = new[] { "Admin", "User" };
 
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
         {
-            await roleManager.CreateAsync(new IdentityRole(role));
+            await roleManager.CreateAsync(new ApplicationRole(role));
         }
     }
 }
@@ -132,22 +130,9 @@ void SetupAuthentication(WebApplicationBuilder builder)
     options.Password.RequiredUniqueChars = 0;
     });
 
-    // Use ApplicationUser instead of IdentityUser 
     builder.Services
-        .AddIdentity<ApplicationUser, IdentityRole>()
-        .AddRoles<IdentityRole>()
+        .AddIdentity<ApplicationUser, ApplicationRole>()
+        .AddRoles<ApplicationRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
-}
-
-public class AuthMessageSender : IEmailSender
-{
-    public Task SendEmailAsync(string email, string subject, string htmlMessage)
-    {
-        // Placeholder for email sending logic
-        Console.WriteLine($"Email to: {email}");
-        Console.WriteLine($"Subject: {subject}");
-        Console.WriteLine($"Message: {htmlMessage}");
-        return Task.CompletedTask;
-    }
 }
