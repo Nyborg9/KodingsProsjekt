@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -116,6 +118,48 @@ namespace WebApplication2.Controllers
             }
             return View(user);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new DeleteUserViewModel
+            {
+                Id = user.Id,
+                Email = user.Email
+            };
+
+            return View(viewModel); // Pass ViewModel to the view
+        }
+
+        // POST: User/Delete/{id}
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    // Optionally, sign out the user after deletion
+                    await HttpContext.SignOutAsync();
+                    return RedirectToAction("Index", "Home"); // Redirect to home or any other page
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return View(new DeleteUserViewModel { Id = id, Email = user?.Email });
+        }
+
 
         [Authorize]
         public async Task<IActionResult> CheckRole()
