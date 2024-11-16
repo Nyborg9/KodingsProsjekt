@@ -27,4 +27,7 @@ RUN dotnet publish "./WebApplication2.csproj" -c $BUILD_CONFIGURATION -o /app/pu
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ["WebApplication2/appsettings.json", "."]
+COPY ["WebApplication2/appsettings.Docker.json", "."]
+ENV  AspnetCoreEnvironment=Docker
 ENTRYPOINT ["dotnet", "WebApplication2.dll"]

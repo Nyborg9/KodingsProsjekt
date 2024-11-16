@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -75,7 +76,7 @@ namespace WebApplication2.Controllers
                 {
                     GeoJson = geoJson,
                     Description = description,
-                    UserId = userId 
+                    UserId = userId
                 };
 
                 _context.GeoChanges.Add(newChange);
@@ -120,7 +121,7 @@ namespace WebApplication2.Controllers
 
             // Edit Action (POST) to update a GeoChange
             // POST: Edit
-            [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange, string returnUrl)
         {
@@ -155,7 +156,6 @@ namespace WebApplication2.Controllers
 
                     // Use returnUrl if provided, otherwise fall back to Index
                     return Redirect(returnUrl ?? Url.Action("Index"));
-                
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -170,14 +170,13 @@ namespace WebApplication2.Controllers
                 }
             }
 
-                // Repopulate returnUrl in case of validation failure
-                ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
-                return View(geoChange);
-            }
+            // Repopulate returnUrl in case of validation failure
+            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
+            return View(geoChange);
+        }
 
-            // GET: GeoChanges/Delete/
-            public async Task<IActionResult> Delete(int? id, string returnUrl)
-        {
+        // GET: GeoChanges/Delete/
+        public async Task<IActionResult> Delete(int? id, string returnUrl)
             if (id == null)
             {
                 return NotFound();

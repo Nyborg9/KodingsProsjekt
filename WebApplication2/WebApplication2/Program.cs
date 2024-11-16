@@ -3,45 +3,35 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Text.Json;
 using WebApplication2.Data;
+using WebApplication2.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllersWithViews();
-
 // Configure the database context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
     new MySqlServerVersion(new Version(10, 5, 9)),
     mySqlOptions => mySqlOptions.EnableRetryOnFailure()));
 
-// Register EmailSender
-builder.Services.AddTransient<IEmailSender, AuthMessageSender>();
-
 // Setup Authentication
 SetupAuthentication(builder);
 
 var app = builder.Build();
 
+
 // Apply migrations at startup
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Admin", "User" };
-
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
     try
     {
+        dbContext.Database.CanConnect();
+        Console.WriteLine("Connection successful.");
+
         // Ensure the database is created
         await dbContext.Database.EnsureCreatedAsync();
 
@@ -56,9 +46,11 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"An error occurred during migration: {ex.Message}");
+        Console.WriteLine($"Connection failed: {ex.Message}");
     }
 }
+
+// Create roles
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -72,6 +64,8 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
+// Create user
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -79,16 +73,21 @@ using (var scope = app.Services.CreateScope())
     string email = "admin@admin.com";
     string password = "Admin123";
 
-    if(await userManager.FindByEmailAsync(email) == null)
+    if (await userManager.FindByEmailAsync(email) == null)
     {
         var user = new ApplicationUser { UserName = email, Email = email };
-        await userManager.CreateAsync(user, password);
-        
-        await userManager.AddToRoleAsync(user, "Admin");
-       
+        var result = await userManager.CreateAsync(user, password);
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+        else
+        {
+            Console.WriteLine($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        }
     }
 }
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -132,22 +131,9 @@ void SetupAuthentication(WebApplicationBuilder builder)
     options.Password.RequiredUniqueChars = 0;
     });
 
-    // Use ApplicationUser instead of IdentityUser 
     builder.Services
         .AddIdentity<ApplicationUser, IdentityRole>()
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
-}
-
-public class AuthMessageSender : IEmailSender
-{
-    public Task SendEmailAsync(string email, string subject, string htmlMessage)
-    {
-        // Placeholder for email sending logic
-        Console.WriteLine($"Email to: {email}");
-        Console.WriteLine($"Subject: {subject}");
-        Console.WriteLine($"Message: {htmlMessage}");
-        return Task.CompletedTask;
-    }
 }

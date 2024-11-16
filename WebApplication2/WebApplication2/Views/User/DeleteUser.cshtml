@@ -1,0 +1,21 @@
+﻿@model WebApplication2.Models.DeleteUserViewModel
+
+@{
+    ViewData["Title"] = "Delete Account";
+}
+
+<h2>Delete Account</h2>
+
+<div>
+    <h4>Are you sure you want to delete your account?</h4>
+    <div>
+        <h5>@Model.Email</h5>
+    </div>
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="UserPage" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
