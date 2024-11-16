@@ -54,7 +54,7 @@ using (var scope = app.Services.CreateScope())
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Admin", "User " };
+    var roles = new[] { "Admin", "User" };
 
     foreach (var role in roles)
     {
@@ -84,7 +84,7 @@ using (var scope = app.Services.CreateScope())
         }
         else
         {
-            Console.WriteLine($"User  creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+            Console.WriteLine($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
     }
 }
