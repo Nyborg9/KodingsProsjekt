@@ -1,4 +1,5 @@
 ﻿@model List<WebApplication2.Data.GeoChange>
+
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> UserManager
 @{
@@ -60,8 +61,8 @@
                             <td>
                                 <div class="edit-delete-links">
                                     <a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("Index", "GeoChanges")">Rediger</a> |
-                                    <!-- Delete link with returnUrl to Index -->
-                                    <a asp-controller="GeoChanges" asp-action="Delete" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("Index", "GeoChanges")">Slett</a>  
+                                    <a asp-controller="GeoChanges" asp-action="Delete" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("Index", "GeoChanges")">Slett</a>
+
                                 </div>
                             </td>
                         </tr>

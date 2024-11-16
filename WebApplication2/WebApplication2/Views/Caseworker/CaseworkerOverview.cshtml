@@ -56,8 +56,9 @@
                         </td>
                         <td>
                             <div class="edit-delete-links">
-                                <a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@change.Id">Rediger</a> |
-                                <a asp-controller="GeoChanges" asp-action="Delete" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("CaseWorkerOverview", "GeoChanges")">Slett</a>
+                                <a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("CaseworkerOverview", "Caseworker")">Rediger</a> |
+                                <a asp-controller="GeoChanges" asp-action="Delete" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("CaseworkerOverview", "Caseworker")">Slett</a>
+
                             </div>
                         </td>
                     </tr>
