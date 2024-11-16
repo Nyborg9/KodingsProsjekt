@@ -177,6 +177,7 @@ namespace WebApplication2.Controllers
 
         // GET: GeoChanges/Delete/
         public async Task<IActionResult> Delete(int? id, string returnUrl)
+        { 
             if (id == null)
             {
                 return NotFound();
