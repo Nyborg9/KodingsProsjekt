@@ -24,12 +24,12 @@ For å koble applikasjonen til databasen, kjør applikasjonen via Docker Compose
 
 ### Steg 3 - Utforsk applikasjonen
 Vanlig bruker:
-	1. Lag bruker.
-	2. Utforsk applikasjonen.
+1. Lag bruker.
+2. Utforsk applikasjonen.
 
 Testbruker saksbehandler:
-	E-post: admin@admin.com
-	Passord: Admin123
+- E-post: admin@admin.com
+- Passord: Admin123
 
 
 ## Komponenter av applikasjonen
