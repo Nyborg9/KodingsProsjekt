@@ -1,0 +1,46 @@
+﻿@model WebApplication2.Data.GeoChange
+@{
+    ViewData["Title"] = "Edit Reports";
+}
+<h4>Rediger rapport</h4>
+<hr />
+<div>
+    <form asp-action="EditReport" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Hidden fields to store GeoChange entity data like Id, UserId, and GeoJson -->
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="GeoJson" />
+
+        <!-- Hidden field to hold the returnUrl, so the user is redirected back -->
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                Beskrivelse
+            </dt>
+            <dd class="col-sm-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </dd>
+
+            <!-- Display GeoJson information as read only -->
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.GeoJson)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.GeoJson)
+            </dd>
+        </dl>
+        <div class="form-group mb-3">
+            <button type="submit" class="btn btn-primary">Lagre</button>
+            <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Tilbake</a>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
