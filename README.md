@@ -11,6 +11,9 @@ Applikasjonen er laget med en **Model-View-Controller (MVC)** arkitektur:
 For å kjøre applikasjonen trenger du:
 - Docker Desktop
 - Visual Studio (eller lignende IDE)
+- Installere en connector til mysql eller mariadb og restart visual studio (i visual studio brukte vi extensionen dotConnect for MySQL & MariaDB)
+- Gå til View/Server Explorer i toppen av Visual Studio og høyreklikk på Data Connections og trykk på Add Connection
+- Velg MySQLServer og legg in informasjonen til databasen (Host = localhost, Port = 3306, User Id = root, Password = 123, Database = geochangesdb)
 
 ### Steg 1 - Klon prosjektet
 1. Kopier linken til repository på GitHub.
@@ -19,13 +22,19 @@ For å kjøre applikasjonen trenger du:
 
 ### Steg 2 - Koble til databasen
 For å koble applikasjonen til databasen, kjør applikasjonen via Docker Compose:
-1. Finn **dropdown-menyen** øverst i Visual Studio, ved siden av "Any CPU".
-2. Velg **docker-compose** fra listen.
-3. Trykk på **Start** (play-ikonet) for å kjøre prosjektet med Docker Compose.
+1. Gå til Package Manager Console og skriv inn kommandoene Drop-Database også Update-Database
+2. Velg **Build soultion** fra Build menyen øverst i Visual Studio. 
+3. Kjør applikasjonen med Docker Compose.
 
 ### Steg 3 - Utforsk applikasjonen
+Vanlig bruker:
 1. Lag bruker.
 2. Utforsk applikasjonen.
+
+Testbruker saksbehandler:
+- E-post: admin@admin.com
+- Passord: Admin123
+
 
 ## Komponenter av applikasjonen
 Applikasjonen er bygget med **Model-View-Controller (MVC)**-arkitektur. Her er en oversikt over de viktigste komponentene:
@@ -54,4 +63,4 @@ Liste over funksjonaliteter i applikasjonen:
 - Kartvisning: Innloggede brukere kan se kart.
 - Sende inn forslag til endriger i Kart: Innloggede brukere kan sende inn forslag til endringer i kart.
 - Oversikt over innsendte forslag: En oversikt over alle innsendte forslag, samt en spesifikk oversikt over forslagene sendt inn av hver bruker.
-- Redigere: Mulighet for å slette innsendte forslag.
+- Redigere: Mulighet for å redigere og slette innsendte forslag.

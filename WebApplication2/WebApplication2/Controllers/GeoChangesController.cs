@@ -119,8 +119,8 @@ namespace WebApplication2.Controllers
             return View(geoChange);
         }
 
-        // Edit Action (POST) to update a GeoChange
-        // POST: Edit
+            // Edit Action (POST) to update a GeoChange
+            // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange, string returnUrl)
@@ -156,7 +156,6 @@ namespace WebApplication2.Controllers
 
                     // Use returnUrl if provided, otherwise fall back to Index
                     return Redirect(returnUrl ?? Url.Action("Index"));
-
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -178,7 +177,7 @@ namespace WebApplication2.Controllers
 
         // GET: GeoChanges/Delete/
         public async Task<IActionResult> Delete(int? id, string returnUrl)
-        {
+        { 
             if (id == null)
             {
                 return NotFound();
