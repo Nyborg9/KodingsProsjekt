@@ -76,7 +76,8 @@ namespace WebApplication2.Controllers
                 {
                     GeoJson = geoJson,
                     Description = description,
-                    UserId = userId
+                    UserId = userId,
+                    Status = ReportStatus.IkkePåbegynt,
                 };
 
                 _context.GeoChanges.Add(newChange);

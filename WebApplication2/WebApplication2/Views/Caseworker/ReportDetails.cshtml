@@ -34,9 +34,36 @@
 
             <!-- Status funksjon kommer her -->
             <h6>Status:</h6>
+            <form asp-controller="Caseworker" asp-action="UpdateStatusAndPriority" method="post">
+                <div class="form-group">
+                    <label for="status">Velg Status:</label>
+                    <select id="status" name="status" class="form-control">
+                        @foreach (var status in Enum.GetValues(typeof(WebApplication2.Models.ReportStatus)))
+                        {
+                            <option value="@status" selected="@(status.ToString() == Model.Status?.ToString() ? "selected" : null)">
+                                @status
+                            </option>
+                        }
+                    </select>
+                </div>
 
             <!-- Prioritteringsmuligheter kommer her -->
             <h6>Prioritering:</h6>
+            <div class="form-group">
+                <label for="priority">Velg Prioritet:</label>
+                <select id="priority" name="priority" class="form-control">
+                    @foreach (var priority in Enum.GetValues(typeof(WebApplication2.Models.PriorityLevel)))
+                    {
+                        <option value="@priority" selected="@(priority.ToString() == Model.Priority?.ToString() ? "selected" : null)">
+                            @priority
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-primary mt-3">Oppdater</button>
+        </form>
 
             <h6>Administrer:</h6>
             |<a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@Model.Id">Rediger</a> |

@@ -95,5 +95,36 @@ namespace WebApplication2.Controllers
             }
             return View(new DeleteUserViewModel { Id = id, Email = user?.Email });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatusAndPriority(int id, ReportStatus status, PriorityLevel priority)
+        {
+            var geoChange = await _context.GeoChanges.FindAsync(id);
+            if (geoChange == null)
+            {
+                return NotFound();
+            }
+
+            // Update the properties
+            geoChange.Status = status;
+            geoChange.Priority = priority;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            // Redirect back to the ReportDetails page (the same page) with the updated data
+            return RedirectToAction("ReportDetails", new { id = geoChange.Id });
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var geoChange = await _context.GeoChanges.FindAsync(id);
+            if (geoChange == null)
+            {
+                return NotFound();
+            }
+
+            return View(geoChange);
+        }
     }
 }
