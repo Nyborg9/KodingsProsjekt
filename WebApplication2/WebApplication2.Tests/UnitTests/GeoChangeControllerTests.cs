@@ -3,28 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Org.BouncyCastle.Utilities.Collections;
 using System.Security.Claims;
 using WebApplication2.Controllers;
 using WebApplication2.Data;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using WebApplication2.Controllers;
-using WebApplication2.Data;
-using WebApplication2.Models;
-using Xunit;
 using Microsoft.AspNetCore.Mvc.Routing;
-using NSubstitute;
-using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using WebApplication2.Services;
 namespace WebApplication2.Tests.UnitTests
 {
     public class GeoChangesControllerTests : IDisposable
@@ -51,7 +37,6 @@ namespace WebApplication2.Tests.UnitTests
     
             _controller = new GeoChangesController(_context, _mockUserManager.Object, mockLogger.Object);
         }
-
         public void Dispose()
         {
             _context.Database.EnsureDeleted(); // Clean up the in-memory database
@@ -65,27 +50,46 @@ namespace WebApplication2.Tests.UnitTests
             var user = new ApplicationUser { Id = "user-id-123" };
             _mockUserManager.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
 
-            var geoChange1 = new GeoChange { Id = 1, GeoJson = "{}", Description = "Change 1", UserId = user.Id };
-            var geoChange2 = new GeoChange { Id = 2, GeoJson = "{}", Description = "Change 2", UserId = user.Id };
+            var geoChange1 = new GeoChange
+            {
+                Id = 1,
+                GeoJson = "{}",
+                Description = "Change 1",
+                UserId = user.Id,
+                // Add required properties
+                MunicipalityName = "Test Municipality 1",
+                MunicipalityNumber = "001",
+                CountyName = "Test County 1"
+            };
+            var geoChange2 = new GeoChange
+            {
+                Id = 2,
+                GeoJson = "{}",
+                Description = "Change 2",
+                UserId = user.Id,
+                // Add required properties
+                MunicipalityName = "Test Municipality 2",
+                MunicipalityNumber = "002",
+                CountyName = "Test County 2"
+            };
 
             _context.GeoChanges.AddRange(geoChange1, geoChange2);
             await _context.SaveChangesAsync();
 
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
-            };
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id)
+        };
             var identity = new ClaimsIdentity(claims);
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
 
             // Act
-            var result = await _controller.Index() as ViewResult;
+            var result = await _controller.Index();
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ViewResult>(result); // Check that the result is a ViewResult
-            var model = Assert.IsAssignableFrom<List<GeoChange>>(result.Model);
-            Assert.Equal(2, model.Count); // Ensure the correct number of geo changes
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<List<GeoChange>>(viewResult.Model);
+            Assert.Equal(2, model.Count);
         }
 
         [Fact]
@@ -113,26 +117,52 @@ namespace WebApplication2.Tests.UnitTests
         {
             // Arrange
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, "user-id-123")
-            };
+        {
+            new Claim(ClaimTypes.NameIdentifier, "user-id-123")
+        };
             var identity = new ClaimsIdentity(claims);
-            _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            // Setup mock municipality finder service
+            var mockMunicipalityService = new Mock<IMunicipalityFinderService>(); // Use the actual interface from your project
+            mockMunicipalityService
+                .Setup(s => s.FindMunicipalityFromGeoJsonAsync(It.IsAny<string>()))
+                .ReturnsAsync(("001", "Test Municipality", "Test County"));
+
+            // Modify to use GeoChangesController instead of GeoChangeController
+            var controller = new GeoChangesController(
+                _context,
+                _mockUserManager.Object,
+                Mock.Of<ILogger<GeoChangesController>>()
+            )
+            {
+                ControllerContext = new ControllerContext
+                {
+                    HttpContext = new DefaultHttpContext
+                    {
+                        User = claimsPrincipal
+                    }
+                }
+            };
 
             // Act
-            var result = await _controller.Create("{}", "Test description") as RedirectToActionResult;
+            var result = await controller.Create("{}", "Test description");
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal("Index", result.ActionName);
-            Assert.Equal("GeoChanges", result.ControllerName);
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", redirectResult.ActionName);
 
-            // Verify that the GeoChange was added to the context
+            // Verify database state
             var geoChanges = await _context.GeoChanges.ToListAsync();
             Assert.Single(geoChanges);
-            Assert.Equal("{}", geoChanges[0].GeoJson);
-            Assert.Equal("Test description", geoChanges[0].Description);
-            Assert.Equal("user-id-123", geoChanges[0].UserId);
+
+            var geoChange = geoChanges[0];
+            Assert.Equal("{}", geoChange.GeoJson);
+            Assert.Equal("Test description", geoChange.Description);
+            Assert.Equal("user-id-123", geoChange.UserId);
+            Assert.Equal("001", geoChange.MunicipalityNumber);
+            Assert.Equal("Test Municipality", geoChange.MunicipalityName);
+            Assert.Equal("Test County", geoChange.CountyName);
         }
 
         [Fact]
@@ -250,9 +280,13 @@ namespace WebApplication2.Tests.UnitTests
             var geoChange = new GeoChange
             {
                 Id = 1,
-                GeoJson = "{}", // Ensure GeoJson is set
+                GeoJson = "{}",
                 Description = "Test Description",
-                UserId = user.Id // Ensure UserId is set
+                UserId = user.Id,
+                // Add required properties
+                MunicipalityName = "Test Municipality",
+                MunicipalityNumber = "001",
+                CountyName = "Test County"
             };
 
             _context.GeoChanges.Add(geoChange);
@@ -274,14 +308,18 @@ namespace WebApplication2.Tests.UnitTests
             {
                 Id = 1,
                 Description = "Test Description",
-                GeoJson = "{}", // Provide a valid GeoJson string
-                UserId = "test-user-id" // Provide a valid UserId
+                GeoJson = "{}",
+                UserId = "test-user-id",
+                // Add required properties
+                MunicipalityName = "Test Municipality",
+                MunicipalityNumber = "001",
+                CountyName = "Test County"
             };
             _context.GeoChanges.Add(geoChange);
             await _context.SaveChangesAsync();
 
             // Act
-            var returnUrl = "/GeoChanges/Index"; // Provide a valid return URL
+            var returnUrl = "/GeoChanges/Index";
             var result = await _controller.DeleteConfirmed(geoChange.Id, returnUrl);
 
             // Assert
@@ -302,7 +340,12 @@ namespace WebApplication2.Tests.UnitTests
                 Id = 1,
                 Description = "Test Description",
                 GeoJson = "{}", // Provide a valid GeoJson string
-                UserId = "test-user-id" // Provide a valid UserId
+                UserId = "test-user-id", // Provide a valid UserId
+
+                // Add required properties
+                MunicipalityName = "Test Municipality",
+                MunicipalityNumber = "001",
+                CountyName = "Test County"
             };
             _context.GeoChanges.Add(geoChange);
             await _context.SaveChangesAsync();

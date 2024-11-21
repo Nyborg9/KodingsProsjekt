@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
 using WebApplication2.Controllers;
@@ -38,26 +39,34 @@ public class CaseworkerControllerTests
             context.Users.Add(testUser);
             context.SaveChanges();
 
-            // Create test changes with required properties
+            // Create test changes with minimal required properties
             var changes = new List<GeoChange>
+        {
+            new GeoChange
             {
-                new GeoChange
-                {
-                    Id = 1,
-                    Description = "Change 1",
-                    GeoJson = "{}", // Provide a minimal GeoJson
-                    UserId = testUser.Id,
-                    User = testUser
-                },
-                new GeoChange
-                {
-                    Id = 2,
-                    Description = "Change 2",
-                    GeoJson = "{}", // Provide a minimal GeoJson
-                    UserId = testUser.Id,
-                    User = testUser
-                }
-            };
+                Id = 1,
+                Description = "Change 1",
+                GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}",
+                UserId = testUser.Id,
+                User = testUser,
+                // These will be populated by a method that parses the GeoJson
+                MunicipalityName = ExtractMunicipalityName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}"),
+                MunicipalityNumber = ExtractMunicipalityNumber("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}"),
+                CountyName = ExtractCountyName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}")
+            },
+            new GeoChange
+            {
+                Id = 2,
+                Description = "Change 2",
+                GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}",
+                UserId = testUser.Id,
+                User = testUser,
+                // These will be populated by a method that parses the GeoJson
+                MunicipalityName = ExtractMunicipalityName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}"),
+                MunicipalityNumber = ExtractMunicipalityNumber("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}"),
+                CountyName = ExtractCountyName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}")
+            }
+        };
 
             // Add test data
             context.GeoChanges.AddRange(changes);
@@ -79,6 +88,55 @@ public class CaseworkerControllerTests
             var model = result.Model as List<GeoChange>;
             Assert.NotNull(model);
             Assert.Equal(2, model.Count);
+        }
+    }
+
+    // Helper methods to extract data from GeoJSON
+    private string ExtractMunicipalityName(string geoJson)
+    {
+        try
+        {
+            var jsonDoc = System.Text.Json.JsonDocument.Parse(geoJson);
+            return jsonDoc.RootElement
+                .GetProperty("properties")
+                .GetProperty("municipalityName")
+                .GetString();
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    private string ExtractMunicipalityNumber(string geoJson)
+    {
+        try
+        {
+            var jsonDoc = System.Text.Json.JsonDocument.Parse(geoJson);
+            return jsonDoc.RootElement
+                .GetProperty("properties")
+                .GetProperty("municipalityNumber")
+                .GetString();
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    private string ExtractCountyName(string geoJson)
+    {
+        try
+        {
+            var jsonDoc = System.Text.Json.JsonDocument.Parse(geoJson);
+            return jsonDoc.RootElement
+                .GetProperty("properties")
+                .GetProperty("countyName")
+                .GetString();
+        }
+        catch
+        {
+            return string.Empty;
         }
     }
 
@@ -153,14 +211,38 @@ public class CaseworkerControllerTests
                 }
             };
 
-            // Add some test data to the database
-            context.GeoChanges.Add(new GeoChange
+            // Prepare a GeoJSON with all required properties
+            string geoJson = JsonSerializer.Serialize(new
             {
-                Id = 1, // Explicitly set an ID
-                Description = "Test Change", // Required property
-                GeoJson = "{\"type\":\"Point\",\"coordinates\":[0,0]}", // Required property
-                UserId = adminUser.Id, // Required property
+                type = "Feature",
+                properties = new
+                {
+                    municipalityName = "Test Municipality",
+                    municipalityNumber = "123",
+                    countyName = "Test County"
+                },
+                geometry = new
+                {
+                    type = "Point",
+                    coordinates = new[] { 0, 0 }
+                }
             });
+
+            // Add some test data to the database
+            var geoChange = new GeoChange
+            {
+                Id = 1,
+                Description = "Test Change",
+                GeoJson = geoJson,
+                UserId = adminUser.Id,
+
+                // Explicitly set the required properties
+                MunicipalityName = "Test Municipality",
+                MunicipalityNumber = "123",
+                CountyName = "Test County"
+            };
+
+            context.GeoChanges.Add(geoChange);
             context.SaveChanges();
 
             // Act
@@ -171,8 +253,15 @@ public class CaseworkerControllerTests
             var model = Assert.IsAssignableFrom<List<GeoChange>>(viewResult.Model);
             Assert.NotEmpty(model); // Ensure the model is not empty
             Assert.Single(model); // Ensure only one item was added
+
+            // Additional assertions to verify the properties
+            var savedChange = model.First();
+            Assert.Equal("Test Municipality", savedChange.MunicipalityName);
+            Assert.Equal("123", savedChange.MunicipalityNumber);
+            Assert.Equal("Test County", savedChange.CountyName);
         }
     }
+
     [Fact]
     public void CaseworkerOverview_AdminUser_NoReports_ReturnsEmptyView()
     {
