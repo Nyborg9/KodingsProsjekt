@@ -23,5 +23,9 @@ namespace WebApplication2.Data
         public ReportStatus? Status { get; set; }
         public PriorityLevel? Priority { get; set; }
 
+        public string MunicipalityName { get; set; }
+        public string MunicipalityNumber { get; set; }
+
+        public string CountyName { get; set; }
     }
 }
