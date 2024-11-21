@@ -51,17 +51,19 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string geoJson, string description)
         {
-            if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
-
+            try
             {
-                return BadRequest("GeoJson and description must be provided");
-            }
+                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
+                {
+                    return BadRequest("GeoJson and description must be provided");
+                }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User not found");
-            }
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("User not found");
+                }
+
                 // Find municipality information
                 var (municipalityNumber, municipalityName, countyName) = await FindMunicipalityAsync(geoJson);
 
@@ -99,6 +101,7 @@ namespace WebApplication2.Controllers
             }
         }
 
+
         private async Task<(string MunicipalityNumber, string MunicipalityName, string CountyName)> FindMunicipalityAsync(string geoJson)
         {
             var municipalityFinderService = HttpContext.RequestServices.GetRequiredService<MunicipalityFinderService>();
@@ -111,27 +114,6 @@ namespace WebApplication2.Controllers
 
         // Henter og viser redigeringsskjemaet
         // GET: GeoChanges/Edit/5
-public async Task<IActionResult> Edit(int? id, string returnUrl)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var geoChange = await _context.GeoChanges
-                .Include(g => g.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (geoChange == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
-            return View(geoChange);
-        }
-
-
         public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
