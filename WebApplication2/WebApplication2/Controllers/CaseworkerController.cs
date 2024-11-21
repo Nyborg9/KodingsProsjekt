@@ -77,7 +77,7 @@ namespace WebApplication2.Controllers
             ViewBag.ReturnUrl = returnUrl ?? Url.Action("CaseworkerOverview"); //default to index
             return View(geoChange);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditReport(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange, string returnUrl)
@@ -131,9 +131,8 @@ namespace WebApplication2.Controllers
             // Repopulate returnUrl in case of validation failure
             ViewBag.ReturnUrl = returnUrl ?? Url.Action("CaseworkerOverview");
             return View(geoChange);
-        }   
-
-
+        }
+        
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -174,6 +173,7 @@ namespace WebApplication2.Controllers
             }
             return View(new DeleteUserViewModel { Id = id, Email = user?.Email });
         }
+
         public async Task<IActionResult> DeleteReport(int? id, string returnUrl)
         {
             if (id == null)
@@ -193,7 +193,6 @@ namespace WebApplication2.Controllers
             return View(geoChange);
         }
 
-
         // POST: Caseworker/Delete/5
         [HttpPost, ActionName("DeleteReport")]
         [ValidateAntiForgeryToken]
@@ -208,6 +207,38 @@ namespace WebApplication2.Controllers
 
             // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
             return Redirect(returnUrl ?? Url.Action("CaseworkerOverview"));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatusAndPriority(int id, ReportStatus status, PriorityLevel priority)
+        {
+            var geoChange = await _context.GeoChanges.FindAsync(id);
+            if (geoChange == null)
+            {
+                return NotFound();
+            }
+
+            // Update the properties
+            geoChange.Status = status;
+            geoChange.Priority = priority;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            // Redirect back to the ReportDetails page (the same page) with the updated data
+            return RedirectToAction("ReportDetails", new { id = geoChange.Id });
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var geoChange = await _context.GeoChanges.FindAsync(id);
+            if (geoChange == null)
+            {
+                return NotFound();
+            }
+
+            return View(geoChange);
         }
     }
 }

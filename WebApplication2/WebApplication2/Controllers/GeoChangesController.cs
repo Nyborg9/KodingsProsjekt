@@ -16,11 +16,13 @@ namespace WebApplication2.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<GeoChangesController> _logger;
 
-        public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ILogger<GeoChangesController> logger)
         {
             _context = context;
             _userManager = userManager;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -50,6 +52,7 @@ namespace WebApplication2.Controllers
         public async Task<IActionResult> Create(string geoJson, string description)
         {
             if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
+
             {
                 return BadRequest("GeoJson and description must be provided");
             }
@@ -59,19 +62,75 @@ namespace WebApplication2.Controllers
             {
                 return Unauthorized("User not found");
             }
+                // Find municipality information
+                var (municipalityNumber, municipalityName, countyName) = await FindMunicipalityAsync(geoJson);
 
-            var newChange = new GeoChange
+                // Log the municipality information
+                _logger.LogInformation($"Municipality Number: {municipalityNumber}, Municipality Name: {municipalityName}");
+
+                // Check for null values
+                if (string.IsNullOrEmpty(municipalityNumber) || string.IsNullOrEmpty(municipalityName))
+                {
+                    return BadRequest("Could not retrieve municipality information. Please check the coordinates.");
+                }
+
+                // Defines a new GeoChange and adds it to the database
+                var newChange = new GeoChange
+                {
+                    GeoJson = geoJson,
+                    Description = description,
+                    UserId = userId,
+                    Status = ReportStatus.IkkePåbegynt,
+                    MunicipalityNumber = municipalityNumber,
+                    MunicipalityName = municipalityName,
+                    CountyName = countyName
+                };
+
+                _context.GeoChanges.Add(newChange);
+                await _context.SaveChangesAsync();
+
+                // Redirect to the overview of changes
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
             {
-                GeoJson = geoJson,
-                Description = description,
-                UserId = userId
-            };
-
-            _context.GeoChanges.Add(newChange);
-            await _context.SaveChangesAsync(); // Use await here
-
-            return RedirectToAction("Index", "GeoChanges");
+                _logger.LogError(ex, "Error occurred while creating a GeoChange");
+                return StatusCode(500, "Internal server error");
+            }
         }
+
+        private async Task<(string MunicipalityNumber, string MunicipalityName, string CountyName)> FindMunicipalityAsync(string geoJson)
+        {
+            var municipalityFinderService = HttpContext.RequestServices.GetRequiredService<MunicipalityFinderService>();
+
+            // Explicitly return all three elements
+            var result = await municipalityFinderService.FindMunicipalityFromGeoJsonAsync(geoJson);
+            return (result.MunicipalityNumber, result.MunicipalityName, result.CountyName);
+        }
+
+
+        // Henter og viser redigeringsskjemaet
+        // GET: GeoChanges/Edit/5
+public async Task<IActionResult> Edit(int? id, string returnUrl)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var geoChange = await _context.GeoChanges
+                .Include(g => g.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (geoChange == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
+            return View(geoChange);
+        }
+
 
         public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
