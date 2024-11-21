@@ -47,7 +47,7 @@ namespace WebApplication2.Controllers
         // POST: GeoChanges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string geoJson, string description, string mapVariant)
+        public async Task<IActionResult> Create(string geoJson, string description)
         {
             if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
             {
@@ -95,20 +95,22 @@ namespace WebApplication2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson,User Id")] GeoChange geoChange, string returnUrl)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange, string returnUrl)
         {
             if (id != geoChange.Id)
             {
                 return NotFound();
             }
 
-            ModelState.Remove("User ");
+            //remove User and GeoJson from ModelState as only description should be updated
+            ModelState.Remove("User");
             ModelState.Remove("GeoJson");
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Get existing entity from database
                     var existingGeoChange = await _context.GeoChanges
                         .FirstOrDefaultAsync(g => g.Id == id);
 
@@ -117,26 +119,30 @@ namespace WebApplication2.Controllers
                         return NotFound();
                     }
 
+                    // the properties that should be updated, here description
                     existingGeoChange.Description = geoChange.Description;
 
-                    _context.Update(existingGeoChange);
-                    await _context.SaveChangesAsync(); // Use await here
 
+                    _context.Update(existingGeoChange);
+                    await _context.SaveChangesAsync();
+
+                    // Use returnUrl if provided, otherwise fall back to Index
                     return Redirect(returnUrl ?? Url.Action("Index"));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await GeoChangeExists(id))
+                    if (!await _context.GeoChanges.AnyAsync(e => e.Id == id))
                     {
                         return NotFound();
                     }
                     else
                     {
-                        throw; // You may want to log this exception
+                        throw;
                     }
                 }
             }
 
+            // Repopulate returnUrl in case of validation failure
             ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
             return View(geoChange);
         }
@@ -168,13 +174,13 @@ namespace WebApplication2.Controllers
             if (geoChange != null)
             {
                 _context.GeoChanges.Remove(geoChange);
-                await _context.SaveChangesAsync(); // Use await here
+                await _context.SaveChangesAsync();
             }
 
-            // Redirect to the URL provided in returnUrl or default to Index if no return
-
             // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
-            return Redirect(returnUrl ?? Url.Action("Index"));
+            return string.IsNullOrEmpty(returnUrl)
+                ? RedirectToAction("Index") // Use RedirectToAction here
+                : Redirect(returnUrl);
         }
 
         // Update the exists check to be async

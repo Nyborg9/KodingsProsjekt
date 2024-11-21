@@ -20,7 +20,7 @@ namespace WebApplication2.Controllers
             _context = context;
             _userManager = userManager;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult CaseworkerOverview()
         {
