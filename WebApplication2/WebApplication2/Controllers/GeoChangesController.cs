@@ -223,6 +223,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         // POST: GeoChanges/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -236,7 +237,9 @@ namespace WebApplication2.Controllers
             }
 
             // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
-            return Redirect(returnUrl ?? Url.Action("Index"));
+            return string.IsNullOrEmpty(returnUrl)
+                ? RedirectToAction("Index") // Use RedirectToAction here
+                : Redirect(returnUrl);
         }
 
         // Update the exists check to be async
