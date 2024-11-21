@@ -13,7 +13,7 @@ using WebApplication2.Controllers;
 using WebApplication2.Models;
 using Xunit;
 
-namespace WebApplication2.Tests
+namespace WebApplication2.Tests.UnitTests
 {
     public class UserControllerTests
     {

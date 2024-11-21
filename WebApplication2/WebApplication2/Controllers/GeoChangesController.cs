@@ -47,7 +47,7 @@ namespace WebApplication2.Controllers
         // POST: GeoChanges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string geoJson, string description, string mapVariant)
+        public async Task<IActionResult> Create(string geoJson, string description)
         {
             if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
             {

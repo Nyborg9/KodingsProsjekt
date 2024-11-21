@@ -24,7 +24,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using NSubstitute;
 using System.Linq.Expressions;
 
-namespace WebApplication2.Tests
+namespace WebApplication2.Tests.UnitTests
 {
     public class GeoChangesControllerTests : IDisposable
     {
@@ -117,7 +117,7 @@ namespace WebApplication2.Tests
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
 
             // Act
-            var result = await _controller.Create("{}", "Test description", "Test map variant") as RedirectToActionResult;
+            var result = await _controller.Create("{}", "Test description") as RedirectToActionResult;
 
             // Assert
             Assert.NotNull(result);
@@ -144,7 +144,7 @@ namespace WebApplication2.Tests
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
 
             // Act
-            var result = await _controller.Create("", "Test description", "Test map variant") as BadRequestObjectResult;
+            var result = await _controller.Create("", "Test description") as BadRequestObjectResult;
 
             // Assert
             Assert.NotNull(result);
