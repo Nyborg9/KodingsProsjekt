@@ -80,52 +80,34 @@ namespace WebApplication2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditReport(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange, string returnUrl)
+        public async Task<IActionResult> EditReport(int id, [Bind("Description")] GeoChange geoChange, string returnUrl)
         {
-            if (id != geoChange.Id)
+            try
             {
-                return NotFound();
+                // Fetch the existing entity
+                var existingGeoChange = await _context.GeoChanges
+                    .FirstOrDefaultAsync(g => g.Id == id);
+
+                if (existingGeoChange == null)
+                {
+                    return NotFound();
+                }
+
+                // Only update the description
+                existingGeoChange.Description = geoChange.Description;
+
+                // Use Entry to modify only the description
+                _context.Entry(existingGeoChange).Property(x => x.Description).IsModified = true;
+
+                await _context.SaveChangesAsync();
+
+                return Redirect(returnUrl ?? Url.Action("Index"));
             }
-
-            //remove User and GeoJson from ModelState as only description should be updated
-            ModelState.Remove("User");
-            ModelState.Remove("GeoJson");
-
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                try
-                {
-                    // Get existing entity from database
-                    var existingGeoChange = await _context.GeoChanges
-                        .FirstOrDefaultAsync(g => g.Id == id);
-
-                    if (existingGeoChange == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // the properties that should be updated, here description
-                    existingGeoChange.Description = geoChange.Description;
-
-
-                    _context.Update(existingGeoChange);
-                    await _context.SaveChangesAsync();
-
-                    // Use returnUrl if provided, otherwise fall back to Index
-                    return Redirect(returnUrl ?? Url.Action("CaseworkerOverview"));
-
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _context.GeoChanges.AnyAsync(e => e.Id == id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                // Log the exception
+                Console.WriteLine($"Error updating GeoChange: {ex.Message}");
+                return View(geoChange);
             }
 
             // Repopulate returnUrl in case of validation failure
