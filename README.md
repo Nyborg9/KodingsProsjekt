@@ -11,6 +11,9 @@ Applikasjonen er laget med en **Model-View-Controller (MVC)** arkitektur:
 For å kjøre applikasjonen trenger du:
 - Docker Desktop
 - Visual Studio (eller lignende IDE)
+- Installere en connector til mysql eller mariadb og restart visual studio (i visual studio brukte vi extensionen dotConnect for MySQL & MariaDB)
+- Gå til View/Server Explorer i toppen av Visual Studio og høyreklikk på Data Connections og trykk på Add Connection
+- Velg MySQLServer og legg in informasjonen til databasen (Host = localhost, Port = 3306, User Id = root, Password = 123, Database = geochangesdb)
 
 ### Steg 1 - Klon prosjektet
 1. Kopier linken til repository på GitHub.
@@ -19,8 +22,9 @@ For å kjøre applikasjonen trenger du:
 
 ### Steg 2 - Koble til databasen
 For å koble applikasjonen til databasen, kjør applikasjonen via Docker Compose:
-1. Velg **Build soultion** fra Build menyen øverst i Visual Studio. 
-2. Kjør applikasjonen med Docker Compose.
+1. Gå til Package Manager Console og skriv inn kommandoene Drop-Database også Update-Database
+2. Velg **Build soultion** fra Build menyen øverst i Visual Studio. 
+3. Kjør applikasjonen med Docker Compose.
 
 ### Steg 3 - Utforsk applikasjonen
 Vanlig bruker:

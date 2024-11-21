@@ -20,7 +20,7 @@ namespace WebApplication2.Controllers
             _context = context;
             _userManager = userManager;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult CaseworkerOverview()
         {
@@ -132,7 +132,7 @@ namespace WebApplication2.Controllers
             ViewBag.ReturnUrl = returnUrl ?? Url.Action("CaseworkerOverview");
             return View(geoChange);
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -151,7 +151,7 @@ namespace WebApplication2.Controllers
             return View(viewModel); // Pass ViewModel to the view
         }
 
-        // POST: User/Delete/{id}
+        // POST: Caseworker/DeleteUser/{id}
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -208,6 +208,7 @@ namespace WebApplication2.Controllers
             // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
             return Redirect(returnUrl ?? Url.Action("CaseworkerOverview"));
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateStatusAndPriority(int id, ReportStatus status, PriorityLevel priority)

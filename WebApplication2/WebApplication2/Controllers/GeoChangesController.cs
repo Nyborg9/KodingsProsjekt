@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,23 +11,20 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    [Authorize] //Applyies authorization to the entire controller
+    [Authorize(Roles="User")] // Applies authorization to the entire controller
     public class GeoChangesController : Controller
     {
-        // Adds UserManager and ApplicationDbContext
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<GeoChangesController> _logger;
 
         public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ILogger<GeoChangesController> logger)
         {
-            // Initializes UserManager and Context
             _context = context;
             _userManager = userManager;
             _logger = logger;
         }
 
-        //Shows all of the users reports
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -38,7 +33,6 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            // Fetch only the GeoChange records for the logged-in user
             var userChanges = await _context.GeoChanges
                 .Where(change => change.UserId == user.Id)
                 .ToListAsync();
@@ -55,24 +49,19 @@ namespace WebApplication2.Controllers
         // POST: GeoChanges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string geoJson, string description, string mapVariant)
+        public async Task<IActionResult> Create(string geoJson, string description)
         {
-            // Checks if valid input is given
-            try
+            if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
+
             {
-                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
-                {
-                    return BadRequest("GeoJson and description must be provided");
-                }
+                return BadRequest("GeoJson and description must be provided");
+            }
 
-                // Retrieve the UserId from the claims
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized("User  not found");
-                }
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not found");
+            }
                 // Find municipality information
                 var (municipalityNumber, municipalityName, countyName) = await FindMunicipalityAsync(geoJson);
 
@@ -122,32 +111,47 @@ namespace WebApplication2.Controllers
 
         // Henter og viser redigeringsskjemaet
         // GET: GeoChanges/Edit/5
-        public async Task<IActionResult> Edit(int? id, string returnUrl)
+public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
             {
-                // Return NotFound if no ID is provided
                 return NotFound();
             }
 
-            // Fetch the GeoChange entity from the database
             var geoChange = await _context.GeoChanges
-                .Include(g => g.User)  // Include the User related to the GeoChange
+                .Include(g => g.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (geoChange == null)
             {
-                // Return NotFound if the GeoChange is not found
                 return NotFound();
             }
 
-            // Store the returnUrl in ViewBag for redirection after the form is submitte
-            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index"); //default to index
+            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
             return View(geoChange);
         }
 
-            // Edit Action (POST) to update a GeoChange
-            // POST: Edit
+
+        public async Task<IActionResult> Edit(int? id, string returnUrl)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var geoChange = await _context.GeoChanges
+                .Include(g => g.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (geoChange == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
+            return View(geoChange);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,GeoJson,UserId")] GeoChange geoChange, string returnUrl)
@@ -202,9 +206,8 @@ namespace WebApplication2.Controllers
             return View(geoChange);
         }
 
-        // GET: GeoChanges/Delete/
         public async Task<IActionResult> Delete(int? id, string returnUrl)
-        { 
+        {
             if (id == null)
             {
                 return NotFound();
@@ -218,11 +221,8 @@ namespace WebApplication2.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
-
             return View(geoChange);
         }
-
-
 
         // POST: GeoChanges/Delete/5
         [HttpPost, ActionName("Delete")]
