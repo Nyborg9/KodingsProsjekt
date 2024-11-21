@@ -23,6 +23,7 @@ using Xunit;
 using Microsoft.AspNetCore.Mvc.Routing;
 using NSubstitute;
 using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication2.Tests.UnitTests
 {
@@ -45,8 +46,10 @@ namespace WebApplication2.Tests.UnitTests
             var userStore = new Mock<IUserStore<ApplicationUser>>();
             _mockUserManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
 
+            var mockLogger = new Mock<ILogger<GeoChangesController>>();
             // Create the controller
-            _controller = new GeoChangesController(_context, _mockUserManager.Object);
+    
+            _controller = new GeoChangesController(_context, _mockUserManager.Object, mockLogger.Object);
         }
 
         public void Dispose()
