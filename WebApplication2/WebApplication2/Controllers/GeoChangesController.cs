@@ -19,12 +19,14 @@ namespace WebApplication2.Controllers
         // Adds UserManager and ApplicationDbContext
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<GeoChangesController> _logger;
 
-        public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public GeoChangesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ILogger<GeoChangesController> logger)
         {
             // Initializes UserManager and Context
             _context = context;
             _userManager = userManager;
+            _logger = logger;
         }
 
         //Shows all of the users reports
@@ -53,9 +55,9 @@ namespace WebApplication2.Controllers
         // POST: GeoChanges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string geoJson, string description, string mapVariant)
+        public async Task<IActionResult> Create(string geoJson, string description, string mapVariant)
         {
-            //Checks if valid input is given
+            // Checks if valid input is given
             try
             {
                 if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
@@ -71,26 +73,50 @@ namespace WebApplication2.Controllers
                     return Unauthorized("User  not found");
                 }
 
-                //Defines a new GeoChange and adds it to the database
+                // Find municipality information
+                var (municipalityNumber, municipalityName, countyName) = await FindMunicipalityAsync(geoJson);
+
+                // Log the municipality information
+                _logger.LogInformation($"Municipality Number: {municipalityNumber}, Municipality Name: {municipalityName}");
+
+                // Check for null values
+                if (string.IsNullOrEmpty(municipalityNumber) || string.IsNullOrEmpty(municipalityName))
+                {
+                    return BadRequest("Could not retrieve municipality information. Please check the coordinates.");
+                }
+
+                // Defines a new GeoChange and adds it to the database
                 var newChange = new GeoChange
                 {
                     GeoJson = geoJson,
                     Description = description,
                     UserId = userId,
                     Status = ReportStatus.IkkePåbegynt,
+                    MunicipalityNumber = municipalityNumber,
+                    MunicipalityName = municipalityName,
+                    CountyName = countyName
                 };
 
                 _context.GeoChanges.Add(newChange);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 // Redirect to the overview of changes
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}, Inner Exception: {ex.InnerException?.Message}");
-                throw;
+                _logger.LogError(ex, "Error occurred while creating a GeoChange");
+                return StatusCode(500, "Internal server error");
             }
+        }
+
+        private async Task<(string MunicipalityNumber, string MunicipalityName, string CountyName)> FindMunicipalityAsync(string geoJson)
+        {
+            var municipalityFinderService = HttpContext.RequestServices.GetRequiredService<MunicipalityFinderService>();
+
+            // Explicitly return all three elements
+            var result = await municipalityFinderService.FindMunicipalityFromGeoJsonAsync(geoJson);
+            return (result.MunicipalityNumber, result.MunicipalityName, result.CountyName);
         }
 
 

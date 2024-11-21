@@ -4,11 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Text.Json;
+using WebApplication2.API_Models;
 using WebApplication2.Data;
 using WebApplication2.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+builder.Services.AddHttpClient<MunicipalityFinderService>();
+builder.Services.AddScoped<MunicipalityFinderService>();
+
 
 builder.Services.AddControllersWithViews();
 // Configure the database context

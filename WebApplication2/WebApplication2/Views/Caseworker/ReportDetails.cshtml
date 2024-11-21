@@ -28,6 +28,22 @@
             <h6>GeoJSON:</h6>
             <pre>@Model.GeoJson</pre>
 
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Kommune:</strong>
+                    <p>@Model.MunicipalityName</p> <!-- Display Municipality Name -->
+                </div>
+                <div class="col-md-6">
+                    <strong>Kommune Nr.:</strong>
+                    <p>@Model.MunicipalityNumber</p> <!-- Display Municipality Number -->
+                </div>
+                <div class ="col-md-6">
+                    <strong>Fylke:</strong>
+                    <p>@Model.CountyName</p> <!-- Display County -->
+                </div>
+            </div>
+
             <!-- Vise epost til innsender -->
             <h6>Email:</h6>
             <p>@userEmail</p> 

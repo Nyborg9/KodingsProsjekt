@@ -35,6 +35,8 @@
                 <th>GeoJSON</th>
                 <th>Beskrivelse</th>
                 <th>Epost</th> 
+                <th>Kommune</th>
+                <th>Kommune Nr.</th>
                 <th>Status</th>
                 <th>Prioritering</th>
                 <th>Detaljer</th>
@@ -51,6 +53,8 @@
                         <td>@change.GeoJson</td>
                         <td>@change.Description</td>
                         <td>@(userEmails.ContainsKey(change.UserId) ? userEmails[change.UserId] : "N/A")</td> <!-- Display Email -->
+                        <td>@change.MunicipalityName</td>
+                        <td>@change.MunicipalityNumber</td>
                         <td>@change.Status</td> <!-- PlaceHolder for status -->
                         <td>@change.Priority</td>
                         <td>

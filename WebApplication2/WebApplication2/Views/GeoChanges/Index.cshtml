@@ -48,6 +48,8 @@
                         <th>Beskrivelse</th>
                         <th>Email</th> <!-- Add Email column -->
                         <th>Status</th>
+                        <th>Kommune</th>
+                        <th>Fylke</th>
                         <th>Rediger</th>
                     </tr>
                 </thead>
@@ -59,6 +61,8 @@
                             <td>@change.GeoJson</td>
                             <td>@change.Description</td>
                             <td>@userEmails[change.UserId]</td> <!-- Display Email -->
+                            <td>@change.MunicipalityName</td>
+                            <td>@change.CountyName</td>
                             <td>@change.Status</td>
                             <td>
                                 <div class="edit-delete-links">
