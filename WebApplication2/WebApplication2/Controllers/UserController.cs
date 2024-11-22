@@ -114,8 +114,9 @@ namespace WebApplication2.Controllers
             return View(user);
         }
 
-        [Authorize(Roles = "Admin,Caseworker")]
+        
         [HttpGet]
+        [Authorize(Roles = "Admin,Caseworker")]
         // Shows the user page
         public async Task<IActionResult> AdminPage()
         {

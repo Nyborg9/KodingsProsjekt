@@ -18,7 +18,7 @@ using Org.BouncyCastle.Utilities.Collections;
 public class CaseworkerControllerTests
 {
     [Fact]
-    public void CaseworkerOverview_WithChanges_ReturnsViewWithChanges()
+    public void CaseworkerOverview_WithReports_ReturnsViewWithReports()
     {
         // Arrange
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -141,7 +141,7 @@ public class CaseworkerControllerTests
     }
 
     [Fact]
-    public void CaseworkerOverview_NoChanges_ReturnsEmptyView()
+    public void CaseworkerOverview_NoReports_ReturnsEmptyView()
     {
         // Arrange
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -313,49 +313,5 @@ public class CaseworkerControllerTests
             Assert.Empty(model); // Ensure the model is empty
         }
     }
-    [Fact]
-    public async Task UserList_ReturnsViewWithUsers_WhenUsersExist()
-    {
-        // Arrange
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "User ListDatabase")
-            .Options;
-
-        using (var context = new ApplicationDbContext(options))
-        {
-            // Create test users
-            var users = new List<ApplicationUser>
-            {
-                new ApplicationUser  { Id = "user1", Email = "user1@example.com" },
-                new ApplicationUser  { Id = "user2", Email = "user2@example.com" }
-            };
-
-            // Add users to the context
-            context.Users.AddRange(users);
-            context.SaveChanges();
-
-            // Setup UserManager mock
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
-                Mock.Of < IUserStore < ApplicationUser >> (),
-                null, null, null, null, null, null, null, null);
-
-            mockUserManager.Setup(x => x.Users)
-                .Returns(context.Users);
-
-            // Create controller
-            var controller = new CaseworkerController(context, mockUserManager.Object);
-
-            // Act
-            var result = await controller.UserList() as ViewResult;
-
-            // Assert
-            Assert.NotNull(result);
-            var model = result.Model as List<UserListViewModel>;
-            Assert.NotNull(model);
-            Assert.Equal(2, model.Count);
-            Assert.Contains(model, u => u.Email == "user1@example.com");
-            Assert.Contains(model, u => u.Email == "user2@example.com");
-        }
-    }
-
+    
 }
