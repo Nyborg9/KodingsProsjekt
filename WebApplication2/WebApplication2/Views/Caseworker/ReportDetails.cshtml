@@ -26,9 +26,8 @@
 
             <!-- Vise geoJSON informajon -->
             <h6>GeoJSON:</h6>
-            <pre>@Model.GeoJson</pre>
+                <pre style="white-space: pre-wrap; word-wrap: break-word;">@Model.GeoJson</pre>
 
-            
             <div class="row">
                 <div class="col-md-6">
                     <strong>Kommune:</strong>
@@ -95,22 +94,31 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
-        // Initialize the map
-        var map = L.map('map').setView([58.164048, 8.004007], 13); // Adjust the coordinates and zoom level as needed
+        // Initialize the map and set its initial view
+        var map = L.map('map').setView([58.164048, 8.004007], 13);
 
         // Add a tile layer
         L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
             attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
         }).addTo(map);
 
-        // Parse the GeoJSON data and add it to the map
-        var geoJsonData = @Html.Raw(Model.GeoJson); // Directly use the GeoJSON string
+        // Pass the GeoJSON data as a JavaScript variable
+        var geoJsonData = @Json.Serialize(Model.GeoJson);
 
-        // Check if geoJsonData is valid before adding to the map
+        // Ensure GeoJSON data exists and is valid
         if (geoJsonData) {
-            var geoJsonLayer = L.geoJSON(geoJsonData).addTo(map);
+            // Parse the GeoJSON data
+            var parsedGeoJson = JSON.parse(geoJsonData);
 
-            // Optionally, fit the map to the GeoJSON bounds
+            // Create a GeoJSON layer
+            var geoJsonLayer = L.geoJSON(parsedGeoJson, {
+                onEachFeature: function (feature, layer) {
+                    // Optionally, bind a popup with the description
+                    layer.bindPopup('@Model.Description');
+                }
+            }).addTo(map);
+
+            // Fit the map to the GeoJSON bounds
             map.fitBounds(geoJsonLayer.getBounds());
         } else {
             console.error("Invalid GeoJSON data.");
