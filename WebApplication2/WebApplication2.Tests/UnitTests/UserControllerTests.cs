@@ -38,7 +38,7 @@ namespace WebApplication2.Tests.UnitTests
             // Setup default HttpContext with a user
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier, "test-user-id")
+                new Claim(ClaimTypes.NameIdentifier, "testUserId")
             }));
 
             _controller.ControllerContext = new ControllerContext
@@ -53,7 +53,7 @@ namespace WebApplication2.Tests.UnitTests
             // Arrange
             var testUser = new ApplicationUser
             {
-                Id = "test-user-id",
+                Id = "testUserId",
                 Email = "test@example.com"
             };
 
@@ -72,12 +72,36 @@ namespace WebApplication2.Tests.UnitTests
         }
 
         [Fact]
+        public async Task CheckRole_Caseworker_RedirectsToAdminPage()
+        {
+            // Arrange
+            var testUser = new ApplicationUser
+            {
+                Id = "testUserId",
+                Email = "test@example.com"
+            };
+
+            _userManagerMock.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(testUser);
+
+            _userManagerMock.Setup(um => um.GetRolesAsync(testUser))
+                .ReturnsAsync(new List<string> { "Caseworker" });
+
+            // Act
+            var result = await _controller.CheckRole();
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("AdminPage", redirectResult.ActionName);
+        }
+
+        [Fact]
         public async Task CheckRole_UserRole_RedirectsToUserPage()
         {
             // Arrange
             var testUser = new ApplicationUser
             {
-                Id = "test-user-id",
+                Id = "testUserId",
                 Email = "test@example.com"
             };
 
@@ -174,7 +198,7 @@ namespace WebApplication2.Tests.UnitTests
         }
 
         [Fact]
-        public async Task Login_ValidCredentials_RedirectsToUserPage()
+        public async Task Login_ValidUser_RedirectsToUserPage()
         {
             // Arrange
             var model = new LoginViewModel
@@ -201,6 +225,66 @@ namespace WebApplication2.Tests.UnitTests
             // Assert
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("UserPage", redirectResult.ActionName);
+        }
+
+        [Fact]
+        public async Task Login_ValidAdmin_RedirectsToAdminPage()
+        {
+            // Arrange
+            var model = new LoginViewModel
+            {
+                Email = "test@example.com",
+                Password = "Password123!",
+                RememberMe = false
+            };
+
+            var user = new ApplicationUser { Email = model.Email };
+
+            _signInManagerMock.Setup(x => x.PasswordSignInAsync(
+                model.Email, model.Password, model.RememberMe, false))
+                .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
+
+            _userManagerMock.Setup(x => x.FindByEmailAsync(model.Email))
+                .ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.GetRolesAsync(user))
+                .ReturnsAsync(new List<string> { "Admin" });
+
+            // Act
+            var result = await _controller.Login(model);
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("AdminPage", redirectResult.ActionName);
+        }
+
+        [Fact]
+        public async Task Login_ValidCaseworker_RedirectsToAdminPage()
+        {
+            // Arrange
+            var model = new LoginViewModel
+            {
+                Email = "test@example.com",
+                Password = "Password123!",
+                RememberMe = false
+            };
+
+            var user = new ApplicationUser { Email = model.Email };
+
+            _signInManagerMock.Setup(x => x.PasswordSignInAsync(
+                model.Email, model.Password, model.RememberMe, false))
+                .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
+
+            _userManagerMock.Setup(x => x.FindByEmailAsync(model.Email))
+                .ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.GetRolesAsync(user))
+                .ReturnsAsync(new List<string> { "Caseworker" });
+
+            // Act
+            var result = await _controller.Login(model);
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("AdminPage", redirectResult.ActionName);
         }
 
         [Fact]
@@ -250,7 +334,7 @@ namespace WebApplication2.Tests.UnitTests
             // Arrange
             var testUser = new ApplicationUser
             {
-                Id = "test-user-id",
+                Id = "testUserId",
                 Email = "test@example.com"
             };
 
@@ -275,7 +359,7 @@ namespace WebApplication2.Tests.UnitTests
                 .ReturnsAsync((ApplicationUser)null);
 
             // Act
-            var result = await _controller.DeleteUser("non-existent-id");
+            var result = await _controller.DeleteUser("nonExistentId");
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -287,7 +371,7 @@ namespace WebApplication2.Tests.UnitTests
             // Arrange
             var testUser = new ApplicationUser
             {
-                Id = "test-user-id",
+                Id = "testUserId",
                 Email = "test@example.com"
             };
 
@@ -362,7 +446,7 @@ namespace WebApplication2.Tests.UnitTests
             // Arrange
             var testUser = new ApplicationUser
             {
-                Id = "test-user-id",
+                Id = "testUserId",
                 Email = "test@example.com"
             };
 
@@ -410,6 +494,60 @@ namespace WebApplication2.Tests.UnitTests
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.Equal(user, viewResult.Model);
+        }
+        [Fact]
+        public async Task UserPage_AdminUser_ReturnsViewWithAdminData()
+        {
+            // Arrange
+            var adminUser = new ApplicationUser { Email = "admin@example.com" };
+            var claims = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                 new Claim(ClaimTypes.Name, adminUser .Email),
+                 new Claim(ClaimTypes.Role, "Admin") // Add admin role
+            }));
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = claims }
+            };
+
+            _userManagerMock.Setup(x => x.GetUserAsync(claims))
+                .ReturnsAsync(adminUser);
+
+            // Act
+            var result = await _controller.UserPage();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(adminUser, viewResult.Model);
+            // Additional assertions for admin-specific data can be added here
+        }
+        [Fact]
+        public async Task UserPage_CaseworkerUser_ReturnsViewWithCaseworkerData()
+        {
+            // Arrange
+            var caseworkerUser = new ApplicationUser { Email = "caseworker@example.com" };
+            var claims = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+             new Claim(ClaimTypes.Name, caseworkerUser .Email),
+               new Claim(ClaimTypes.Role, "Caseworker") // Add caseworker role
+            }));
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = claims }
+            };
+
+            _userManagerMock.Setup(x => x.GetUserAsync(claims))
+                .ReturnsAsync(caseworkerUser);
+
+            // Act
+            var result = await _controller.UserPage();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(caseworkerUser, viewResult.Model);
+            // Additional assertions for caseworker-specific data can be added here
         }
     }
 }
