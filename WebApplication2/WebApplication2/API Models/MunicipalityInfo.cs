@@ -2,15 +2,15 @@
 
 namespace WebApplication2.API_Models
 {
-        public class KommuneInfo
+        public class MunicipalityInfo
         {
             [JsonPropertyName("fylkesnavn")]
-            public string? Fylkesnavn { get; set; }
+            public string? CountyName { get; set; }
 
             [JsonPropertyName("kommunenavn")]
-            public string? Kommunenavn { get; set; }
+            public string? MunicipalityName { get; set; }
 
             [JsonPropertyName("kommunenummer")]
-            public string? Kommunenummer { get; set; }
+            public string? MunicipalityNumber { get; set; }
         }
     }

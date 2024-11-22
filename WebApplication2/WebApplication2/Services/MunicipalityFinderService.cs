@@ -14,10 +14,10 @@ public class MunicipalityFinderService
     {
         _httpClient = httpClient;
         _logger = logger;
-        _apiBaseUrl = configuration["ApiSettings:KommuneInfoApiBaseUrl"];
+        _apiBaseUrl = configuration["ApiSettings:MunicipalityInfoApiBaseUrl"];
     }
 
-    public async Task<(string MunicipalityNumber, string MunicipalityName, string CountyName)> FindMunicipalityFromGeoJsonAsync(string geoJson)
+   public async Task<(string MunicipalityNumber, string MunicipalityName, string CountyName)> FindMunicipalityFromGeoJsonAsync(string geoJson)
 {
     try
     {
@@ -78,19 +78,19 @@ public class MunicipalityFinderService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            
+
             // Deserialize using the KommuneInfo model
-            var kommuneInfo = JsonSerializer.Deserialize<KommuneInfo>(content, new JsonSerializerOptions
+            var municipalityInfo = JsonSerializer.Deserialize<MunicipalityInfo>(content, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true // This allows case-insensitive matching
             });
 
             // Return the values from the deserialized object
             return (
-                kommuneInfo?.Kommunenummer, 
-                kommuneInfo?.Kommunenavn, 
-                kommuneInfo?.Fylkesnavn
-                    );
+                municipalityInfo?.MunicipalityNumber,
+                municipalityInfo?.MunicipalityName,
+                municipalityInfo?.CountyName
+            );
         }
         else
         {
@@ -112,6 +112,7 @@ public class MunicipalityFinderService
         return (null, null, null);
     }
 }
+
 
     private double[] ExtractCoordinatesFromGeometry(JsonElement geometry, JsonElement geometryType)
     {
