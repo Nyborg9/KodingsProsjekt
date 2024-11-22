@@ -54,6 +54,7 @@
             <!-- Status funksjon kommer her -->
             <h6>Status:</h6>
             <form asp-controller="Caseworker" asp-action="UpdateStatusAndPriority" method="post">
+                @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label for="status">Velg Status:</label>
                     <select id="status" name="status" class="form-control">

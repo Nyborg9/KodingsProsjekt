@@ -25,6 +25,7 @@
     </dl>
 
     <form asp-action="DeleteReport" method="post">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
 
         <button type="submit" class="btn btn-danger">Slett</button>
