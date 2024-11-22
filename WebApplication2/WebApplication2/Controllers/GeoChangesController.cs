@@ -49,7 +49,7 @@ namespace WebApplication2.Controllers
         // POST: GeoChanges/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string geoJson, string description)
+        public async Task<IActionResult> Create(string geoJson, string description, string MapVariant)
         {
             try
             {
@@ -85,7 +85,8 @@ namespace WebApplication2.Controllers
                     Status = ReportStatus.IkkePåbegynt,
                     MunicipalityNumber = municipalityNumber,
                     MunicipalityName = municipalityName,
-                    CountyName = countyName
+                    CountyName = countyName,
+                    MapVariant = MapVariant
                 };
 
                 _context.GeoChanges.Add(newChange);

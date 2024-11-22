@@ -41,6 +41,10 @@
                     <strong>Fylke:</strong>
                     <p>@Model.CountyName</p> <!-- Display County -->
                 </div>
+                <div class="col-md-6">
+                    <strong>Kart type:</strong>
+                    <p>@Model.MapVariant</p> <!-- Display Map Variant -->
+                </div>
             </div>
 
             <!-- Vise epost til innsender -->
@@ -97,10 +101,27 @@
         // Initialize the map and set its initial view
         var map = L.map('map').setView([58.164048, 8.004007], 13);
 
-        // Add a tile layer
-        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-            attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
-        }).addTo(map);
+        // Define the map layers
+        var layers = {
+            fargekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            }),
+            gråtonekart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            }),
+            turkart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            }),
+            sjokart: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png', {
+                attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
+            })
+        };
+
+
+
+        // Add the selected layer based on the MapVariant stored in the model
+        var selectedLayer = '@Model.MapVariant'; // Get the selected map variant from the model
+        layers[selectedLayer].addTo(map);
 
         // Pass the GeoJSON data as a JavaScript variable
         var geoJsonData = @Json.Serialize(Model.GeoJson);

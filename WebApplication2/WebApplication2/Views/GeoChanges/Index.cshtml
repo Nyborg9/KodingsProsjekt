@@ -49,6 +49,7 @@
                         <th>Status</th>
                         <th>Kommune</th>
                         <th>Fylke</th>
+                        <th>Karttype</th>
                         <th>Rediger</th>
                     </tr>
                 </thead>
@@ -62,6 +63,7 @@
                             <td>@change.Status</td>
                             <td>@change.MunicipalityName</td>
                             <td>@change.CountyName</td>
+                            <td>@change.MapVariant</td>
                             <td>
                                 <div class="edit-delete-links">
                                     <a asp-controller="GeoChanges" asp-action="Edit" asp-route-id="@change.Id" asp-route-returnUrl="@Url.Action("Index", "GeoChanges")">Rediger</a> |
@@ -84,7 +86,7 @@
             // Initialize the map and set its initial view
             var map = L.map('map').setView([58.164048, 8.004007], 13);
 
-            // Add a tile layer (using OpenStreetMap)
+            // Add a tile layer
             L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
                 attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
             }).addTo(map);
