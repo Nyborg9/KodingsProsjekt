@@ -34,8 +34,11 @@
             </dd>
         </dl>
         <div class="form-group mb-3">
+            <!-- Save Button: Submits the form -->
             <button type="submit" class="btn btn-primary">Lagre</button>
-            <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Tilbake</a>
+
+            <!-- Cancel Button: Redirects to CaseworkerOverview -->
+            <a href="@Url.Action("CaseworkerOverview", "Caseworker")" class="btn btn-secondary">Tilbake</a>
         </div>
     </form>
 </div>
