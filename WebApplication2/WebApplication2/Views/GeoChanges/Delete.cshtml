@@ -24,14 +24,10 @@
         </dd>
     </dl>
 
-    <form asp-action="delete" method="post">
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
-
-        <!-- Add hidden field for returnUrl -->
-        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" /> <!-- Include returnUrl here -->
-
         <button type="submit" class="btn btn-danger">Slett</button>
-        <a href="@ViewBag.ReturnUrl" class="btn btn-secondary">Avbryt</a> <!-- Use returnUrl for the cancel link -->
+        <a href="@Url.Action("Index", "GeoChanges")" class="btn btn-secondary">Avbryt</a> 
     </form>
 
 </div>

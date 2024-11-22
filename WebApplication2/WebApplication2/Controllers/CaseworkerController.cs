@@ -41,7 +41,7 @@ namespace WebApplication2.Controllers
             }
             return View(report);
         }
-        public async Task<IActionResult> EditReport(int? id, string returnUrl)
+        public async Task<IActionResult> EditReport(int? id)
         {
             if (id == null)
             {
@@ -59,15 +59,13 @@ namespace WebApplication2.Controllers
                 // Return NotFound if the GeoChange is not found
                 return NotFound();
             }
-
-            // Store the returnUrl in ViewBag for redirection after the form is submitte
-            ViewBag.ReturnUrl = returnUrl ?? Url.Action("CaseworkerOverview"); //default to index
             return View(geoChange);
         }
-
+        
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditReport(int id, [Bind("Description")] GeoChange geoChange, string returnUrl)
+        public async Task<IActionResult> EditReport(int id, [Bind("Description")] GeoChange geoChange)
         {
             try
             {
@@ -88,18 +86,17 @@ namespace WebApplication2.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Redirect(returnUrl ?? Url.Action("Index"));
+                // Redirect to the CaseworkerOverview after successful edit
+                return RedirectToAction("CaseworkerOverview", "Caseworker");
             }
             catch (Exception ex)
             {
-                // Log the exception
+                // Log the exception for debugging purposes
                 Console.WriteLine($"Error updating GeoChange: {ex.Message}");
+
+                // Return the view with the current model if an error occurs
                 return View(geoChange);
             }
-
-            // Repopulate returnUrl in case of validation failure
-            ViewBag.ReturnUrl = returnUrl ?? Url.Action("CaseworkerOverview");
-            return View(geoChange);
         }
 
         [HttpGet]
@@ -119,7 +116,7 @@ namespace WebApplication2.Controllers
 
             return View(viewModel); // Pass ViewModel to the view
         }
-
+       
         // POST: Caseworker/DeleteUser/{id}
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
@@ -143,7 +140,9 @@ namespace WebApplication2.Controllers
             return View(new DeleteUserViewModel { Id = id, Email = user?.Email });
         }
 
-        public async Task<IActionResult> DeleteReport(int? id, string returnUrl)
+        
+        /// <returns></returns>
+        public async Task<IActionResult> DeleteReport(int? id)
         {
             if (id == null)
             {
@@ -156,26 +155,28 @@ namespace WebApplication2.Controllers
             {
                 return NotFound();
             }
-
-            ViewBag.ReturnUrl = returnUrl;
-
             return View(geoChange);
         }
 
         // POST: Caseworker/Delete/5
         [HttpPost, ActionName("DeleteReport")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Fetch the geoChange entity
             var geoChange = await _context.GeoChanges.FindAsync(id);
-            if (geoChange != null)
+
+            if (geoChange == null)
             {
-                _context.GeoChanges.Remove(geoChange);
-                await _context.SaveChangesAsync();
+                return NotFound();  // Return 404 if entity not found
             }
 
-            // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
-            return Redirect(returnUrl ?? Url.Action("CaseworkerOverview"));
+            // Remove the entity from the database
+            _context.GeoChanges.Remove(geoChange);
+            await _context.SaveChangesAsync();
+
+            // Redirect to CaseworkerOverview after deletion
+            return RedirectToAction("CaseworkerOverview", "Caseworker");
         }
 
 

@@ -114,7 +114,7 @@ namespace WebApplication2.Controllers
 
         // Henter og viser redigeringsskjemaet
         // GET: GeoChanges/Edit/5
-        public async Task<IActionResult> Edit(int? id, string returnUrl)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -130,13 +130,12 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index");
             return View(geoChange);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Description")] GeoChange geoChange, string returnUrl)
+        public async Task<IActionResult> Edit(int id, [Bind("Description")] GeoChange geoChange)
         {
             try
             {
@@ -157,7 +156,7 @@ namespace WebApplication2.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Redirect(returnUrl ?? Url.Action("Index"));
+                return RedirectToAction("Index","GeoChanges");
             }
             catch (Exception ex)
             {
@@ -167,7 +166,7 @@ namespace WebApplication2.Controllers
             }
         }
 
-        public async Task<IActionResult> Delete(int? id, string returnUrl)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -181,14 +180,13 @@ namespace WebApplication2.Controllers
                 return NotFound();
             }
 
-            ViewBag.ReturnUrl = returnUrl;
             return View(geoChange);
         }
 
         // POST: GeoChanges/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var geoChange = await _context.GeoChanges.FindAsync(id);
             if (geoChange != null)
@@ -197,10 +195,8 @@ namespace WebApplication2.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Redirect to the URL provided in returnUrl or default to Index if no returnUrl
-            return string.IsNullOrEmpty(returnUrl)
-                ? RedirectToAction("Index") // Use RedirectToAction here
-                : Redirect(returnUrl);
+            // Redirect to the GeoChange index
+            return RedirectToAction("Index", "GeoChanges");
         }
 
         // Update the exists check to be async
