@@ -25,6 +25,7 @@
     </dl>
 
     <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
         <button type="submit" class="btn btn-danger">Slett</button>
         <a href="@Url.Action("Index", "GeoChanges")" class="btn btn-secondary">Avbryt</a> 
