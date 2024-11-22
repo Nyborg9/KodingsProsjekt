@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 builder.Services.AddHttpClient<MunicipalityFinderService>();
 builder.Services.AddScoped<MunicipalityFinderService>();
+builder.Services.AddAntiforgery();
 
 
 builder.Services.AddControllersWithViews();
@@ -60,7 +61,7 @@ using (var scope = app.Services.CreateScope())
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Admin", "User" };
+    var roles = new[] { "Admin", "User", "Caseworker" };
 
     foreach (var role in roles)
     {
@@ -108,6 +109,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseAntiforgery();
 
 app.MapControllerRoute(
     name: "default",

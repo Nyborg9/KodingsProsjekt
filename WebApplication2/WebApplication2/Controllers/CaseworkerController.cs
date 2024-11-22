@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using WebApplication2.Data;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Caseworker")]
     public class CaseworkerController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,7 +21,7 @@ namespace WebApplication2.Controllers
             _context = context;
             _userManager = userManager;
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Caseworker")]
         [HttpGet]
         public IActionResult CaseworkerOverview()
         {
@@ -31,20 +32,6 @@ namespace WebApplication2.Controllers
             }
             return View(changes_db); // Specify the view name
         }
-
-        public async Task<IActionResult> UserList()
-        {
-            var users = await _userManager.Users.ToListAsync();
-            var userViewModels = users.Select(user => new UserListViewModel
-            {
-                Id = user.Id,
-                Email = user.Email
-            }).ToList();
-
-            return View(userViewModels);
-        }
-
-
         public IActionResult ReportDetails(int id)
         {
             var report = _context.GeoChanges.Find(id); // Fetch the specific report by ID
@@ -114,7 +101,7 @@ namespace WebApplication2.Controllers
             ViewBag.ReturnUrl = returnUrl ?? Url.Action("CaseworkerOverview");
             return View(geoChange);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -221,6 +208,69 @@ namespace WebApplication2.Controllers
             }
 
             return View(geoChange);
+        }
+
+        public async Task<IActionResult> UserList()
+        {
+            // Get the currently logged-in user
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentUserRoles = await _userManager.GetRolesAsync(currentUser);
+            bool isAdmin = currentUserRoles.Contains("Admin");
+
+            // Get all users, excluding the admin user
+            var users = await _userManager.Users
+                .Where(user => user.Email != "admin@admin.com")
+                .ToListAsync();
+
+            var userViewModels = new List<UserListViewModel>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                // Only add normal users if the current user is a caseworker
+                if (!isAdmin && roles.Contains("Caseworker"))
+                {
+                    continue; // Skip caseworkers if the current user is not an admin
+                }
+
+                userViewModels.Add(new UserListViewModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    IsUser = roles.Contains("User"),
+                    IsCaseworker = roles.Contains("Caseworker")
+                });
+            }
+
+            // Pass the isAdmin flag to the view
+            ViewBag.IsAdmin = isAdmin;
+
+            return View(userViewModels);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PromoteToCaseworker(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                await _userManager.RemoveFromRoleAsync(user, "User");
+                await _userManager.AddToRoleAsync(user, "Caseworker");
+            }
+            return RedirectToAction("UserList");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DemoteToUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                await _userManager.RemoveFromRoleAsync(user, "Caseworker");
+                await _userManager.AddToRoleAsync(user, "User");
+            }
+            return RedirectToAction("UserList");
         }
     }
 }

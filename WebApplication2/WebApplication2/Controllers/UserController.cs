@@ -83,9 +83,17 @@ namespace WebApplication2.Controllers
                     {
                         return RedirectToAction("AdminPage"); // Redirect to Admin page
                     }
+                    else if (roles.Contains("Caseworker"))
+                    {
+                        return RedirectToAction("AdminPage");
+                    }
                     else if (roles.Contains("User"))
                     {
                         return RedirectToAction("UserPage");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -93,8 +101,8 @@ namespace WebApplication2.Controllers
             return View(model);
         }
 
-        [Authorize]
         [HttpGet]
+        [Authorize]
         // Shows the user page
         public async Task<IActionResult> UserPage()
         {
@@ -106,7 +114,7 @@ namespace WebApplication2.Controllers
             return View(user);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Caseworker")]
         [HttpGet]
         // Shows the user page
         public async Task<IActionResult> AdminPage()
@@ -172,6 +180,10 @@ namespace WebApplication2.Controllers
 
             var roles = await _userManager.GetRolesAsync(user);
             if (roles.Contains("Admin"))
+            {
+                return RedirectToAction("AdminPage"); // Redirect to Admin page
+            }
+            else if (roles.Contains("Caseworker"))
             {
                 return RedirectToAction("AdminPage"); // Redirect to Admin page
             }
