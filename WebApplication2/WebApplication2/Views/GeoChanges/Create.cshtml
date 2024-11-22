@@ -8,15 +8,6 @@
 <h1 class="text-center">Rapporter feil i kartet</h1>
 <div class="container mt-5">
 
-    <!-- Dropdown for map variants -->
-    <label for="mapVariant">Velg kart type her:</label>
-    <select id="mapVariant">
-        <option value="fargekart">Fargekart</option>
-        <option value="gråtonekart">Gråtonekart</option>
-        <option value="turkart">Turkart</option>
-        <option value="sjokart">Sjøkart</option>
-    </select>
-    
     <div class="row">
         <div class="col-md-6">
             <div id="map"></div>
@@ -26,6 +17,23 @@
             <!-- Form for submitting a map correction -->
             <form asp-action="Create" method="post">
                 @Html.AntiForgeryToken()
+            
+
+                    <!-- Hidden field for GeoJSON data -->
+                    <input type="hidden" id="geoJsonInput" name="GeoJson" />
+                    <input type="hidden" id="email" name="Email" />
+
+                    <!-- Dropdown for map variants -->
+                <div class="form-group">
+                    <label for="mapVariant">Velg kart type her:</label>
+                    <select id="mapVariant" name="MapVariant" class="form-control">
+                        <option value="fargekart">Fargekart</option>
+                        <option value="gråtonekart">Gråtonekart</option>
+                        <option value="turkart">Turkart</option>
+                        <option value="sjokart">Sjøkart</option>
+                    </select>
+                </div>
+
                 <!-- Hidden field for GeoJSON data -->
                 <input type="hidden" id="geoJsonInput" name="GeoJson" />
                 <input type="hidden" id="email" name="Email" />
