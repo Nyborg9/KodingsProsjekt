@@ -2,6 +2,6 @@
 {
     public class ApiSettings
     {
-        public string KommuneInfoApiBaseUrl { get; set; }
+        public string MunicipalityInfoApiBaseUrl { get; set; }
     }
 }
