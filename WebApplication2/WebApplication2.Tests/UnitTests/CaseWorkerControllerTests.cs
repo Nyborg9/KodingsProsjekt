@@ -49,10 +49,10 @@ public class CaseworkerControllerTests
                 GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}",
                 UserId = testUser.Id,
                 User = testUser,
-                // These will be populated by a method that parses the GeoJson
                 MunicipalityName = ExtractMunicipalityName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}"),
                 MunicipalityNumber = ExtractMunicipalityNumber("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}"),
-                CountyName = ExtractCountyName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}")
+                CountyName = ExtractCountyName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}"),
+                MapVariant = "MapVariant1"
             },
             new GeoChange
             {
@@ -61,10 +61,10 @@ public class CaseworkerControllerTests
                 GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}",
                 UserId = testUser.Id,
                 User = testUser,
-                // These will be populated by a method that parses the GeoJson
                 MunicipalityName = ExtractMunicipalityName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}"),
                 MunicipalityNumber = ExtractMunicipalityNumber("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}"),
-                CountyName = ExtractCountyName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}")
+                CountyName = ExtractCountyName("{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 2\",\"municipalityNumber\":\"002\",\"countyName\":\"County 2\"}}"),
+                MapVariant = "MapVariant1"
             }
         };
 
@@ -236,10 +236,10 @@ public class CaseworkerControllerTests
                 GeoJson = geoJson,
                 UserId = adminUser.Id,
 
-                // Explicitly set the required properties
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "123",
-                CountyName = "Test County"
+                CountyName = "Test County",
+                MapVariant = "MapVariant1"
             };
 
             context.GeoChanges.Add(geoChange);
@@ -259,6 +259,7 @@ public class CaseworkerControllerTests
             Assert.Equal("Test Municipality", savedChange.MunicipalityName);
             Assert.Equal("123", savedChange.MunicipalityNumber);
             Assert.Equal("Test County", savedChange.CountyName);
+            Assert.Equal("MapVariant1", savedChange.MapVariant);
         }
     }
 
