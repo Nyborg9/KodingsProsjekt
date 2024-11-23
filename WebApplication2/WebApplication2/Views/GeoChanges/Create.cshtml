@@ -16,11 +16,12 @@
         <div class="col-md-6">
             <!-- Form for submitting a map correction -->
             <form asp-action="Create" method="post">
+                <!-- CSRF Protection -->
                 @Html.AntiForgeryToken()
             
 
                     <!-- Hidden field for GeoJSON data -->
-                    <input type="hidden" id="geoJsonInput" name="GeoJson" />
+                    <input type="hidden" id="geoJsonInput" name="GeoJson"  />
                     <input type="hidden" id="email" name="Email" />
 
                     <!-- Dropdown for map variants -->
