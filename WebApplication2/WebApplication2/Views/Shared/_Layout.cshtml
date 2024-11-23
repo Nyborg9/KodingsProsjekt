@@ -39,6 +39,8 @@
                         {
                             <li class="nav-item">
                                 <form asp-controller="User" asp-action="logout" method="post" class="form-inline">
+                                    <!-- CSRF Protection -->
+                                    @Html.AntiForgeryToken()
                                     <button type="submit" class="nav-link btn btn-link text-dark nav-button">Logg ut</button>
                                 </form>
                             </li>
@@ -47,6 +49,8 @@
                         {
                             <li class="nav-item">
                                 <form asp-controller="User" asp-action="Login" method="get" class="form-inline">
+                                    <!-- CSRF Protection -->
+                                    @Html.AntiForgeryToken()
                                     <button type="submit" class="nav-link btn btn-link text-dark nav-button">Logg inn</button>
                                 </form>
                             </li>
