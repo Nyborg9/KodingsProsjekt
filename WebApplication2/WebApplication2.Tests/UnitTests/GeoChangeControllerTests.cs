@@ -59,7 +59,8 @@ namespace WebApplication2.Tests.UnitTests
                 // Add required properties
                 MunicipalityName = "Test Municipality 1",
                 MunicipalityNumber = "001",
-                CountyName = "Test County 1"
+                CountyName = "Test County 1",
+                MapVariant = "MapVariant1"
             };
             var geoChange2 = new GeoChange
             {
@@ -70,7 +71,8 @@ namespace WebApplication2.Tests.UnitTests
                 // Add required properties
                 MunicipalityName = "Test Municipality 2",
                 MunicipalityNumber = "002",
-                CountyName = "Test County 2"
+                CountyName = "Test County 2",
+                MapVariant = "MapVariant2"
             };
 
             _context.GeoChanges.AddRange(geoChange1, geoChange2);
@@ -120,7 +122,7 @@ namespace WebApplication2.Tests.UnitTests
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal() };
 
             // Act
-            var result = await _controller.Create("{}", "Test description");
+            var result = await _controller.Create("{}", "Test description", "MapVariant1");
 
             // Assert
             var unauthorizedResult = Assert.IsType<UnauthorizedObjectResult>(result);
@@ -139,7 +141,7 @@ namespace WebApplication2.Tests.UnitTests
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
 
             // Act
-            var result = await _controller.Create("", "Test description") as BadRequestObjectResult;
+            var result = await _controller.Create("", "Test description", "MapVariant1") as BadRequestObjectResult;
 
             // Assert
             Assert.NotNull(result);
@@ -160,7 +162,8 @@ namespace WebApplication2.Tests.UnitTests
                 UserId = user.Id,
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "001",
-                CountyName = "Test County"
+                CountyName = "Test County",
+                MapVariant = "MapVariant1"
             };
 
             // Add the initial GeoChange to the context
@@ -239,10 +242,10 @@ namespace WebApplication2.Tests.UnitTests
                 GeoJson = "{}",
                 Description = "Test Description",
                 UserId = user.Id,
-                // Add required properties
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "001",
-                CountyName = "Test County"
+                CountyName = "Test County",
+                MapVariant = "MapVariant1"
             };
 
             _context.GeoChanges.Add(geoChange);
@@ -269,7 +272,8 @@ namespace WebApplication2.Tests.UnitTests
                 UserId = "test-user-id",
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "001",
-                CountyName = "Test County"
+                CountyName = "Test County",
+                MapVariant = "MapVariant1"
             };
             _context.GeoChanges.Add(geoChange);
             await _context.SaveChangesAsync();
