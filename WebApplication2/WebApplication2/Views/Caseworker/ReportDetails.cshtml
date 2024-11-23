@@ -22,7 +22,7 @@
         <!-- Right Side: Details Section -->
         <div class="col-md-6">
             <h6>Beskrivelse:</h6>
-            <p>@Model.Description</p>
+            <td>@Model.Description</td>
 
             <!-- Vise geoJSON informajon -->
             <h6>GeoJSON:</h6>
@@ -49,11 +49,12 @@
 
             <!-- Vise epost til innsender -->
             <h6>Email:</h6>
-            <p>@userEmail</p> 
+            <p>@(Html.Encode(userEmail))</p>
 
-            <!-- Status funksjon kommer her -->
+            <!-- Status funksjon -->
             <h6>Status:</h6>
             <form asp-controller="Caseworker" asp-action="UpdateStatusAndPriority" method="post">
+                <!-- CSRF Protection -->
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label for="status">Velg Status:</label>

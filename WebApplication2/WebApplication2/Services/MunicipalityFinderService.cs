@@ -21,9 +21,6 @@ public class MunicipalityFinderService
 {
     try
     {
-        // Log the incoming GeoJSON for debugging
-        _logger.LogInformation("Received GeoJSON: {GeoJson}", geoJson);
-
         // Parse the GeoJSON to extract coordinates
         using JsonDocument doc = JsonDocument.Parse(geoJson);
         JsonElement root = doc.RootElement;

@@ -3,6 +3,7 @@
 <h2>Logg inn</h2>
 
 <form asp-action="Login" method="post">
+    <!-- CSRF Protection -->
     @Html.AntiForgeryToken()
     <div asp-validation-summary="All" class="text-danger"></div>
 

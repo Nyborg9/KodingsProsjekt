@@ -52,10 +52,10 @@
                         <td>@change.Id</td>
                         <td>@change.GeoJson</td>
                         <td>@change.Description</td>
-                        <td>@(userEmails.ContainsKey(change.UserId) ? userEmails[change.UserId] : "N/A")</td> <!-- Display Email -->
+                        <td>@(Html.Encode(userEmails.ContainsKey(change.UserId) ? userEmails[change.UserId] : "N/A"))</td> <!-- Display Email -->
                         <td>@change.MunicipalityName</td>
                         <td>@change.MunicipalityNumber</td>
-                        <td>@change.Status</td> <!-- PlaceHolder for status -->
+                        <td>@change.Status</td> 
                         <td>@change.Priority</td>
                         <td>
                             <a asp-controller="Caseworker" asp-action="ReportDetails" asp-route-id="@change.Id">Vis Detaljer</a>

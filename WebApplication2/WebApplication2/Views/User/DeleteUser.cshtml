@@ -12,6 +12,7 @@
         <h5>@Model.Email</h5>
     </div>
     <form asp-action="DeleteConfirmed" method="post">
+        <!-- CSRF Protection -->
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
         <div>

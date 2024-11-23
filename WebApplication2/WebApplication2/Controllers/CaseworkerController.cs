@@ -181,6 +181,7 @@ namespace WebApplication2.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStatusAndPriority(int id, ReportStatus status, PriorityLevel priority)
         {
             var geoChange = await _context.GeoChanges.FindAsync(id);
