@@ -9,9 +9,10 @@
 <div>
     <h4>Are you sure you want to delete the account?</h4>
     <div>
-        <h5>@Model.Email</h5>
+        <h5>@(Html.Encode(Model.Email))</h5>
     </div>
     <form asp-action="DeleteConfirmed" method="post">
+        <!-- CSRF Protection -->
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
         <div>
