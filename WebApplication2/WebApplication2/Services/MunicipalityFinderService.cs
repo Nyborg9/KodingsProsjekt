@@ -1,22 +1,23 @@
 ﻿using System.Text.Json;
-using WebApplication2.API_Models; // Adjust the namespace as necessary
-
+using WebApplication2.API_Models;
 public class MunicipalityFinderService
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient _httpClient; // HttpClient for making API requests
     private readonly ILogger<MunicipalityFinderService> _logger;
-    private readonly string _apiBaseUrl;
+    private readonly string _apiBaseUrl; // Base URL for the municipality information API
 
+    // Constructor to initialize the service with dependencies
     public MunicipalityFinderService(
-        HttpClient httpClient,
+        HttpClient httpClient, 
         ILogger<MunicipalityFinderService> logger,
         IConfiguration configuration)
     {
         _httpClient = httpClient;
         _logger = logger;
-        _apiBaseUrl = configuration["ApiSettings:MunicipalityInfoApiBaseUrl"];
+        _apiBaseUrl = configuration["ApiSettings:MunicipalityInfoApiBaseUrl"]; // Get the base URL 
     }
 
+    // Asynchronously finds the municipality based on GeoJSON input
    public async Task<(string MunicipalityNumber, string MunicipalityName, string CountyName)> FindMunicipalityFromGeoJsonAsync(string geoJson)
 {
     try
@@ -25,12 +26,12 @@ public class MunicipalityFinderService
         using JsonDocument doc = JsonDocument.Parse(geoJson);
         JsonElement root = doc.RootElement;
 
+        // Array to hold extracted coordinates
         double[] coordinates = null;
 
         // Check if the root is a FeatureCollection
         if (root.GetProperty("type").GetString() == "FeatureCollection")
         {
-            // Assuming we want the first feature's coordinates
             if (root.TryGetProperty("features", out JsonElement features) && features.GetArrayLength() > 0)
             {
                 var firstFeature = features[0];
@@ -65,8 +66,8 @@ public class MunicipalityFinderService
         }
 
         // Assuming coordinates[0] is longitude (ost) and coordinates[1] is latitude (nord)
-        double longitude = coordinates[0]; // ost
-        double latitude = coordinates[1];   // nord
+        double longitude = coordinates[0]; 
+        double latitude = coordinates[1];   
 
         // Make API call to find municipality
         var response = await _httpClient.GetAsync(
@@ -79,7 +80,8 @@ public class MunicipalityFinderService
             // Deserialize using the KommuneInfo model
             var municipalityInfo = JsonSerializer.Deserialize<MunicipalityInfo>(content, new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true // This allows case-insensitive matching
+                // case-insensitive matching
+                PropertyNameCaseInsensitive = true 
             });
 
             // Return the values from the deserialized object
@@ -110,13 +112,14 @@ public class MunicipalityFinderService
     }
 }
 
-
+    // Method to extract coordinates from a given geometry element based on its type
     private double[] ExtractCoordinatesFromGeometry(JsonElement geometry, JsonElement geometryType)
     {
         string type = geometryType.GetString();
 
         try
         {
+            // Switch expression to handle different geometry types and extract coordinates
             return type switch
             {
                 "Point" => geometry.GetProperty("coordinates").EnumerateArray()

@@ -1,66 +1,80 @@
 ﻿@model WebApplication2.Data.GeoChange
 @using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser > UserManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Detaljer for Rapport";
-   
 
     // Fetch the user associated with this GeoChange
     var applicationUser = await UserManager.FindByIdAsync(Model.UserId);
     var userEmail = applicationUser?.Email ?? "N/A"; // Use "N/A" if email is not found
-} 
+}
+
 
 <h4 class="text-center">Detaljer for Rapport @Model.Id</h4>
 
 <div class="container mt-5">
     <div class="row">
-        <!-- Left Side: Map -->
+        <!-- Left Side: Map and Municipality Info -->
         <div class="col-md-6">
-            <div id="map" style="height: 500px; width: 100%; border: 3px solid #ccc;"></div>
-        </div>
-        
-        <!-- Right Side: Details Section -->
-        <div class="col-md-6">
-            <h6>Beskrivelse:</h6>
-            <td>@Model.Description</td>
-
-            <!-- Vise geoJSON informajon -->
-            <h6>GeoJSON:</h6>
-                <pre style="white-space: pre-wrap; word-wrap: break-word;">@Model.GeoJson</pre>
-
+            <!-- Municipality, County, and Map Variant  -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <strong>Kommune:</strong>
-                    <p>@Model.MunicipalityName</p> <!-- Display Municipality Name -->
+                    <p>@Model.MunicipalityName</p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <strong>Kommune Nr.:</strong>
-                    <p>@Model.MunicipalityNumber</p> <!-- Display Municipality Number -->
+                    <p>@Model.MunicipalityNumber</p>
                 </div>
-                <div class ="col-md-6">
+                <div class="col-md-4">
                     <strong>Fylke:</strong>
-                    <p>@Model.CountyName</p> <!-- Display County -->
-                </div>
-                <div class="col-md-6">
-                    <strong>Kart type:</strong>
-                    <p>@Model.MapVariant</p> <!-- Display Map Variant -->
+                    <p>@Model.CountyName</p>
                 </div>
             </div>
+            <!-- Map -->
+            <div id="map" style="height: 500px; width: 100%; border: 3px solid #ccc;"></div>
+        </div>
 
-            <!-- Vise epost til innsender -->
-            <h6>Email:</h6>
+        <!-- Right Side -->
+        <div class="col-md-6">
+            <!-- Email -->
+            <h6>Innsender E-post:</h6>
             <p>@(Html.Encode(userEmail))</p>
 
-            <!-- Status funksjon -->
+            <!-- Description and GeoJSON -->
+            <h6>Beskrivelse:</h6>
+            <p>@Model.Description</p>
+            <h6>GeoJSON:</h6>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;">@Model.GeoJson</pre>
+
+            <h6>Kart type:</h6>
+            <p>@Model.MapVariant</p>
+
+            <h6>Administrer:</h6>
+            <div class="d-flex gap-3">
+                <!-- Edit Button -->
+                <form asp-controller="Caseworker" asp-action="EditReport" method="get">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">Rediger</button>
+                </form>
+                <!-- Delete Button -->
+                <form asp-controller="Caseworker" asp-action="DeleteReport" method="get">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger">Slett</button>
+                </form>
+            </div>
+
+            <!-- Status and Priority Update Form -->
             <h6>Status:</h6>
             <form asp-controller="Caseworker" asp-action="UpdateStatusAndPriority" method="post">
-                <!-- CSRF Protection -->
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label for="status">Velg Status:</label>
                     <select id="status" name="status" class="form-control">
+                        <!-- Populate the dropdown with values from the reportstatus enum -->
                         @foreach (var status in Enum.GetValues(typeof(WebApplication2.Models.ReportStatus)))
                         {
+                            <!-- Set the selected option based on the current status in the model -->
                             <option value="@status" selected="@(status.ToString() == Model.Status?.ToString() ? "selected" : null)">
                                 @status
                             </option>
@@ -68,32 +82,31 @@
                     </select>
                 </div>
 
-            <!-- Prioritteringsmuligheter kommer her -->
-            <h6>Prioritering:</h6>
-            <div class="form-group">
-                <label for="priority">Velg Prioritet:</label>
-                <select id="priority" name="priority" class="form-control">
-                    @foreach (var priority in Enum.GetValues(typeof(WebApplication2.Models.PriorityLevel)))
-                    {
-                        <option value="@priority" selected="@(priority.ToString() == Model.Priority?.ToString() ? "selected" : null)">
-                            @priority
-                        </option>
-                    }
-                </select>
-            </div>
+                <h6>Prioritering:</h6>
+                <div class="form-group">
+                    <label for="priority">Velg Prioritet:</label>
+                    <select id="priority" name="priority" class="form-control">
+                        <!-- Populate the dropdown with values from the PriorityLevel enum -->
+                        @foreach (var priority in Enum.GetValues(typeof(WebApplication2.Models.PriorityLevel)))
+                        {
+                            <!-- Set the selected option based on the current priority in the model -->
+                            <option value="@priority" selected="@(priority.ToString() == Model.Priority?.ToString() ? "selected" : null)">
+                                @priority
+                            </option>
+                        }
+                    </select>
+                </div>
 
-            <input type="hidden" name="id" value="@Model.Id" />
-            <button type="submit" class="btn btn-primary mt-3">Oppdater</button>
-        </form>
-
-            <h6>Administrer:</h6>
-            |<a asp-controller="Caseworker" asp-action="EditReport" asp-route-id="@Model.Id">Rediger</a> |
-            |<a asp-controller="Caseworker" asp-action="DeleteReport" asp-route-id="@Model.Id">Slett</a> |
-
-            
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-primary mt-3">Oppdater</button>
+            </form>
+                <div class="mt-3">
+                    <a href="@Url.Action("CaseworkerOverview", "Caseworker")" class="btn btn-secondary">Tilbake til listen</a>
+                </div>
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -122,21 +135,20 @@
 
 
         // Add the selected layer based on the MapVariant stored in the model
-        var selectedLayer = '@Model.MapVariant'; // Get the selected map variant from the model
+        var selectedLayer = '@Model.MapVariant'; 
         layers[selectedLayer].addTo(map);
 
         // Pass the GeoJSON data as a JavaScript variable
         var geoJsonData = @Json.Serialize(Model.GeoJson);
 
-        // Ensure GeoJSON data exists and is valid
+        // Ensure GeoJSON data exists and is valid and parse the data
         if (geoJsonData) {
-            // Parse the GeoJSON data
             var parsedGeoJson = JSON.parse(geoJsonData);
 
             // Create a GeoJSON layer
             var geoJsonLayer = L.geoJSON(parsedGeoJson, {
                 onEachFeature: function (feature, layer) {
-                    // Optionally, bind a popup with the description
+                    // bind a popup with the description
                     layer.bindPopup('@Model.Description');
                 }
             }).addTo(map);

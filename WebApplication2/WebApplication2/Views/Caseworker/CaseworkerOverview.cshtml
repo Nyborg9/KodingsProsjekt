@@ -19,7 +19,8 @@
             var applicationUser = await UserManager.FindByIdAsync(change.UserId);
             if (applicationUser != null)
             {
-                userEmails[change.UserId] = applicationUser.Email; // Store the email in the dictionary
+                // Store the email in the dictionary
+                userEmails[change.UserId] = applicationUser.Email; 
             }
         }
     }
@@ -27,6 +28,7 @@
 
 <h2 class="text-center">Oversikt over innsendte meldinger</h2>
 
+<!-- Main container for the table -->
 <div class="container mt-5">
     <table class="table">
         <thead>
@@ -44,19 +46,23 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Check if the model is not null -->
             @if (Model != null && Model.Any())
             {
+                // Loop through each GeoChange in the model
                 foreach (var change in Model)
                 {
                     <tr>
                         <td>@change.Id</td>
                         <td>@change.GeoJson</td>
                         <td>@change.Description</td>
+                        <!-- Email associated with the UserId, HTML-encoded for security -->
                         <td>@(Html.Encode(userEmails.ContainsKey(change.UserId) ? userEmails[change.UserId] : "N/A"))</td> <!-- Display Email -->
                         <td>@change.MunicipalityName</td>
                         <td>@change.MunicipalityNumber</td>
                         <td>@change.Status</td> 
                         <td>@change.Priority</td>
+
                         <td>
                             <a asp-controller="Caseworker" asp-action="ReportDetails" asp-route-id="@change.Id">Vis Detaljer</a>
                         </td>
@@ -72,8 +78,9 @@
             }
             else
             {
+                <!-- Display message if no reports are found -->
                 <tr>
-                    <td colspan="7" class="text-center">Ingen meldinger funnet.</td>
+                    <td colspan="10" class="text-center">Ingen meldinger funnet.</td>
                 </tr>
             }
         </tbody>
