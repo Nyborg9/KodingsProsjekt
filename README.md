@@ -69,4 +69,4 @@ Liste over funksjonaliteter i applikasjonen:
 - Promotere: Som admin: Endre rollen til en bruker. Vanlig bruker kan promoteres til saksbehandler og saksbehandler kan nedgraderes til vanlig bruker. 
 - Kommune og fylke: Innsendte rapporter blir automatisk tilegnet kommune og fylke informasjon basert på markeringer i kart. 
 - Slette bruker: Mulighet for å slette bruker. Admin bruker kan ikke fjernes. 
--Status oppdatering: Mulighet for saksbehandler til å oppdatere status og prioritering for en rapport. 
+- Status oppdatering: Mulighet for saksbehandler til å oppdatere status og prioritering for en rapport. 
