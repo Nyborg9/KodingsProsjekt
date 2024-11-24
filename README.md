@@ -31,7 +31,7 @@ Vanlig bruker:
 1. Lag bruker.
 2. Utforsk applikasjonen.
 
-Testbruker saksbehandler:
+Testbruker admin:
 - E-post: admin@admin.com
 - Passord: Admin123
 
@@ -54,13 +54,19 @@ Databasen i **MariaDB** blir brukt for å lagrer data for applikasjonen. Dette g
 ### 5. **Repository**
 Bruker github repository som lagringsted for applikasjonens kildekode og for å organisere arbeidet. Det vil inneholde all koden, konfigurasjoner og dokumentasjon som er nødvendig for å bygge og kjøre applikasjonen. 
 
-### 6. **Klasser**
-Klasser organiserer applikasjonen i objektorienterte enheter som kan håndtere data og logikk, i tillegg til at det gir en struktur for hvordan applikasjonen fungerer i praksis.
+## Test av applikasjon
+Det er utført manuell testing etter hver implementasjon av nye funskjoner for å sikre applikasjonens stabilitet og funksjonalitet.
+[Testing-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon).
+
 
 ## Funksjonaliteter i applikasjonen
 Liste over funksjonaliteter i applikasjonen:
 - Brukerregistrering: Mulighet for å registrere seg som bruker, og logge in.
-- Kartvisning: Innloggede brukere kan se kart.
-- Sende inn forslag til endriger i Kart: Innloggede brukere kan sende inn forslag til endringer i kart.
-- Oversikt over innsendte forslag: En oversikt over alle innsendte forslag, samt en spesifikk oversikt over forslagene sendt inn av hver bruker.
-- Redigere: Mulighet for å redigere og slette innsendte forslag.
+- Kartvisning: Innloggede brukere kan se kart, i ulike kartvarianter.
+- Sende inn forslag til endriger i Kart: Innloggede brukere kan markere områder i kart og sende inn forslag til endringer i kart.
+- Oversikt over innsendte forslag: En oversikt over alle innsendte forslag, samt en spesifikk oversikt over forslagene sendt inn av hver bruker. 
+- Redigere/Slette rapport: Mulighet for å redigere og slette innsendte rapporter.
+- Promotere: Som admin: Endre rollen til en bruker. Vanlig bruker kan promoteres til saksbehandler og saksbehandler kan nedgraderes til vanlig bruker. 
+- Kommune og fylke: Innsendte rapporter blir automatisk tilegnet kommune og fylke informasjon basert på markeringer i kart. 
+- Slette bruker: Mulighet for å slette bruker. Admin bruker kan ikke fjernes. 
+-Status oppdatering: Mulighet for saksbehandler til å oppdatere status og prioritering for en rapport. 
