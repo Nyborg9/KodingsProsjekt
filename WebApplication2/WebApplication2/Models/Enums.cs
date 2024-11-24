@@ -2,16 +2,16 @@
 {
     public enum PriorityLevel
     {
-        Lav = 1,        // Low
-        Vanlig = 2,     // Normal/Medium
-        Høy = 3         // High
+        Lav = 1,        
+        Vanlig = 2,     
+        Høy = 3         
     }
 
     public enum ReportStatus
     {
-        IkkePåbegynt = 1,    // Not Started
-        UnderBehandling = 2, // In Progress
-        Avsluttet = 3,       // Finished
-        IkkeTattTilFølge = 4 // Not Followed Up
+        IkkePåbegynt = 1,    
+        UnderBehandling = 2, 
+        Ferdigstilt = 3,       
+        IkkeTattTilFølge = 4 
     }
 }
