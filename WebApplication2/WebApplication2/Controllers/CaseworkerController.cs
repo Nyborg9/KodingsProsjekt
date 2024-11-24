@@ -21,6 +21,8 @@ namespace WebApplication2.Controllers
             _context = context;
             _userManager = userManager;
         }
+
+        // Overview of all reports
         [Authorize(Roles = "Admin, Caseworker")]
         [HttpGet]
         public IActionResult CaseworkerOverview()
@@ -32,6 +34,9 @@ namespace WebApplication2.Controllers
             }
             return View(changes_db); // Specify the view name
         }
+
+        // Details of a specific report
+        [HttpGet]
         public IActionResult ReportDetails(int id)
         {
             var report = _context.GeoChanges.Find(id); // Fetch the specific report by ID
@@ -41,6 +46,9 @@ namespace WebApplication2.Controllers
             }
             return View(report);
         }
+
+        // Edit a specific report
+        [HttpGet]
         public async Task<IActionResult> EditReport(int? id)
         {
             if (id == null)
@@ -61,8 +69,8 @@ namespace WebApplication2.Controllers
             }
             return View(geoChange);
         }
-        
-        /// <returns></returns>
+
+        // Updates the description of a existing report
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditReport(int id, [Bind("Description")] GeoChange geoChange)
@@ -99,6 +107,7 @@ namespace WebApplication2.Controllers
             }
         }
 
+        // Shows the user deletion confirmation page
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -116,8 +125,9 @@ namespace WebApplication2.Controllers
 
             return View(viewModel); // Pass ViewModel to the view
         }
-       
+
         // POST: Caseworker/DeleteUser/{id}
+        // Deletes the user after confirmation
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -128,7 +138,7 @@ namespace WebApplication2.Controllers
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    // Optionally, sign out the user after deletion
+                    // sign out the user after deletion
                     await HttpContext.SignOutAsync();
                     return RedirectToAction("Userlist");
                 }
@@ -140,8 +150,9 @@ namespace WebApplication2.Controllers
             return View(new DeleteUserViewModel { Id = id, Email = user?.Email });
         }
 
-        
-        /// <returns></returns>
+
+        // Shows the report deletion confirmation page
+        [HttpGet]
         public async Task<IActionResult> DeleteReport(int? id)
         {
             if (id == null)
@@ -159,6 +170,7 @@ namespace WebApplication2.Controllers
         }
 
         // POST: Caseworker/Delete/5
+        // Deletes the report after confirmation
         [HttpPost, ActionName("DeleteReport")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -179,7 +191,7 @@ namespace WebApplication2.Controllers
             return RedirectToAction("CaseworkerOverview", "Caseworker");
         }
 
-
+        // Update the status and priority of a specific report
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStatusAndPriority(int id, ReportStatus status, PriorityLevel priority)
@@ -201,6 +213,8 @@ namespace WebApplication2.Controllers
             return RedirectToAction("ReportDetails", new { id = geoChange.Id });
         }
 
+        // Details of a specific report
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var geoChange = await _context.GeoChanges.FindAsync(id);
@@ -212,6 +226,8 @@ namespace WebApplication2.Controllers
             return View(geoChange);
         }
 
+        // List all users, excluding admin
+        [HttpGet]
         public async Task<IActionResult> UserList()
         {
             // Get the currently logged-in user
@@ -251,7 +267,10 @@ namespace WebApplication2.Controllers
             return View(userViewModels);
         }
 
+        // Promotes a user to caseworker, only accessible by admin
         [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PromoteToCaseworker(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -263,7 +282,10 @@ namespace WebApplication2.Controllers
             return RedirectToAction("UserList");
         }
 
+        // Demote a caseworker to regular user, only accessible by admin
         [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DemoteToUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);

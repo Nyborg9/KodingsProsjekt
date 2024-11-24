@@ -24,7 +24,8 @@ namespace WebApplication2.Controllers
             _userManager = userManager;
             _logger = logger;
         }
-
+        // Displays the list of reports for the current logged-in user
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -40,6 +41,7 @@ namespace WebApplication2.Controllers
             return View(userChanges);
         }
 
+        // Displays the form for creating a new report
         [HttpGet]
         public IActionResult Create()
         {
@@ -47,6 +49,7 @@ namespace WebApplication2.Controllers
         }
 
         // POST: GeoChanges/Create
+        // Handles the creation of a new GeoChange, with GeoJson and description
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string geoJson, string description, string MapVariant)
@@ -102,7 +105,7 @@ namespace WebApplication2.Controllers
             }
         }
 
-
+        // Method to find the municipality from GeoJson
         private async Task<(string MunicipalityNumber, string MunicipalityName, string CountyName)> FindMunicipalityAsync(string geoJson)
         {
             var municipalityFinderService = HttpContext.RequestServices.GetRequiredService<MunicipalityFinderService>();
@@ -112,9 +115,9 @@ namespace WebApplication2.Controllers
             return (result.MunicipalityNumber, result.MunicipalityName, result.CountyName);
         }
 
-
-        // Henter og viser redigeringsskjemaet
+        // Retrives and displays the edit form for a report, based on the report ID
         // GET: GeoChanges/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -134,6 +137,7 @@ namespace WebApplication2.Controllers
             return View(geoChange);
         }
 
+        // Updates the description of a GeoChange
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Description")] GeoChange geoChange)
@@ -167,6 +171,8 @@ namespace WebApplication2.Controllers
             }
         }
 
+        // Retrives and displays the confirmation form for deleting a report
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -185,6 +191,7 @@ namespace WebApplication2.Controllers
         }
 
         // POST: GeoChanges/Delete/5
+        // Deletes the GeoChange after confirmation
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -200,7 +207,7 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Index", "GeoChanges");
         }
 
-        // Update the exists check to be async
+        // Checks if GeoChange with the given ID exists
         private async Task<bool> GeoChangeExists(int id)
         {
             return await _context.GeoChanges.AnyAsync(e => e.Id == id);
