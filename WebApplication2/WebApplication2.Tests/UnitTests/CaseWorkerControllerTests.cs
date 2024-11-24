@@ -14,9 +14,28 @@ using NSubstitute;
 using System.Security.Claims;
 using Mysqlx.Crud;
 using Org.BouncyCastle.Utilities.Collections;
+using Microsoft.Extensions.Options;
 
 public class CaseworkerControllerTests
 {
+    private readonly Mock<UserManager<ApplicationUser>> _mockUserManager;
+    private readonly DbContextOptions<ApplicationDbContext> _dbContextOptions;
+    private readonly CaseworkerController _controller;
+    private readonly ApplicationDbContext _context;
+    public CaseworkerControllerTests()
+    {
+        // Setup in-memory database options
+        _dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+            
+        // Mock UserManager
+        var userStore = new Mock<IUserStore < ApplicationUser >> ();
+        _mockUserManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
+        _controller = new CaseworkerController(new ApplicationDbContext(_dbContextOptions), _mockUserManager.Object);
+        _context = new ApplicationDbContext(_dbContextOptions);
+    }
+
     [Fact]
     public void CaseworkerOverview_WithReports_ReturnsViewWithReports()
     {
@@ -314,5 +333,260 @@ public class CaseworkerControllerTests
             Assert.Empty(model); // Ensure the model is empty
         }
     }
-    
+    [Fact]
+    public async Task EditReport_ExistingGeoChange_ReturnsRedirectToAction()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "EditReportDatabase")
+            .Options;
+
+        var geoChange = new GeoChange
+        {
+            Id = 1,
+            Description = "Old Description",
+            GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}",
+            UserId = "test-user-id",
+            MunicipalityName = "Municipality 1",
+            MunicipalityNumber = "001",
+            CountyName = "County 1",
+            MapVariant = "MapVariant1"
+        };
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            context.GeoChanges.Add(geoChange);
+            context.SaveChanges();
+        }
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            var controller = new CaseworkerController(context, null);
+
+            // Act
+            var result = await controller.EditReport(1, new GeoChange
+            {
+                Description = "New Description",
+                GeoJson = geoChange.GeoJson, // Use existing GeoJson
+                UserId = geoChange.UserId, // Use existing UserId
+                MunicipalityName = geoChange.MunicipalityName, // Use existing MunicipalityName
+                MunicipalityNumber = geoChange.MunicipalityNumber, // Use existing MunicipalityNumber
+                CountyName = geoChange.CountyName, // Use existing CountyName
+                MapVariant = geoChange.MapVariant // Use existing MapVariant
+            });
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("CaseworkerOverview", redirectResult.ActionName);
+            Assert.Equal("Caseworker", redirectResult.ControllerName);
+
+            // Verify that the description was updated
+            var updatedGeoChange = await context.GeoChanges.FindAsync(1);
+            Assert.Equal("New Description", updatedGeoChange.Description);
+        }
+    }
+
+    // Test for trying to edit a non-existent report
+    [Fact]
+    public async Task EditReport_NonExistentGeoChange_ReturnsNotFound()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "NonExistentDatabase")
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            var controller = new CaseworkerController(context, null);
+
+            // Act
+            var result = await controller.EditReport(999, new GeoChange { Description = "New Description" });
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+    }
+
+    [Fact]
+    public async Task EditReport_ExceptionThrown_ReturnsViewWithModel()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "ExceptionDatabase")
+            .Options;
+
+        var geoChange = new GeoChange
+        {
+            Id = 1,
+            Description = "Old Description",
+            GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}",
+            UserId = "test-user-id",
+            MunicipalityName = "Municipality 1",
+            MunicipalityNumber = "001",
+            CountyName = "County 1",
+            MapVariant = "MapVariant1"
+        };
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            context.GeoChanges.Add(geoChange);
+            context.SaveChanges();
+        }
+
+        // Create a mock for the DbContext
+        var mockContext = new Mock<ApplicationDbContext>(options);
+        mockContext.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()))
+                   .ThrowsAsync(new DbUpdateException("Simulated exception"));
+
+        var controller = new CaseworkerController(mockContext.Object, null);
+
+        // Act
+        var result = await controller.EditReport(1, new GeoChange { Description = "New Description" });
+
+        // Assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        Assert.Equal("New Description", ((GeoChange)viewResult.Model).Description);
+    }
+
+    [Fact]
+    public async Task DeleteUser_UserExists_ReturnsViewWithModel()
+    {
+        // Arrange
+        var userId = "123";
+        var user = new ApplicationUser { Id = userId, Email = "test@example.com" };
+        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
+
+        // Act
+        var result = await _controller.DeleteUser(userId);
+
+        // Assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsType < DeleteUserViewModel > (viewResult.Model);
+        Assert.Equal(userId, model.Id);
+        Assert.Equal(user.Email, model.Email);
+    }
+
+    [Fact]
+    public async Task DeleteUser_UserNotFound_ReturnsNotFound()
+    {
+        // Arrange
+        var userId = "123";
+        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync((ApplicationUser)null);
+
+        // Act
+        var result = await _controller.DeleteUser(userId);
+
+        // Assert
+        Assert.IsType<NotFoundResult>(result);
+    }
+
+    [Fact]
+    public async Task DeleteConfirmed_UserExists_DeletesUserAndRedirects()
+    {
+        // Arrange
+        var userId = "test-user-id";
+        var testUser = new ApplicationUser { Id = userId, Email = "test@example.com" };
+
+        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(testUser);
+        _mockUserManager.Setup(um => um.DeleteAsync(testUser)).ReturnsAsync(IdentityResult.Success);
+
+        // Act
+        var result = await _controller.DeleteConfirmed(userId) as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("Userlist", result.ActionName);
+        Assert.Equal("Caseworker", result.ControllerName);
+        _mockUserManager.Verify(um => um.DeleteAsync(testUser), Times.Once);
+    }
+
+
+    [Fact]
+    public async Task DeleteConfirmed_UserNotFound_ReturnsViewWithModel()
+    {
+        // Arrange
+        var userId = "123";
+        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync((ApplicationUser)null);
+
+        // Act
+        var result = await _controller.DeleteConfirmed(userId);
+
+        // Assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsType < DeleteUserViewModel > (viewResult.Model);
+        Assert.Equal(userId, model.Id);
+        Assert.Null(model.Email);
+    }
+
+    [Fact]
+    public async Task DeleteConfirmed_DeleteFails_ReturnsViewWithModel()
+    {
+        // Arrange
+        var userId = "123";
+        var user = new ApplicationUser { Id = userId, Email = "test@example.com" };
+        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
+        var errors = new[] { new IdentityError { Description = "Error deleting user." } };
+        _mockUserManager.Setup(um => um.DeleteAsync(user)).ReturnsAsync(IdentityResult.Failed(errors));
+
+        // Act
+        var result = await _controller.DeleteConfirmed(userId);
+
+        // Assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsType < DeleteUserViewModel > (viewResult.Model);
+        Assert.Equal(userId, model.Id);
+        Assert.Equal(user.Email, model.Email);
+        Assert.True(_controller.ModelState.Count > 0); // Ensure there is a model error
+    }
+        
+    [Fact]
+    public async Task UpdateStatusAndPriority_ValidId_UpdatesGeoChangeAndRedirects()
+    {
+        // Arrange
+        var geoChange = new GeoChange
+        {
+            Id = 1,
+            Status = ReportStatus.UnderBehandling,
+            Priority = PriorityLevel.Lav,
+            Description = "Initial description",
+            GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}",
+            UserId = "test-user-id",
+            MunicipalityName = "Municipality 1",
+            MunicipalityNumber = "001",
+            CountyName = "County 1",
+            MapVariant = "MapVariant1"
+        };
+
+        _context.GeoChanges.Add(geoChange);
+        await _context.SaveChangesAsync();
+
+        var newStatus = ReportStatus.Avsluttet; // New status
+        var newPriority = PriorityLevel.Vanlig; // New priority
+
+        // Act
+        var result = await _controller.UpdateStatusAndPriority(geoChange.Id, newStatus, newPriority) as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("ReportDetails", result.ActionName);
+        Assert.Equal(geoChange.Id, result.RouteValues["id"]);
+
+        // Verify the update
+        var updatedGeoChange = await _context.GeoChanges.FindAsync(geoChange.Id);
+        Assert.Equal(newStatus, updatedGeoChange.Status); // This should now pass
+        Assert.Equal(newPriority, updatedGeoChange.Priority); // This should also now pass
+    }
+
+    [Fact]
+    public async Task UpdateStatusAndPriority_InvalidId_ReturnsNotFound()
+    {
+        // Arrange
+        var invalidId = 999; // Assuming this ID does not exist
+
+        // Act
+        var result = await _controller.UpdateStatusAndPriority(invalidId, ReportStatus.UnderBehandling, PriorityLevel.Høy);
+
+        // Assert
+        Assert.IsType<NotFoundResult>(result);
+    }
 }

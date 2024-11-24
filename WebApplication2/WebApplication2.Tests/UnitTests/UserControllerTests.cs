@@ -149,7 +149,6 @@ namespace WebApplication2.Tests.UnitTests
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), model.Password))
                 .ReturnsAsync(IdentityResult.Success);
 
-            // Change this line to return a Task<IdentityResult>
             _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), "User"))
                 .ReturnsAsync(IdentityResult.Success);
 
@@ -175,8 +174,8 @@ namespace WebApplication2.Tests.UnitTests
             var model = new RegisterViewModel
             {
                 Email = "test@example.com",
-                Password = "Password123!",
-                ConfirmPassword = "Password123!"
+                Password = "Password",
+                ConfirmPassword = "Password"
             };
 
             var identityErrors = new List<IdentityError>
