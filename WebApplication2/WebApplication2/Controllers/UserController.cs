@@ -18,25 +18,26 @@ namespace WebApplication2.Controllers
             _signInManager = signInManager;
         }
 
+        // Logouts out the user and redirects to the home page
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // Logouts out the user and redirects to the home page
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
+        // Displays the registration page
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        // Registers and creates a new user
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             // Check if the model is valid, and tries to register the user
@@ -59,6 +60,7 @@ namespace WebApplication2.Controllers
             return View(model);
         }
 
+        // Displays the login page
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -66,6 +68,7 @@ namespace WebApplication2.Controllers
             return View();
         }
 
+        // User log-in and authenticates the user
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
@@ -100,6 +103,7 @@ namespace WebApplication2.Controllers
             return View(model);
         }
 
+        // Displays the user page for the logged-in user
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> UserPage()
@@ -112,7 +116,7 @@ namespace WebApplication2.Controllers
             return View(user);
         }
 
-        
+        // Displays the admin page for admin or caseworker
         [HttpGet]
         [Authorize(Roles = "Admin,Caseworker")]
         public async Task<IActionResult> AdminPage()
@@ -125,6 +129,7 @@ namespace WebApplication2.Controllers
             return View(user);
         }
 
+        // Displays the delete user confirmation page
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -143,6 +148,9 @@ namespace WebApplication2.Controllers
             return View(viewModel);
         }
 
+
+        // Deletes the user
+        // POST: User/Delete/{id}
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -165,7 +173,7 @@ namespace WebApplication2.Controllers
             return View(new DeleteUserViewModel { Id = id, Email = user?.Email });
         }
 
-
+        // Checks role of the current user and redirects to the appropriate page
         [Authorize]
         public async Task<IActionResult> CheckRole()
         {
@@ -191,7 +199,7 @@ namespace WebApplication2.Controllers
 
             return RedirectToAction("Index", "Home"); // Default redirect if no roles are found
         }
-
+        
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
