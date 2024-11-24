@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -103,7 +102,6 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         [Authorize]
-        // Shows the user page
         public async Task<IActionResult> UserPage()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -117,7 +115,6 @@ namespace WebApplication2.Controllers
         
         [HttpGet]
         [Authorize(Roles = "Admin,Caseworker")]
-        // Shows the user page
         public async Task<IActionResult> AdminPage()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -143,10 +140,9 @@ namespace WebApplication2.Controllers
                 Email = user.Email
             };
 
-            return View(viewModel); // Pass ViewModel to the view
+            return View(viewModel);
         }
 
-        // POST: User/Delete/{id}
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

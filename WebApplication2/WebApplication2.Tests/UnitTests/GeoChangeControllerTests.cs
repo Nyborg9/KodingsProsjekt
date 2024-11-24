@@ -6,9 +6,7 @@ using Moq;
 using System.Security.Claims;
 using WebApplication2.Controllers;
 using WebApplication2.Data;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Tests.UnitTests
 {
@@ -113,7 +111,6 @@ namespace WebApplication2.Tests.UnitTests
             // Assert
             Assert.IsType<NotFoundResult>(result);
         }
-
 
         [Fact]
         public async Task Create_UnauthorizedUser_ReturnsUnauthorized()
@@ -269,7 +266,7 @@ namespace WebApplication2.Tests.UnitTests
                 Id = 1,
                 Description = "Test Description",
                 GeoJson = "{}",
-                UserId = "test-user-id",
+                UserId = "userId",
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "001",
                 CountyName = "Test County",
