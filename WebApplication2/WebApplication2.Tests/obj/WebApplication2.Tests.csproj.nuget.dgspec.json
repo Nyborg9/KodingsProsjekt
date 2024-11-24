@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj": {}
+    "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj": {
+    "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj",
         "projectName": "WebApplication2.Tests",
-        "projectPath": "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj",
+        "projectPath": "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\WebApplication2.Tests.csproj",
         "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\obj\\",
+        "outputPath": "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -29,8 +29,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
-                "projectPath": "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj"
+              "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
+                "projectPath": "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj"
               }
             }
           }
@@ -103,14 +103,14 @@
         }
       }
     },
-    "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
+    "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "projectUniqueName": "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
         "projectName": "WebApplication2",
-        "projectPath": "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+        "projectPath": "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
         "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mikae\\Desktop\\Got\\KodingsProsjekt\\WebApplication2\\WebApplication2\\obj\\",
+        "outputPath": "C:\\Users\\mikae\\Desktop\\Git\\KodingsProsjekt\\WebApplication2\\WebApplication2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -153,10 +153,6 @@
               "target": "Package",
               "version": "[8.0.10, )"
             },
-            "Microsoft.AspNetCore.Mvc.Testing": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.10, )"
@@ -164,10 +160,6 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
-            "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[8.0.10, )"
             },
@@ -196,10 +188,6 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[8.0.6, )"
-            },
-            "Moq": {
-              "target": "Package",
-              "version": "[4.20.72, )"
             },
             "MySql.Data": {
               "target": "Package",
