@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -29,7 +28,7 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // Shows the registration page
+        // Displays the registration page
         [HttpGet]
         public IActionResult Register()
         {
@@ -61,7 +60,7 @@ namespace WebApplication2.Controllers
             return View(model);
         }
 
-        // Shows the login page
+        // Displays the login page
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -104,10 +103,9 @@ namespace WebApplication2.Controllers
             return View(model);
         }
 
-        // Shows the user page for the logged-in user
+        // Displays the user page for the logged-in user
         [HttpGet]
         [Authorize]
-        // Shows the user page
         public async Task<IActionResult> UserPage()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -121,7 +119,6 @@ namespace WebApplication2.Controllers
         // Displays the admin page for admin or caseworker
         [HttpGet]
         [Authorize(Roles = "Admin,Caseworker")]
-        // Shows the user page
         public async Task<IActionResult> AdminPage()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -148,8 +145,9 @@ namespace WebApplication2.Controllers
                 Email = user.Email
             };
 
-            return View(viewModel); // Pass ViewModel to the view
+            return View(viewModel);
         }
+
 
         // Deletes the user
         // POST: User/Delete/{id}

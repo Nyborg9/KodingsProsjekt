@@ -4,14 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
-using NSubstitute;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using WebApplication2.Controllers;
 using WebApplication2.Models;
-using Xunit;
 
 namespace WebApplication2.Tests.UnitTests
 {
@@ -149,7 +144,6 @@ namespace WebApplication2.Tests.UnitTests
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), model.Password))
                 .ReturnsAsync(IdentityResult.Success);
 
-            // Change this line to return a Task<IdentityResult>
             _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), "User"))
                 .ReturnsAsync(IdentityResult.Success);
 
@@ -175,8 +169,8 @@ namespace WebApplication2.Tests.UnitTests
             var model = new RegisterViewModel
             {
                 Email = "test@example.com",
-                Password = "Password123!",
-                ConfirmPassword = "Password123!"
+                Password = "Password",
+                ConfirmPassword = "Password"
             };
 
             var identityErrors = new List<IdentityError>
@@ -375,11 +369,9 @@ namespace WebApplication2.Tests.UnitTests
                 Email = "test@example.com"
             };
 
-            // Create a comprehensive mock service provider
             var serviceProviderMock = new Mock<IServiceProvider>();
             var httpContextMock = new Mock<HttpContext>();
 
-            // Mock URL Helper Factory
             var urlHelperFactoryMock = new Mock<IUrlHelperFactory>();
             var urlHelperMock = new Mock<IUrlHelper>();
 
@@ -387,10 +379,8 @@ namespace WebApplication2.Tests.UnitTests
                 .Setup(x => x.GetUrlHelper(It.IsAny<ActionContext>()))
                 .Returns(urlHelperMock.Object);
 
-            // Mock Authentication Service
             var authenticationServiceMock = new Mock<IAuthenticationService>();
 
-            // Setup service provider to return mocked services
             serviceProviderMock
                 .Setup(x => x.GetService(typeof(IUrlHelperFactory)))
                 .Returns(urlHelperFactoryMock.Object);
@@ -432,7 +422,6 @@ namespace WebApplication2.Tests.UnitTests
             Assert.Equal("Index", redirectResult.ActionName);
             Assert.Equal("Home", redirectResult.ControllerName);
 
-            // Verify that delete and sign out were called
             _userManagerMock.Verify(um => um.DeleteAsync(testUser), Times.Once);
             authenticationServiceMock.Verify(
                 x => x.SignOutAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<AuthenticationProperties>()),
@@ -496,7 +485,7 @@ namespace WebApplication2.Tests.UnitTests
             Assert.Equal(user, viewResult.Model);
         }
         [Fact]
-        public async Task UserPage_AdminUser_ReturnsViewWithAdminData()
+        public async Task AdminPage_AdminUser_ReturnsViewWithAdminData()
         {
             // Arrange
             var adminUser = new ApplicationUser { Email = "admin@example.com" };
@@ -515,7 +504,7 @@ namespace WebApplication2.Tests.UnitTests
                 .ReturnsAsync(adminUser);
 
             // Act
-            var result = await _controller.UserPage();
+            var result = await _controller.AdminPage();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -523,7 +512,7 @@ namespace WebApplication2.Tests.UnitTests
             // Additional assertions for admin-specific data can be added here
         }
         [Fact]
-        public async Task UserPage_CaseworkerUser_ReturnsViewWithCaseworkerData()
+        public async Task AdminPage_CaseworkerUser_ReturnsViewWithCaseworkerData()
         {
             // Arrange
             var caseworkerUser = new ApplicationUser { Email = "caseworker@example.com" };
@@ -542,7 +531,7 @@ namespace WebApplication2.Tests.UnitTests
                 .ReturnsAsync(caseworkerUser);
 
             // Act
-            var result = await _controller.UserPage();
+            var result = await _controller.AdminPage();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);

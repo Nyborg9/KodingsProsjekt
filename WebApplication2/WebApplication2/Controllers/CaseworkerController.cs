@@ -17,7 +17,6 @@ namespace WebApplication2.Controllers
 
         public CaseworkerController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            // Initializes UserManager and Context
             _context = context;
             _userManager = userManager;
         }
@@ -30,9 +29,9 @@ namespace WebApplication2.Controllers
             var changes_db = _context.GeoChanges.ToList();
             if (changes_db == null || !changes_db.Any())
             {
-                return View(new List<GeoChange>()); // Specify the view name
+                return View(new List<GeoChange>());
             }
-            return View(changes_db); // Specify the view name
+            return View(changes_db);
         }
 
         // Details of a specific report
@@ -77,7 +76,7 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                // Fetch the existing entity
+                // Fetches the existing entity
                 var existingGeoChange = await _context.GeoChanges
                     .FirstOrDefaultAsync(g => g.Id == id);
 
@@ -86,15 +85,13 @@ namespace WebApplication2.Controllers
                     return NotFound();
                 }
 
-                // Only update the description
+                // Only updates the description
                 existingGeoChange.Description = geoChange.Description;
 
-                // Use Entry to modify only the description
+                // Uses Entry to only modify the description
                 _context.Entry(existingGeoChange).Property(x => x.Description).IsModified = true;
-
+                
                 await _context.SaveChangesAsync();
-
-                // Redirect to the CaseworkerOverview after successful edit
                 return RedirectToAction("CaseworkerOverview", "Caseworker");
             }
             catch (Exception ex)
@@ -123,7 +120,7 @@ namespace WebApplication2.Controllers
                 Email = user.Email
             };
 
-            return View(viewModel); // Pass ViewModel to the view
+            return View(viewModel);
         }
 
         // POST: Caseworker/DeleteUser/{id}
@@ -150,7 +147,6 @@ namespace WebApplication2.Controllers
             return View(new DeleteUserViewModel { Id = id, Email = user?.Email });
         }
 
-
         // Shows the report deletion confirmation page
         [HttpGet]
         public async Task<IActionResult> DeleteReport(int? id)
@@ -173,7 +169,7 @@ namespace WebApplication2.Controllers
         // Deletes the report after confirmation
         [HttpPost, ActionName("DeleteReport")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteReportConfirmed(int id)
         {
             // Fetch the geoChange entity
             var geoChange = await _context.GeoChanges.FindAsync(id);
@@ -213,7 +209,7 @@ namespace WebApplication2.Controllers
             return RedirectToAction("ReportDetails", new { id = geoChange.Id });
         }
 
-        // Details of a specific report
+        // Displays details of a specific report
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
