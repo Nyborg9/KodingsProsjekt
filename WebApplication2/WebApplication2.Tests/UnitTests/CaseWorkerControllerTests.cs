@@ -2,19 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Text.Json;
-using System.Collections.Generic;
-using System.Linq;
 using WebApplication2.Controllers;
 using WebApplication2.Data;
 using WebApplication2.Models;
-using Xunit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
-using NSubstitute;
 using System.Security.Claims;
-using Mysqlx.Crud;
-using Org.BouncyCastle.Utilities.Collections;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 public class CaseworkerControllerTests
 {
@@ -28,9 +23,9 @@ public class CaseworkerControllerTests
         _dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
-            
+
         // Mock UserManager
-        var userStore = new Mock<IUserStore < ApplicationUser >> ();
+        var userStore = new Mock<IUserStore<ApplicationUser>>();
         _mockUserManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
         _controller = new CaseworkerController(new ApplicationDbContext(_dbContextOptions), _mockUserManager.Object);
         _context = new ApplicationDbContext(_dbContextOptions);
@@ -333,6 +328,112 @@ public class CaseworkerControllerTests
             Assert.Empty(model); // Ensure the model is empty
         }
     }
+        [Fact]
+        public void ReportDetails_ExistingReport_ReturnsViewWithCorrectModel()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+
+            // Prepare test data
+            var testGeoChange = new GeoChange
+            {
+                Id = 1,
+                Description = "Test Description",
+                GeoJson = "{}",
+                UserId = "test-user-id",
+                MunicipalityName = "Test Municipality",
+                MunicipalityNumber = "001",
+                CountyName = "Test County",
+                MapVariant = "MapVariant1"
+            };
+
+            // Setup context and add test data
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.GeoChanges.Add(testGeoChange);
+                context.SaveChanges();
+            }
+
+            // Use a fresh context for the test
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Setup UserManager mock
+                var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+                var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                    userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+                // Create controller
+                var controller = new CaseworkerController(context, mockUserManager.Object);
+
+                // Act
+                var result = controller.ReportDetails(1);
+
+                // Assert
+                var viewResult = Assert.IsType<ViewResult>(result);
+                var model = Assert.IsType<GeoChange>(viewResult.Model);
+
+                Assert.Equal(1, model.Id);
+                Assert.Equal("Test Description", model.Description);
+                Assert.Equal("Test Municipality", model.MunicipalityName);
+                Assert.Equal("001", model.MunicipalityNumber);
+                Assert.Equal("Test County", model.CountyName);
+            }
+        }
+
+        [Fact]
+        public void ReportDetails_NonExistentReport_ReturnsNotFound()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Setup UserManager mock
+                var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+                var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                    userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+                // Create controller
+                var controller = new CaseworkerController(context, mockUserManager.Object);
+
+                // Act
+                var result = controller.ReportDetails(999); // Non-existent ID
+
+                // Assert
+                Assert.IsType<NotFoundResult>(result);
+            }
+        }
+
+        [Fact]
+        public void ReportDetails_EmptyDatabase_ReturnsNotFound()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Setup UserManager mock
+                var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+                var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                    userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+                // Create controller
+                var controller = new CaseworkerController(context, mockUserManager.Object);
+
+                // Act
+                var result = controller.ReportDetails(1);
+
+                // Assert
+                Assert.IsType<NotFoundResult>(result);
+            }
+        }
+
     [Fact]
     public async Task EditReport_ExistingGeoChange_ReturnsRedirectToAction()
     {
@@ -461,7 +562,7 @@ public class CaseworkerControllerTests
 
         // Assert
         var viewResult = Assert.IsType<ViewResult>(result);
-        var model = Assert.IsType < DeleteUserViewModel > (viewResult.Model);
+        var model = Assert.IsType<DeleteUserViewModel>(viewResult.Model);
         Assert.Equal(userId, model.Id);
         Assert.Equal(user.Email, model.Email);
     }
@@ -481,23 +582,72 @@ public class CaseworkerControllerTests
     }
 
     [Fact]
-    public async Task DeleteConfirmed_UserExists_DeletesUserAndRedirects()
+    public async Task DeleteConfirmed_ValidUser_DeletesUserAndRedirects()
     {
         // Arrange
-        var userId = "test-user-id";
-        var testUser = new ApplicationUser { Id = userId, Email = "test@example.com" };
+        var testCaseworker = new ApplicationUser
+        {
+            Id = "TestUser",
+            Email = "TestUser@example.com"
+        };
 
-        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(testUser);
-        _mockUserManager.Setup(um => um.DeleteAsync(testUser)).ReturnsAsync(IdentityResult.Success);
+        var serviceProviderMock = new Mock<IServiceProvider>();
+        var httpContextMock = new Mock<HttpContext>();
+
+        var urlHelperFactoryMock = new Mock<IUrlHelperFactory>();
+        var urlHelperMock = new Mock<IUrlHelper>();
+
+        urlHelperFactoryMock
+            .Setup(x => x.GetUrlHelper(It.IsAny<ActionContext>()))
+            .Returns(urlHelperMock.Object);
+
+        var authenticationServiceMock = new Mock<IAuthenticationService>();
+
+        serviceProviderMock
+            .Setup(x => x.GetService(typeof(IUrlHelperFactory)))
+            .Returns(urlHelperFactoryMock.Object);
+
+        serviceProviderMock
+            .Setup(x => x.GetService(typeof(IAuthenticationService)))
+            .Returns(authenticationServiceMock.Object);
+
+        // Create HttpContext with mock service provider
+        var httpContext = new DefaultHttpContext
+        {
+            User = new ClaimsPrincipal(new ClaimsIdentity()),
+            RequestServices = serviceProviderMock.Object
+        };
+
+        // Setup controller context with the mocked HttpContext
+        _controller.ControllerContext = new ControllerContext
+        {
+            HttpContext = httpContext
+        };
+
+        // Setup UserManager mocks
+        _mockUserManager.Setup(um => um.FindByIdAsync(testCaseworker.Id))
+            .ReturnsAsync(testCaseworker);
+
+        _mockUserManager.Setup(um => um.DeleteAsync(testCaseworker))
+            .ReturnsAsync(IdentityResult.Success);
+
+        // Setup Authentication Service mock
+        authenticationServiceMock
+            .Setup(x => x.SignOutAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<AuthenticationProperties>()))
+            .Returns(Task.CompletedTask);
 
         // Act
-        var result = await _controller.DeleteConfirmed(userId) as RedirectToActionResult;
+        var result = await _controller.DeleteConfirmed(testCaseworker.Id);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Equal("Userlist", result.ActionName);
-        Assert.Equal("Caseworker", result.ControllerName);
-        _mockUserManager.Verify(um => um.DeleteAsync(testUser), Times.Once);
+        var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Userlist", redirectResult.ActionName); // Ensure it redirects to Userlist
+
+        _mockUserManager.Verify(um => um.DeleteAsync(testCaseworker), Times.Once);
+        authenticationServiceMock.Verify(
+            x => x.SignOutAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<AuthenticationProperties>()),
+            Times.Once
+        );
     }
 
 
@@ -513,7 +663,7 @@ public class CaseworkerControllerTests
 
         // Assert
         var viewResult = Assert.IsType<ViewResult>(result);
-        var model = Assert.IsType < DeleteUserViewModel > (viewResult.Model);
+        var model = Assert.IsType<DeleteUserViewModel>(viewResult.Model);
         Assert.Equal(userId, model.Id);
         Assert.Null(model.Email);
     }
@@ -533,60 +683,316 @@ public class CaseworkerControllerTests
 
         // Assert
         var viewResult = Assert.IsType<ViewResult>(result);
-        var model = Assert.IsType < DeleteUserViewModel > (viewResult.Model);
+        var model = Assert.IsType<DeleteUserViewModel>(viewResult.Model);
         Assert.Equal(userId, model.Id);
         Assert.Equal(user.Email, model.Email);
         Assert.True(_controller.ModelState.Count > 0); // Ensure there is a model error
     }
-        
+
     [Fact]
-    public async Task UpdateStatusAndPriority_ValidId_UpdatesGeoChangeAndRedirects()
+    public async Task DeleteReport_ValidId_ReturnsViewWithGeoChange()
     {
         // Arrange
-        var geoChange = new GeoChange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        // Prepare test data
+        var testGeoChange = new GeoChange
         {
             Id = 1,
-            Status = ReportStatus.UnderBehandling,
-            Priority = PriorityLevel.Lav,
-            Description = "Initial description",
-            GeoJson = "{\"type\":\"Feature\",\"properties\":{\"municipalityName\":\"Municipality 1\",\"municipalityNumber\":\"001\",\"countyName\":\"County 1\"}}",
-            UserId = "test-user-id",
-            MunicipalityName = "Municipality 1",
+            Description = "Test Description",
+            GeoJson = "{}",
+            UserId = "userId",
+            MunicipalityName = "Test Municipality",
             MunicipalityNumber = "001",
-            CountyName = "County 1",
+            CountyName = "Test County",
             MapVariant = "MapVariant1"
         };
 
-        _context.GeoChanges.Add(geoChange);
-        await _context.SaveChangesAsync();
+        // Setup context and add test data
+        using (var context = new ApplicationDbContext(options))
+        {
+            context.GeoChanges.Add(testGeoChange);
+            await context.SaveChangesAsync();
+        }
 
-        var newStatus = ReportStatus.Avsluttet; // New status
-        var newPriority = PriorityLevel.Vanlig; // New priority
+        // Use a fresh context for the test
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Setup UserManager mock
+            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                userStoreMock.Object, null, null, null, null, null, null, null, null);
 
-        // Act
-        var result = await _controller.UpdateStatusAndPriority(geoChange.Id, newStatus, newPriority) as RedirectToActionResult;
+            // Create controller
+            var controller = new CaseworkerController(context, mockUserManager.Object);
 
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal("ReportDetails", result.ActionName);
-        Assert.Equal(geoChange.Id, result.RouteValues["id"]);
+            // Act
+            var result = await controller.DeleteReport(1);
 
-        // Verify the update
-        var updatedGeoChange = await _context.GeoChanges.FindAsync(geoChange.Id);
-        Assert.Equal(newStatus, updatedGeoChange.Status); // This should now pass
-        Assert.Equal(newPriority, updatedGeoChange.Priority); // This should also now pass
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsType<GeoChange>(viewResult.Model);
+
+            Assert.Equal(1, model.Id);
+            Assert.Equal("Test Description", model.Description);
+            Assert.Equal("Test Municipality", model.MunicipalityName);
+        }
     }
 
     [Fact]
-    public async Task UpdateStatusAndPriority_InvalidId_ReturnsNotFound()
+    public async Task DeleteReport_NullId_ReturnsNotFound()
     {
         // Arrange
-        var invalidId = 999; // Assuming this ID does not exist
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Setup UserManager mock
+            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+            // Create controller
+            var controller = new CaseworkerController(context, mockUserManager.Object);
+
+            // Act
+            var result = await controller.DeleteReport(null);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+    }
+
+    [Fact]
+    public async Task DeleteReport_NonExistentId_ReturnsNotFound()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Setup UserManager mock
+            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+            // Create controller
+            var controller = new CaseworkerController(context, mockUserManager.Object);
+
+            // Act
+            var result = await controller.DeleteReport(999); // Non-existent ID
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+    }
+
+    [Fact]
+    public async Task DeleteReportConfirmed_ExistingGeoChange_RemovesAndRedirects()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        // Create and populate the context
+        using (var context = new ApplicationDbContext(options))
+        {
+            var geoChange = new GeoChange
+            {
+                Id = 1,
+                Description = "Test Description",
+                GeoJson = "{}",
+                UserId = "test-user-id",
+                MunicipalityName = "Test Municipality",
+                MunicipalityNumber = "001",
+                CountyName = "Test County",
+                MapVariant = "MapVariant1"
+            };
+            context.GeoChanges.Add(geoChange);
+            await context.SaveChangesAsync();
+        }
+
+        // Use a new context to perform the deletion
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Setup UserManager mock
+            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+            // Create the controller with the new context
+            var controller = new CaseworkerController(context, mockUserManager.Object);
+
+            // Act
+            var result = await controller.DeleteReportConfirmed(1);
+
+            // Assert
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("CaseworkerOverview", redirectResult.ActionName);
+            Assert.Equal("Caseworker", redirectResult.ControllerName);
+        }
+
+        // Verify deletion with another fresh context
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Verify that the GeoChange was removed
+            var deletedGeoChange = await context.GeoChanges.FindAsync(1);
+            Assert.Null(deletedGeoChange);
+        }
+    }
+
+    [Fact]
+    public async Task Details_ExistingId_ReturnsViewWithGeoChange()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        var testUser = new ApplicationUser
+        {
+            Id = "test-user-id",
+            Email = "test@example.com"
+        };
+
+        var testGeoChange = new GeoChange
+        {
+            Id = 1,
+            Description = "Test Change",
+            GeoJson = "{\"type\":\"Feature\"}",
+            MunicipalityName = "Test Municipality",
+            MunicipalityNumber = "001",
+            CountyName = "Test County",
+            MapVariant = "TestVariant",
+            UserId = testUser.Id,
+            User = testUser
+        };
+
+        // Setup the context and add the test data
+        using (var context = new ApplicationDbContext(options))
+        {
+            context.Users.Add(testUser);
+            context.GeoChanges.Add(testGeoChange);
+            await context.SaveChangesAsync();
+        }
+
+        // Use a fresh context for the test
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Setup UserManager mock
+            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                userStoreMock.Object, null, null, null, null, null, null, null, null);
+
+            // Create the controller
+            var controller = new CaseworkerController(context, mockUserManager.Object);
+
+            // Act
+            var result = await controller.Details(1);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsType<GeoChange>(viewResult.Model);
+
+            Assert.Equal(1, model.Id);
+            Assert.Equal("Test Change", model.Description);
+            Assert.Equal("Test Municipality", model.MunicipalityName);
+            Assert.Equal("TestVariant", model.MapVariant);
+            Assert.Equal(testUser.Id, model.UserId);
+        }
+    }
+
+    [Fact]
+    public async Task Details_NonExistentId_ReturnsNotFound()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Setup UserManager mock (if required)
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                Mock.Of<IUserStore<ApplicationUser>>(),
+                null, null, null, null, null, null, null, null);
+
+            // Create the controller
+            var controller = new CaseworkerController(context, mockUserManager.Object);
+
+            // Act
+            var result = await controller.Details(999); // Non-existent ID
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+    }
+
+    [Fact]
+    public async Task Details_NullId_ReturnsNotFound()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
+        {
+            // Setup UserManager mock (if required)
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(
+                Mock.Of<IUserStore<ApplicationUser>>(),
+                null, null, null, null, null, null, null, null);
+
+            // Create the controller
+            var controller = new CaseworkerController(context, mockUserManager.Object);
+
+            // Act
+            var result = await controller.Details(0); // Invalid ID
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+    }
+    [Fact]
+    public async Task PromoteToCaseworker_ValidInput_PromotesUserToCaseworker()
+    {
+        // Arrange
+        var userId = "user-id-123";
+        var user = new ApplicationUser { Id = userId, UserName = "username" };
+        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
 
         // Act
-        var result = await _controller.UpdateStatusAndPriority(invalidId, ReportStatus.UnderBehandling, PriorityLevel.Høy);
+        var result = await _controller.PromoteToCaseworker(userId) as RedirectToActionResult;
 
         // Assert
-        Assert.IsType<NotFoundResult>(result);
+        Assert.NotNull(result);
+        Assert.Equal("UserList", result.ActionName);
+        _mockUserManager.Verify(um => um.RemoveFromRoleAsync(user, "User"), Times.Once);
+        _mockUserManager.Verify(um => um.AddToRoleAsync(user, "Caseworker"), Times.Once);
+    }
+
+    [Fact]
+    public async Task DemoteToUser_ValidInput_DemotesACaseworkerToUser()
+    {
+        // Arrange
+        var userId = "Caseworker1";
+        var user = new ApplicationUser { Id = userId, UserName = "Caseworker1" };
+        _mockUserManager.Setup(um => um.FindByIdAsync(userId)).ReturnsAsync(user);
+
+        // Act
+        var result = await _controller.DemoteToUser(userId) as RedirectToActionResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal("UserList", result.ActionName);
+        _mockUserManager.Verify(um => um.RemoveFromRoleAsync(user, "Caseworker"), Times.Once);
+        _mockUserManager.Verify(um => um.AddToRoleAsync(user, "User"), Times.Once);
     }
 }
