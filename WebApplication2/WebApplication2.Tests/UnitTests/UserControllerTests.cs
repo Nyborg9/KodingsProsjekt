@@ -484,6 +484,7 @@ namespace WebApplication2.Tests.UnitTests
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.Equal(user, viewResult.Model);
         }
+
         [Fact]
         public async Task AdminPage_AdminUser_ReturnsViewWithAdminData()
         {
@@ -492,7 +493,7 @@ namespace WebApplication2.Tests.UnitTests
             var claims = new ClaimsPrincipal(new ClaimsIdentity(new[]
             {
                  new Claim(ClaimTypes.Name, adminUser .Email),
-                 new Claim(ClaimTypes.Role, "Admin") // Add admin role
+                 new Claim(ClaimTypes.Role, "Admin") 
             }));
 
             _controller.ControllerContext = new ControllerContext
@@ -509,7 +510,6 @@ namespace WebApplication2.Tests.UnitTests
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.Equal(adminUser, viewResult.Model);
-            // Additional assertions for admin-specific data can be added here
         }
         [Fact]
         public async Task AdminPage_CaseworkerUser_ReturnsViewWithCaseworkerData()
@@ -536,7 +536,6 @@ namespace WebApplication2.Tests.UnitTests
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.Equal(caseworkerUser, viewResult.Model);
-            // Additional assertions for caseworker-specific data can be added here
         }
     }
 }
