@@ -5,7 +5,7 @@ using WebApplication2.API_Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 
+// Removes the "Server" header from HTTP responses to prevent exposing server details.
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.AddServerHeader = false; 
