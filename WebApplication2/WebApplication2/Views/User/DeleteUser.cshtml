@@ -4,10 +4,10 @@
     ViewData["Title"] = "Delete Account";
 }
 
-<h2>Delete Account</h2>
+<h2>Slett bruker</h2>
 
 <div>
-    <h4>Are you sure you want to delete your account?</h4>
+    <h4>Er du sikker på at du ønsker å slette denne brukeren?</h4>
     <div>
         <h5>@(Html.Encode(Model.Email))</h5>
     </div>
@@ -16,8 +16,8 @@
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
         <div>
-            <input type="submit" value="Delete" class="btn btn-danger" />
-            <a asp-action="UserPage" class="btn btn-secondary">Cancel</a>
+            <input type="submit" value="Slett" class="btn btn-danger" />
+            <a asp-action="UserPage" class="btn btn-secondary">Avbryt</a>
         </div>
     </form>
 </div>
