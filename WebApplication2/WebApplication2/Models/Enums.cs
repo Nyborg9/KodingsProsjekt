@@ -1,5 +1,6 @@
 ﻿namespace WebApplication2.Models
 {
+    // Enumerations for the priority level and status of a report
     public enum PriorityLevel
     {
         Lav = 1,        

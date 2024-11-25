@@ -31,8 +31,8 @@ namespace WebApplication2.Tests.UnitTests
             _mockUserManager = new Mock<UserManager<ApplicationUser>>(userStore.Object, null, null, null, null, null, null, null, null);
 
             var mockLogger = new Mock<ILogger<GeoChangesController>>();
+            
             // Create the controller
-    
             _controller = new GeoChangesController(_context, _mockUserManager.Object, mockLogger.Object);
         }
         public void Dispose()
@@ -74,6 +74,7 @@ namespace WebApplication2.Tests.UnitTests
             _context.GeoChanges.AddRange(geoChange1, geoChange2);
             await _context.SaveChangesAsync();
 
+            //Sets up the user for the controller using claims
             var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, testUser.Id)
@@ -96,6 +97,7 @@ namespace WebApplication2.Tests.UnitTests
             // Arrange
             _mockUserManager.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((ApplicationUser)null);
 
+            //Sets up the user for the controller using claims
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, "testUserId")
@@ -128,6 +130,7 @@ namespace WebApplication2.Tests.UnitTests
         public async Task Create_InvalidInput_ReturnsBadRequest()
         {
             // Arrange
+            //Sets up the user for the controller using claims
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, "testUserId")

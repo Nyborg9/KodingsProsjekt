@@ -78,12 +78,12 @@ namespace WebApplication2.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByEmailAsync(model.Email); // Add this line to get the user
+                    var user = await _userManager.FindByEmailAsync(model.Email); 
                     var roles = await _userManager.GetRolesAsync(user);
 
                     if (roles.Contains("Admin"))
                     {
-                        return RedirectToAction("AdminPage"); // Redirect to Admin page
+                        return RedirectToAction("AdminPage");
                     }
                     else if (roles.Contains("Caseworker"))
                     {
@@ -150,7 +150,6 @@ namespace WebApplication2.Controllers
 
 
         // Deletes the user
-        // POST: User/Delete/{id}
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

@@ -5,8 +5,6 @@ namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
-
-        // Initialize Logger, context and UserManager
         public HomeController()
         {
         }

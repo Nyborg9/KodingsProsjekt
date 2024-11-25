@@ -1,5 +1,6 @@
 ﻿namespace WebApplication2.Models
 {
+    // View model for the user list
     public class UserListViewModel
     {
         public string Id { get; set; }
