@@ -4,6 +4,7 @@ namespace WebApplication2.Models
 {
     public class RegisterViewModel
     {
+        // View model for registering a new user
         [Required]
         [EmailAddress]
         public string Email { get; set; }

@@ -113,7 +113,6 @@ namespace WebApplication2.Controllers
         }
 
         // Retrives and displays the edit form for a report, based on the report ID
-        // GET: GeoChanges/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -187,7 +186,6 @@ namespace WebApplication2.Controllers
             return View(geoChange);
         }
 
-        // POST: GeoChanges/Delete/5
         // Deletes the GeoChange after confirmation
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

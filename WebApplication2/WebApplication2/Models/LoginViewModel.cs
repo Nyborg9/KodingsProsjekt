@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication2.Models
 {
+    // View model for logging in
     public class LoginViewModel
     {
         [Required]
