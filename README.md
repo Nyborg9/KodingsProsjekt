@@ -12,8 +12,8 @@ For å kjøre applikasjonen trenger du:
 - Docker Desktop
 - Visual Studio (eller lignende IDE)
 - Installere en connector til mysql eller mariadb og restart visual studio (i visual studio brukte vi extensionen dotConnect for MySQL & MariaDB)
-- Gå til View/Server Explorer i toppen av Visual Studio og høyreklikk på Data Connections og trykk på Add Connection
-- Velg MySQLServer og legg in informasjonen til databasen (Host = localhost, Port = 3306, User Id = root, Password = 123, Database = geochangesdb)
+- Gå til View/Server Explorer i toppen av Visual Studio og høyreklikk på **Data Connections** og trykk på **Add Connection**
+- Velg **MySQLServer** og legg in informasjonen til databasen: (Host = localhost, Port = 3306, User Id = root, Password = 123, Database = geochangesdb)
 
 ### Steg 1 - Klon prosjektet
 1. Kopier linken til repository på GitHub.
@@ -52,21 +52,23 @@ Når en bruker utfører en handling, som å registrere seg eller sende inn et fo
 Databasen i **MariaDB** blir brukt for å lagrer data for applikasjonen. Dette gjelder informasjon om brukere og innsendte kartendringsforslag.
 
 ### 5. **Repository**
-Bruker github repository som lagringsted for applikasjonens kildekode og for å organisere arbeidet. Det vil inneholde all koden, konfigurasjoner og dokumentasjon som er nødvendig for å bygge og kjøre applikasjonen. 
+Github repository blir brukt som lagringsted for applikasjonens kildekode og for å organisere arbeidet. Det vil inneholde all koden, konfigurasjoner og dokumentasjon som er nødvendig for å bygge og kjøre applikasjonen. 
 
 ## Test av applikasjon
 Det er utført manuell testing etter hver implementasjon av nye funskjoner for å sikre applikasjonens stabilitet og funksjonalitet.
-[Testing-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon).
+
+
+[Test-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon).
 
 
 ## Funksjonaliteter i applikasjonen
-Liste over funksjonaliteter i applikasjonen:
-- Brukerregistrering: Mulighet for å registrere seg som bruker, og logge in.
-- Kartvisning: Innloggede brukere kan se kart, i ulike kartvarianter.
-- Sende inn forslag til endriger i Kart: Innloggede brukere kan markere områder i kart og sende inn forslag til endringer i kart.
-- Oversikt over innsendte forslag: En oversikt over alle innsendte forslag, samt en spesifikk oversikt over forslagene sendt inn av hver bruker. 
-- Redigere/Slette rapport: Mulighet for å redigere og slette innsendte rapporter.
-- Promotere: Som admin: Endre rollen til en bruker. Vanlig bruker kan promoteres til saksbehandler og saksbehandler kan nedgraderes til vanlig bruker. 
-- Kommune og fylke: Innsendte rapporter blir automatisk tilegnet kommune og fylke informasjon basert på markeringer i kart. 
-- Slette bruker: Mulighet for å slette bruker. Admin bruker kan ikke fjernes. 
-- Status oppdatering: Mulighet for saksbehandler til å oppdatere status og prioritering for en rapport. 
+Liste over noen funksjonaliteter i applikasjonen:
+- **Brukerregistrering:** Mulighet for å registrere seg som bruker, og logge in.
+- **Kartvisning:** Innloggede brukere kan se kart og velge mellom ulike kartvarianter.
+- **Sende inn forslag til endriger i Kart:** Innloggede brukere kan markere områder i kart og sende inn forslag til endringer.
+- **Oversikt over innsendte forslag:** Oversikt over egne innsendte rapporter. For Admin/Saksbehandler: Oversikt over alle innsendte rapporter. 
+- **Redigere og Slette rapport:** Mulighet for å redigere og slette innsendte rapporter.
+- **Roller:** Som admin: Endre rollen til en bruker. Vanlig bruker kan promoteres til saksbehandler og saksbehandler kan nedgraderes til vanlig bruker. 
+- **Kommune og fylke tilkobling:** Innsendte rapporter blir automatisk tilegnet kommune og fylkes informasjon basert på markeringer i kart. 
+- **Slette bruker:** Mulighet for å slette egen bruker. Admin bruker kan ikke slettes og saksbehandlere kan ikke slette andre saksbehandlere. 
+- **Status oppdatering:** Mulighet for saksbehandler til å oppdatere status og prioritering for en rapport. 
