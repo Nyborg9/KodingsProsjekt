@@ -50,19 +50,6 @@
             <h6>Kart type:</h6>
             <p>@Model.MapVariant</p>
 
-            <h6>Administrer:</h6>
-            <div class="d-flex gap-3">
-                <!-- Edit Button -->
-                <form asp-controller="Caseworker" asp-action="EditReport" method="get">
-                    <input type="hidden" name="id" value="@Model.Id" />
-                    <button type="submit" class="btn btn-primary">Rediger</button>
-                </form>
-                <!-- Delete Button -->
-                <form asp-controller="Caseworker" asp-action="DeleteReport" method="get">
-                    <input type="hidden" name="id" value="@Model.Id" />
-                    <button type="submit" class="btn btn-danger">Slett</button>
-                </form>
-            </div>
 
             <!-- Status and Priority Update Form -->
             <h6>Status:</h6>
