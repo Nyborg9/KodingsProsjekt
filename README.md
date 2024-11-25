@@ -58,7 +58,7 @@ Github repository blir brukt som lagringsted for applikasjonens kildekode og for
 ## Test av applikasjon
 Det er utført manuell testing etter hver implementasjon av nye funskjoner for å sikre applikasjonens stabilitet og funksjonalitet. I tillegg er det implementert unit tester for å teste controllerne.
 
-For å finne Unit testene så må mann høyreklikke på **Solution** også **Add/Existing Project** også navigere til mappen og åpne Webapplication2/Webapplication2.Tests/WebApplication2.Tests.csproj
+For å finne Unit testene så må mann høyreklikke på **Solution** også **Add/Existing Project** også navigere til mappen og åpne **Webapplication2/Webapplication2.Tests/WebApplication2.Tests.csproj**
 
 [Test-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon).
 
