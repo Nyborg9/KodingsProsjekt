@@ -5,11 +5,12 @@
 <h4>Rediger rapport</h4>
 <hr />
 <div>
+    <!-- Form for editing the description of a report -->
     <form asp-action="EditReport" method="post">
         @Html.AntiForgeryToken()
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <!-- Hidden fields to store GeoChange entity data like Id, UserId, and GeoJson -->
+        <!-- Hidden fields for Id, UserId, and GeoJson, data which is not to be edited -->
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="UserId" />
         <input type="hidden" asp-for="GeoJson" />
@@ -36,11 +37,11 @@
             <!-- Save Button: Submits the form -->
             <button type="submit" class="btn btn-primary">Lagre</button>
 
-            <!-- Cancel Button: Redirects to CaseworkerOverview -->
             <a href="@Url.Action("CaseworkerOverview", "Caseworker")" class="btn btn-secondary">Tilbake</a>
         </div>
     </form>
 </div>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

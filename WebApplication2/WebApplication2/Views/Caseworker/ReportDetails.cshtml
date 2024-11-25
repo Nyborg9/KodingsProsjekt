@@ -86,10 +86,8 @@
                 <div class="form-group">
                     <label for="priority">Velg Prioritet:</label>
                     <select id="priority" name="priority" class="form-control">
-                        <!-- Populate the dropdown with values from the PriorityLevel enum -->
                         @foreach (var priority in Enum.GetValues(typeof(WebApplication2.Models.PriorityLevel)))
                         {
-                            <!-- Set the selected option based on the current priority in the model -->
                             <option value="@priority" selected="@(priority.ToString() == Model.Priority?.ToString() ? "selected" : null)">
                                 @priority
                             </option>
@@ -131,8 +129,6 @@
                 attribution: 'Kartdata &copy; <a href="https://www.kartverket.no/">Kartverket</a>'
             })
         };
-
-
 
         // Add the selected layer based on the MapVariant stored in the model
         var selectedLayer = '@Model.MapVariant'; 
