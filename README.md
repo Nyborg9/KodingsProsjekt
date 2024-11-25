@@ -11,9 +11,6 @@ Applikasjonen er laget med en **Model-View-Controller (MVC)** arkitektur:
 For å kjøre applikasjonen trenger du:
 - Docker Desktop
 - Visual Studio (eller lignende IDE)
-- Installere en connector til mysql eller mariadb og restart visual studio (i visual studio brukte vi extensionen dotConnect for MySQL & MariaDB)
-- Gå til View/Server Explorer i toppen av Visual Studio og høyreklikk på **Data Connections** og trykk på **Add Connection**
-- Velg **MySQLServer** og legg in informasjonen til databasen: (Host = localhost, Port = 3306, User Id = root, Password = 123, Database = geochangesdb)
 
 ### Steg 1 - Klon prosjektet
 1. Kopier linken til repository på GitHub.
@@ -21,10 +18,14 @@ For å kjøre applikasjonen trenger du:
 3. Lim inn linken og klon prosjektet.
 
 ### Steg 2 - Koble til databasen
-For å koble applikasjonen til databasen, kjør applikasjonen via Docker Compose:
-1. Gå til Package Manager Console og skriv inn kommandoene Drop-Database også Update-Database
-2. Velg **Build soultion** fra Build menyen øverst i Visual Studio. 
+1. Velg **Build soultion** fra Build menyen øverst i Visual Studio. 
+2. Installer en connector til mysql eller mariadb og restart visual studio (i visual studio brukte vi extensionen dotConnect for MySQL & MariaDB som vi fant ved bruk av Extensions/Manage Extentions)
 3. Kjør applikasjonen med Docker Compose.
+4. Gå til View/Server Explorer i toppen av Visual Studio og høyreklikk på **Data Connections** og trykk på **Add Connection**
+5. Velg **MySQLServer** og legg in informasjonen til databasen: (Host = localhost, Port = 3306, User Id = root, Password = 123, Database = geochangesdb)
+6. Gå til Package Manager Console og skriv inn kommandoene Drop-Database også Update-Database
+7. Kjør applikasjonen med Docker Compose igjen
+
 
 ### Steg 3 - Utforsk applikasjonen
 Vanlig bruker:
@@ -56,7 +57,7 @@ Github repository blir brukt som lagringsted for applikasjonens kildekode og for
 
 ## Test av applikasjon
 Det er utført manuell testing etter hver implementasjon av nye funskjoner for å sikre applikasjonens stabilitet og funksjonalitet.
-
+For å finne Unit testene så må mann høyreklikke på Solution også Add/Existing Project også navigere til mappen og åpne Webapplication2/Webapplication2.Tests/WebApplication2.Tests.csproj
 
 [Test-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon).
 
