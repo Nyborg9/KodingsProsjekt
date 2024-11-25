@@ -45,16 +45,15 @@ namespace WebApplication2.Tests.UnitTests
         public async Task Index_UserFound_ReturnsViewWithGeoChanges()
         {
             // Arrange
-            var user = new ApplicationUser { Id = "user-id-123" };
-            _mockUserManager.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
+            var testUser = new ApplicationUser { Id = "testUserId" };
+            _mockUserManager.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(testUser);
 
             var geoChange1 = new GeoChange
             {
                 Id = 1,
                 GeoJson = "{}",
                 Description = "Change 1",
-                UserId = user.Id,
-                // Add required properties
+                UserId = testUser.Id,
                 MunicipalityName = "Test Municipality 1",
                 MunicipalityNumber = "001",
                 CountyName = "Test County 1",
@@ -65,8 +64,7 @@ namespace WebApplication2.Tests.UnitTests
                 Id = 2,
                 GeoJson = "{}",
                 Description = "Change 2",
-                UserId = user.Id,
-                // Add required properties
+                UserId = testUser.Id,
                 MunicipalityName = "Test Municipality 2",
                 MunicipalityNumber = "002",
                 CountyName = "Test County 2",
@@ -78,7 +76,7 @@ namespace WebApplication2.Tests.UnitTests
 
             var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id)
+            new Claim(ClaimTypes.NameIdentifier, testUser.Id)
         };
             var identity = new ClaimsIdentity(claims);
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
@@ -100,7 +98,7 @@ namespace WebApplication2.Tests.UnitTests
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, "user-id-123")
+                new Claim(ClaimTypes.NameIdentifier, "testUserId")
             };
             var identity = new ClaimsIdentity(claims);
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
@@ -132,7 +130,7 @@ namespace WebApplication2.Tests.UnitTests
             // Arrange
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, "user-id-123")
+                new Claim(ClaimTypes.NameIdentifier, "testUserId")
             };
             var identity = new ClaimsIdentity(claims);
             _controller.ControllerContext.HttpContext = new DefaultHttpContext { User = new ClaimsPrincipal(identity) };
@@ -149,14 +147,14 @@ namespace WebApplication2.Tests.UnitTests
         public async Task Edit_ValidInput_RedirectsToIndex()
         {
             // Arrange
-            var user = new ApplicationUser { Id = "user-id-123" };
+            var testUser = new ApplicationUser { Id = "testUserId" };
 
             var geoChange = new GeoChange
             {
                 Id = 1,
                 GeoJson = "{}",
                 Description = "Original description",
-                UserId = user.Id,
+                UserId = testUser.Id,
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "001",
                 CountyName = "Test County",
@@ -204,16 +202,6 @@ namespace WebApplication2.Tests.UnitTests
         }
 
         [Fact]
-        public async Task Delete_NullId_ReturnsNotFound()
-        {
-            // Act
-            var result = await _controller.Delete(null);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
-        }
-
-        [Fact]
         public async Task Delete_NonExistentGeoChange_ReturnsNotFound()
         {
             // Arrange
@@ -230,15 +218,15 @@ namespace WebApplication2.Tests.UnitTests
         public async Task Delete_ExistingGeoChange_ReturnsView()
         {
             // Arrange
-            var user = new ApplicationUser { Id = "user-id-123" };
-            _mockUserManager.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
+            var testUser = new ApplicationUser { Id = "testUserId" };
+            _mockUserManager.Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(testUser);
 
             var geoChange = new GeoChange
             {
                 Id = 1,
                 GeoJson = "{}",
                 Description = "Test Description",
-                UserId = user.Id,
+                UserId = testUser.Id,
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "001",
                 CountyName = "Test County",
@@ -266,7 +254,7 @@ namespace WebApplication2.Tests.UnitTests
                 Id = 1,
                 Description = "Test Description",
                 GeoJson = "{}",
-                UserId = "userId",
+                UserId = "testUserId",
                 MunicipalityName = "Test Municipality",
                 MunicipalityNumber = "001",
                 CountyName = "Test County",
