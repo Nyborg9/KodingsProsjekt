@@ -60,7 +60,7 @@ Det er utført manuell testing etter hver implementasjon av nye funskjoner for �
 
 For å finne Unit testene så må mann høyreklikke på **Solution** også **Add/Existing Project** også navigere til mappen og åpne **Webapplication2/Webapplication2.Tests/WebApplication2.Tests.csproj**
 
-[Test-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon).
+[Test-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon)
 
 
 ## Funksjonaliteter i applikasjonen
