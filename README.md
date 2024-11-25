@@ -57,6 +57,7 @@ Github repository blir brukt som lagringsted for applikasjonens kildekode og for
 ## Test av applikasjon
 Det er utført manuell testing etter hver implementasjon av nye funskjoner for å sikre applikasjonens stabilitet og funksjonalitet.
 
+
 [Test-dokumentasjon i Wiki](https://github.com/Nyborg9/KodingsProsjekt/wiki/Test-av-applikasjon).
 
 
