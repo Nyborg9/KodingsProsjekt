@@ -123,7 +123,6 @@ namespace WebApplication2.Controllers
             return View(viewModel);
         }
 
-        // POST: Caseworker/DeleteUser/{id}
         // Deletes the user after confirmation
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
@@ -165,7 +164,6 @@ namespace WebApplication2.Controllers
             return View(geoChange);
         }
 
-        // POST: Caseworker/Delete/5
         // Deletes the report after confirmation
         [HttpPost, ActionName("DeleteReport")]
         [ValidateAntiForgeryToken]
