@@ -5,6 +5,12 @@ using WebApplication2.API_Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.AddServerHeader = false; 
+});
+
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 builder.Services.AddHttpClient<MunicipalityFinderService>();
 builder.Services.AddScoped<MunicipalityFinderService>();
@@ -96,10 +102,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Redirects HTTP requests to HTTPS
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Referrer-Policy Header
+// Protects against leaking of referrer information
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+    await next();
+});
+
 
 app.UseAuthentication();
 app.UseAuthorization();
